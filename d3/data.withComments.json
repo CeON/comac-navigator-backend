@@ -1,0 +1,44 @@
+{ "nodes":
+  { "papers":
+    [ {"id":"a", "favorite": true}
+    , {"id":"b", "favorite": false}
+    , {"id":"c", "favorite": true}
+    , {"id":"d", "favorite": true}
+    , {"id":"e", "favorite": false}
+    , {"id":"f", "favorite": false}
+    , {"id":"g", "favorite": false}
+    , {"id":"h", "favorite": false}
+    , {"id":"i", "favorite": false}
+    , {"id":"j", "favorite": false}
+    ]
+  // TODO show in graph
+  , "authors":
+    [ {"id":"author1", "name": "Carlos Amigos", "favorite": true}
+    ]
+  }
+, "links":
+  { "similarity":
+    // TODO replace numbers with node (document / author) ids
+    [ {"source": 1, "target": 0, "value": 1}
+    , {"source": 2, "target": 0, "value": 8}
+    , {"source": 3, "target": 0, "value": 10}
+    , {"source": 3, "target": 2, "value": 6}
+    , {"source": 4, "target": 0, "value": 1}
+    , {"source": 5, "target": 0, "value": 1}
+    , {"source": 6, "target": 0, "value": 1}
+    , {"source": 7, "target": 3, "value": 1}
+    , {"source": 8, "target": 0, "value": 2}
+    , {"source": 9, "target": 2, "value": 1}
+    ]
+  // TODO show in graph
+  , "citation":
+    // when "target" is cited in "source"
+    [ {"source": 1, "target": 0}
+    ]
+  // TODO show in graph
+  , "author":
+    // when "source" is an author of document "target"
+    [ {"source": 1, "target": 0}
+    ]
+  }
+}
