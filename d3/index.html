@@ -3,9 +3,13 @@
 <meta charset="utf-8">
 <style>
 
-.node {
+.node circle {
   stroke: #fff;
   stroke-width: 2px;
+}
+
+.node text {
+  fill: #fff;
 }
 
 .link {
@@ -44,16 +48,32 @@ d3.json("data.json", function(error, graph) {
       .attr("class", "link")
       .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-  var node = svg.selectAll(".node")
+  var nodeGroup = svg.selectAll(".node")
       .data(graph.nodes.papers)
-    .enter().append("circle")
-      .attr("class", "node")
+    .enter().append("g")
+      .attr({
+        "transform" : function( d) {
+            return "translate("+ [d.x,d.y] + ")";
+        },
+        "class"     : "node" 
+      })
+      .call(force.drag)
+
+  nodeGroup.append("circle")
       .attr("r", 30)
       .style("fill", function(d) { if (d.favorite) return "green"; else return "grey" })
-      .call(force.drag);
-
-  node.append("title")
+    .append("title")
       .text(function(d) { return d.id; });
+
+  nodeGroup.append("text")
+      .attr({
+          'text-anchor'   : 'middle',
+          y               : 4
+      })
+      .text(function(d) {
+          return d.id;
+      });
+
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
@@ -61,8 +81,10 @@ d3.json("data.json", function(error, graph) {
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
 
-    node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+    nodeGroup.attr("transform", function(d, i) {
+        return "translate(" + [ d.x,d.y ] + ")"
+    })
+
   });
 });
 
