@@ -4,7 +4,7 @@
 , {"relation": "paper", "id": "paper_3", "name": "The pathologies of big data", "favourite": true}
 , {"relation": "paper", "id": "paper_4", "name": "Spark: cluster computing with working sets", "favourite": false}
 , {"relation": "paper", "id": "paper_5", "name": "Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing", "favourite": false}
-, {"relation": "paper", "id": "paper_6", "name": "Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing", "favourite": false}
+, {"relation": "paper", "id": "paper_6", "name": "Towards a next generation of scientific computing in the cloud", "favourite": false}
 , {"relation": "paper", "id": "paper_7", "name": "Presto: distributed machine learning and graph processing with sparse matrices", "favourite": false}
 , {"relation": "paper", "id": "paper_8", "name": "Memory or Time: Performance Evaluation for Iterative Operation on Hadoop and Spark", "favourite": false}
 , {"relation": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
