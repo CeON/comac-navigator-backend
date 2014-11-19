@@ -18,7 +18,7 @@ h1 {
 }
 
 h2 {
-  margin-top: 2em;
+  margin-top: 0.7em;
 }
 
 h1, h2 {
@@ -120,6 +120,7 @@ svg.navigator-canvas {
   width: 960px;
   height: 500px;
   border: 1px solid #DEDEDE;
+  margin-bottom: 2em;
 }
 
 .legend svg {

@@ -8,6 +8,12 @@
 .node circle {
   stroke: #fff;
   stroke-width: 1.5px;
+  
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
 }
 
 .paper circle {
@@ -23,9 +29,17 @@
 }
 
 .link {
-  stroke: #555;
-  stroke-opacity: .6;
+  stroke: #888;
   stroke-width: 2px;
+}
+.similarity {
+  stroke-dasharray: 7,7;
+}
+.citation {
+  //stroke-dasharray: 7,7;
+}
+.isAuthor {
+  //stroke-dasharray: 2,2;
 }
 
 </style>
@@ -35,33 +49,49 @@
 
 <svg class="navigator-canvas"></svg>
 
+
+<div style="float: left; width: 400px; margin-left: 60px">
 <h2>Nodes</h2>
 <p class="legend">
 <svg width=64 height=64>
   <g transform="translate(32, 32)" class="node author"><circle r="30"></circle><text text-anchor="middle" y="4">A<text></g>
 </svg>
-Node representing an author.
-
+Author node
+&nbsp;
+&nbsp;
+&nbsp;
 <svg width=64 height=64>
   <g transform="translate(32, 32)" class="node paper"><circle r="30"></circle><text text-anchor="middle" y="4">P</text></g>
 </svg>
-Node representing a paper.
+Paper node
 </p>
+</div>
 
+<div style="float: right; width: 430px;">
 <h2>Opacity</h2>
 <p class="legend"> 
 
 <svg width=64 height=64>
   <g transform="translate(32, 32)" class="node paper"><circle r="30"></circle><text text-anchor="middle" y="4">P<text></g>
 </svg>
-Full opacity — favourite node.
-
+Full opacity — favourite (selected) node
+</p>
+<p class="legend"> 
 <svg width=64 height=64>
   <g transform="translate(32, 32)" class="node paper" style="opacity: 0.5"><circle r="30"></circle><text text-anchor="middle" y="4">P</g>
 </svg>
-Reduced opacity — suggested node.
+Reduced opacity — suggested node
 </p>
+</div>
 
+
+<div style="float: left; width: 400px; margin-left: 60px">
+<h2>Relations</h2>
+<p class="legend">
+TODO
+</p>
+</div>
+<br style="clear: both" />
 
 
 <script src="d3.js"></script>
@@ -74,7 +104,19 @@ var color = d3.scale.category20();
 
 var force = d3.layout.force()
     .charge(-800)
+    //.charge(function(node) {
+    //  if (node.favourite)
+    //    return -500;
+    //  else
+    //    return -1600;
+    //})
     .linkDistance(100)
+    //.linkDistance(function(link) {
+    //  if (link.favourite)
+    //    return 100;
+    //  else
+    //    return 150;
+    //})
     .size([width, height]);
 
 var svg = d3.select("body").selectAll(".navigator-canvas")
@@ -131,7 +173,10 @@ d3.json("data.json", function(error, graph) {
   var link = svg.selectAll(".link")
       .data(computedLinks)
     .enter().append("line")
-      .attr("class", "link")
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.3})
+      .attr("class", function( d) {
+            return "link " + d.relation;
+        });
       //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
   var nodeGroup = svg.selectAll(".node")

@@ -11,21 +11,22 @@
 
 , {"relation": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
 
-, {"relation": "similarity", "sourceId": "paper_1", "targetId": "paper_0", "value": 1}
-, {"relation": "similarity", "sourceId": "paper_2", "targetId": "paper_0", "value": 8}
-, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "value": 10}
-, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "value": 6}
-, {"relation": "similarity", "sourceId": "paper_4", "targetId": "paper_0", "value": 1}
-, {"relation": "similarity", "sourceId": "paper_5", "targetId": "paper_0", "value": 1}
-, {"relation": "similarity", "sourceId": "paper_6", "targetId": "paper_0", "value": 1}
-, {"relation": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "value": 1}
-, {"relation": "similarity", "sourceId": "paper_8", "targetId": "paper_0", "value": 2}
-, {"relation": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_1", "targetId": "paper_0", "favourite": false, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "favourite": true, "value": 10}
+, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
+, {"relation": "similarity", "sourceId": "paper_4", "targetId": "paper_0", "favourite": false, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_5", "targetId": "paper_0", "favourite": false, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_6", "targetId": "paper_0", "favourite": false, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_8", "targetId": "paper_0", "favourite": false, "value": 2}
+, {"relation": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
 
-, {"relation": "citation",   "sourceId": "paper_1", "targetId": "paper_0"}
+, {"relation": "citation",   "sourceId": "paper_1", "targetId": "paper_8", "favourite": false}
+, {"relation": "citation",   "sourceId": "paper_1", "targetId": "paper_5", "favourite": false}
+, {"relation": "citation",   "sourceId": "paper_2", "targetId": "paper_0", "favourite": true}
 
-, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0"}
-, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9"}
+, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0", "favourite": true}
+, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
 
 ]
 
