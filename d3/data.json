@@ -1,13 +1,13 @@
-[ {"relation": "paper", "id": "paper_0", "name": "a", "favourite": true}
-, {"relation": "paper", "id": "paper_1", "name": "b", "favourite": false}
-, {"relation": "paper", "id": "paper_2", "name": "c", "favourite": true}
-, {"relation": "paper", "id": "paper_3", "name": "d", "favourite": true}
-, {"relation": "paper", "id": "paper_4", "name": "e", "favourite": false}
-, {"relation": "paper", "id": "paper_5", "name": "f", "favourite": false}
-, {"relation": "paper", "id": "paper_6", "name": "g", "favourite": false}
-, {"relation": "paper", "id": "paper_7", "name": "h", "favourite": false}
-, {"relation": "paper", "id": "paper_8", "name": "i", "favourite": false}
-, {"relation": "paper", "id": "paper_9", "name": "j", "favourite": false}
+[ {"relation": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": true}
+, {"relation": "paper", "id": "paper_1", "name": "Understanding big data: Analytics for enterprise class hadoop and streaming data", "favourite": false}
+, {"relation": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true}
+, {"relation": "paper", "id": "paper_3", "name": "The pathologies of big data", "favourite": true}
+, {"relation": "paper", "id": "paper_4", "name": "Spark: cluster computing with working sets", "favourite": false}
+, {"relation": "paper", "id": "paper_5", "name": "Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing", "favourite": false}
+, {"relation": "paper", "id": "paper_6", "name": "Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing", "favourite": false}
+, {"relation": "paper", "id": "paper_7", "name": "Presto: distributed machine learning and graph processing with sparse matrices", "favourite": false}
+, {"relation": "paper", "id": "paper_8", "name": "Memory or Time: Performance Evaluation for Iterative Operation on Hadoop and Spark", "favourite": false}
+, {"relation": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
 
 , {"relation": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
 
