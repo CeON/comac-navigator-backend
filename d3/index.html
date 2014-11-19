@@ -36,20 +36,43 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var getAllNodes = function(triples) {
+  return triples.filter(function(triple) {
+    return "id" in triple;
+  })
+}
+
+var getAllLinks = function(triples) {
+  return triples.filter(function(triple) {
+    return "source" in triple && "target" in triple;
+  })
+}
+
+function shortenString(str) {
+  if (str.length > 8) {
+    return str.slice(0, 5) + "…";
+  } else {
+    return str
+  }
+}
+
 d3.json("data.json", function(error, graph) {
+  //console.log(JSON.stringify(graph))
+  var computedNodes = getAllNodes(graph);
+  var computedLinks = getAllLinks(graph);
   force
-      .nodes(graph.nodes.papers)
-      .links(graph.links.similarity)
+      .nodes(computedNodes)
+      .links(computedLinks)
       .start();
 
   var link = svg.selectAll(".link")
-      .data(graph.links.similarity)
+      .data(computedLinks)
     .enter().append("line")
       .attr("class", "link")
       .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
   var nodeGroup = svg.selectAll(".node")
-      .data(graph.nodes.papers)
+      .data(computedNodes)
     .enter().append("g")
       .attr({
         "transform" : function( d) {
@@ -61,9 +84,9 @@ d3.json("data.json", function(error, graph) {
 
   nodeGroup.append("circle")
       .attr("r", 30)
-      .style("fill", function(d) { if (d.favorite) return "green"; else return "grey" })
+      .style("fill", function(d) { if (d.favourite) return "green"; else return "grey" })
     .append("title")
-      .text(function(d) { return d.id; });
+      .text(function(d) { return d.name; });
 
   nodeGroup.append("text")
       .attr({
@@ -71,7 +94,7 @@ d3.json("data.json", function(error, graph) {
           y               : 4
       })
       .text(function(d) {
-          return d.id;
+          return shortenString(d.name);
       });
 
 
@@ -84,6 +107,8 @@ d3.json("data.json", function(error, graph) {
     nodeGroup.attr("transform", function(d, i) {
         return "translate(" + [ d.x,d.y ] + ")"
     })
+
+  //console.log(JSON.stringify(computedNodes))
 
   });
 });
