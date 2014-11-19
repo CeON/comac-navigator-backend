@@ -3,7 +3,11 @@
 <meta charset="utf-8">
 <style>
 
+@import url("styles.css");
+
 .node circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
 }
 
 .paper circle {
@@ -11,7 +15,7 @@
 }
 
 .author circle {
-  fill: #fa922e;
+  fill: #1F77B4;
 }
 
 .node text {
@@ -21,10 +25,45 @@
 .link {
   stroke: #555;
   stroke-opacity: .6;
+  stroke-width: 2px;
 }
 
 </style>
 <body>
+  
+<h1>COMAC Navigator</h1>
+
+<svg class="navigator-canvas"></svg>
+
+<h2>Nodes</h2>
+<p class="legend">
+<svg width=64 height=64>
+  <g transform="translate(32, 32)" class="node author"><circle r="30"></circle><text text-anchor="middle" y="4">A<text></g>
+</svg>
+Node representing an author.
+
+<svg width=64 height=64>
+  <g transform="translate(32, 32)" class="node paper"><circle r="30"></circle><text text-anchor="middle" y="4">P</text></g>
+</svg>
+Node representing a paper.
+</p>
+
+<h2>Opacity</h2>
+<p class="legend"> 
+
+<svg width=64 height=64>
+  <g transform="translate(32, 32)" class="node paper"><circle r="30"></circle><text text-anchor="middle" y="4">P<text></g>
+</svg>
+Full opacity — favourite node.
+
+<svg width=64 height=64>
+  <g transform="translate(32, 32)" class="node paper" style="opacity: 0.5"><circle r="30"></circle><text text-anchor="middle" y="4">P</g>
+</svg>
+Reduced opacity — suggested node.
+</p>
+
+
+
 <script src="d3.js"></script>
 <script>
 
@@ -38,7 +77,7 @@ var force = d3.layout.force()
     .linkDistance(100)
     .size([width, height]);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("body").selectAll(".navigator-canvas")
     .attr("width", width)
     .attr("height", height);
 
@@ -74,6 +113,8 @@ function nodeIdsToReferences(nodes, links) {
   })
 }
 
+var fill = d3.scale.category10();
+
 d3.json("data.json", function(error, graph) {
   //console.log(JSON.stringify(graph))
   var computedNodes = getAllNodes(graph);
@@ -91,11 +132,12 @@ d3.json("data.json", function(error, graph) {
       .data(computedLinks)
     .enter().append("line")
       .attr("class", "link")
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+      //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
   var nodeGroup = svg.selectAll(".node")
       .data(computedNodes)
     .enter().append("g")
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5})
       .attr({
         "transform" : function( d) {
             return "translate("+ [d.x,d.y] + ")";
@@ -108,7 +150,6 @@ d3.json("data.json", function(error, graph) {
 
   nodeGroup.append("circle")
       .attr("r", 30)
-      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.7})
     .append("title")
       .text(function(d) { return d.name; });
 
