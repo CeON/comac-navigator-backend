@@ -4,8 +4,14 @@
 <style>
 
 .node circle {
-  stroke: #fff;
-  stroke-width: 2px;
+}
+
+.paper circle {
+  fill: #292;
+}
+
+.author circle {
+  fill: #fa922e;
 }
 
 .node text {
@@ -44,7 +50,7 @@ var getAllNodes = function(triples) {
 
 var getAllLinks = function(triples) {
   return triples.filter(function(triple) {
-    return "source" in triple && "target" in triple;
+    return "sourceId" in triple && "targetId" in triple;
   })
 }
 
@@ -56,10 +62,26 @@ function shortenString(str) {
   }
 }
 
+function nodeIdsToReferences(nodes, links) {
+  return links.map(function(link) {
+    link.source = nodes.filter(function(node) {
+      return node.id === link.sourceId;
+    })[0];
+    link.target = nodes.filter(function(node) {
+      return node.id === link.targetId;
+    })[0];
+    return link;
+  })
+}
+
 d3.json("data.json", function(error, graph) {
   //console.log(JSON.stringify(graph))
   var computedNodes = getAllNodes(graph);
-  var computedLinks = getAllLinks(graph);
+  var computedLinks = nodeIdsToReferences(computedNodes, getAllLinks(graph));
+  console.log(computedLinks[0]);
+  console.log(JSON.stringify(computedNodes));
+  console.log(JSON.stringify(computedLinks));
+  // Q why source is not assigned?
   force
       .nodes(computedNodes)
       .links(computedLinks)
@@ -78,13 +100,15 @@ d3.json("data.json", function(error, graph) {
         "transform" : function( d) {
             return "translate("+ [d.x,d.y] + ")";
         },
-        "class"     : "node" 
+        "class"     : function( d) {
+            return "node " + d.relation;
+        }
       })
       .call(force.drag)
 
   nodeGroup.append("circle")
       .attr("r", 30)
-      .style("fill", function(d) { if (d.favourite) return "green"; else return "grey" })
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.7})
     .append("title")
       .text(function(d) { return d.name; });
 

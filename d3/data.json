@@ -1,28 +1,31 @@
-[ {"relation": "paper", "id": 0, "name": "a", "favourite": true}
-, {"relation": "paper", "id": 1, "name": "b", "favourite": false}
-, {"relation": "paper", "id": 2, "name": "c", "favourite": true}
-, {"relation": "paper", "id": 3, "name": "d", "favourite": true}
-, {"relation": "paper", "id": 4, "name": "e", "favourite": false}
-, {"relation": "paper", "id": 5, "name": "f", "favourite": false}
-, {"relation": "paper", "id": 6, "name": "g", "favourite": false}
-, {"relation": "paper", "id": 7, "name": "h", "favourite": false}
-, {"relation": "paper", "id": 8, "name": "i", "favourite": false}
-, {"relation": "paper", "id": 9, "name": "j", "favourite": false}
+[ {"relation": "paper", "id": "paper_0", "name": "a", "favourite": true}
+, {"relation": "paper", "id": "paper_1", "name": "b", "favourite": false}
+, {"relation": "paper", "id": "paper_2", "name": "c", "favourite": true}
+, {"relation": "paper", "id": "paper_3", "name": "d", "favourite": true}
+, {"relation": "paper", "id": "paper_4", "name": "e", "favourite": false}
+, {"relation": "paper", "id": "paper_5", "name": "f", "favourite": false}
+, {"relation": "paper", "id": "paper_6", "name": "g", "favourite": false}
+, {"relation": "paper", "id": "paper_7", "name": "h", "favourite": false}
+, {"relation": "paper", "id": "paper_8", "name": "i", "favourite": false}
+, {"relation": "paper", "id": "paper_9", "name": "j", "favourite": false}
 
-, {"relation": "author", "id": "author1", "name": "Carlos Amigos", "favourite": true}
+, {"relation": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
 
-, {"relation": "similarity", "source": 1, "target": 0, "value": 1}
-, {"relation": "similarity", "source": 2, "target": 0, "value": 8}
-, {"relation": "similarity", "source": 3, "target": 0, "value": 10}
-, {"relation": "similarity", "source": 3, "target": 2, "value": 6}
-, {"relation": "similarity", "source": 4, "target": 0, "value": 1}
-, {"relation": "similarity", "source": 5, "target": 0, "value": 1}
-, {"relation": "similarity", "source": 6, "target": 0, "value": 1}
-, {"relation": "similarity", "source": 7, "target": 3, "value": 1}
-, {"relation": "similarity", "source": 8, "target": 0, "value": 2}
-, {"relation": "similarity", "source": 9, "target": 2, "value": 1}
+, {"relation": "similarity", "sourceId": "paper_1", "targetId": "paper_0", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_2", "targetId": "paper_0", "value": 8}
+, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "value": 10}
+, {"relation": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "value": 6}
+, {"relation": "similarity", "sourceId": "paper_4", "targetId": "paper_0", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_5", "targetId": "paper_0", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_6", "targetId": "paper_0", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "value": 1}
+, {"relation": "similarity", "sourceId": "paper_8", "targetId": "paper_0", "value": 2}
+, {"relation": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "value": 1}
 
-, {"relation": "citation",   "source": 1, "target": 0}
+, {"relation": "citation",   "sourceId": "paper_1", "targetId": "paper_0"}
+
+, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0"}
+, {"relation": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9"}
 
 ]
 
