@@ -17,11 +17,42 @@
   filter: blur(5px);
 }
 
-.paper circle {
+g.paper circle {
   fill: #292;
 }
 
-.author circle {
+//g.paper.hover circle {
+//  fill: #05be04;
+//}
+//g.hover circle {
+//  stroke: #888;
+//  stroke-width: 1.5px;
+//}
+//g.hover text {
+//  //text-shadow: 1px 1px 3px #000;
+//}
+g.paper.hover circle {
+  fill: #fff;
+}
+g.paper.hover circle {
+  stroke: #292;
+  stroke-width: 1.5px;
+}
+g.paper.hover text {
+  fill: #292;
+}
+
+g.author circle {
+  fill: #1F77B4;
+}
+g.author.hover circle {
+  fill: #fff;
+}
+g.author.hover circle {
+  stroke: #1F77B4;
+  stroke-width: 1.5px;
+}
+g.author.hover text {
   fill: #1F77B4;
 }
 
@@ -197,6 +228,12 @@ d3.json("data.json", function(error, graph) {
 
   nodeGroup.append("circle")
       .attr("r", 30)
+      .on("mouseover", function(){
+          d3.select( this.parentNode).classed( "hover", true);
+      })
+      .on("mouseout", function() { 
+          d3.select( this.parentNode).classed( "hover", false);
+      })
     .append("title")
       .text(function(d) { return d.name; });
 
