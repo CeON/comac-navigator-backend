@@ -235,7 +235,7 @@ function restart() {
   computedGraph.paths
     .enter().append("line")
       .attr("class", function( d) {
-            return "link " + d.relation;
+            return "link " + d.type;
         })
       .classed("hover", function(d) { return d.hover });
       //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
@@ -262,7 +262,7 @@ function restart() {
             return "translate("+ [d.x,d.y] + ")";
         },
         "class"     : function( d) {
-            return "node " + d.relation;
+            return "node " + d.type;
         }
       })
       .call(force.drag);
