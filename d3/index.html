@@ -9,28 +9,12 @@
   stroke: #fff;
   stroke-width: 1.5px;
   cursor: pointer;
-  
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
 }
 
 g.paper circle {
   fill: #292;
 }
 
-//g.paper.hover circle {
-//  fill: #05be04;
-//}
-//g.hover circle {
-//  stroke: #888;
-//  stroke-width: 1.5px;
-//}
-//g.hover text {
-//  //text-shadow: 1px 1px 3px #000;
-//}
 g.paper.hover circle {
   fill: #fff;
 }
@@ -63,16 +47,19 @@ g.author.hover text {
 
 .link {
   stroke: #888;
-  stroke-width: 2px;
+  stroke-width: 1.5px;
 }
+.link.hover {
+  stroke: #444;
+  stroke-width: 1.5px;
+}
+
 .similarity {
   stroke-dasharray: 7,7;
 }
 .citation {
-  //stroke-dasharray: 7,7;
 }
 .isAuthor {
-  //stroke-dasharray: 2,2;
 }
 
 </style>
@@ -130,32 +117,6 @@ TODO
 <script src="d3.js"></script>
 <script>
 
-var width = 960,
-    height = 500;
-
-var color = d3.scale.category20();
-
-var force = d3.layout.force()
-    .charge(-800)
-    //.charge(function(node) {
-    //  if (node.favourite)
-    //    return -500;
-    //  else
-    //    return -1600;
-    //})
-    .linkDistance(100)
-    //.linkDistance(function(link) {
-    //  if (link.favourite)
-    //    return 100;
-    //  else
-    //    return 150;
-    //})
-    .size([width, height]);
-
-var svg = d3.select("body").selectAll(".navigator-canvas")
-    .attr("width", width)
-    .attr("height", height);
-
 var getAllNodes = function(triples) {
   return triples.filter(function(triple) {
     return "id" in triple;
@@ -184,38 +145,118 @@ function nodeIdsToReferences(nodes, links) {
     link.target = nodes.filter(function(node) {
       return node.id === link.targetId;
     })[0];
+    link.hover = false;
     return link;
   })
 }
 
-var fill = d3.scale.category10();
+
+
+var width = 960,
+    height = 500;
+
+var force = d3.layout.force()
+    .charge(-800)
+    //.charge(function(node) {
+    //  if (node.favourite)
+    //    return -500;
+    //  else
+    //    return -1600;
+    //})
+    .linkDistance(100)
+    //.linkDistance(function(link) {
+    //  if (link.favourite)
+    //    return 100;
+    //  else
+    //    return 150;
+    //})
+    .size([width, height]);
+
+var svg = d3.select("body").selectAll(".navigator-canvas")
+    .attr("width", width)
+    .attr("height", height);
+
+var computedGraph =
+  { nodes   : null
+  , links   : null
+  , paths   : svg.selectAll(".link")
+  , circles : svg.selectAll(".node")
+  }
 
 d3.json("data.json", function(error, graph) {
   //console.log(JSON.stringify(graph))
-  var computedNodes = getAllNodes(graph);
-  var computedLinks = nodeIdsToReferences(computedNodes, getAllLinks(graph));
-  console.log(computedLinks[0]);
-  console.log(JSON.stringify(computedNodes));
-  console.log(JSON.stringify(computedLinks));
-  // Q why source is not assigned?
-  force
-      .nodes(computedNodes)
-      .links(computedLinks)
-      .start();
 
-  var link = svg.selectAll(".link")
-      .data(computedLinks)
+  computedGraph.nodes = getAllNodes(graph);
+  computedGraph.links = nodeIdsToReferences(computedGraph.nodes, getAllLinks(graph));
+
+  //console.log(computedGraph.links[0]);
+  //console.log(JSON.stringify(computedGraph.nodes));
+  //console.log(JSON.stringify(computedGraph.links));
+
+  force
+    .nodes(computedGraph.nodes)
+    .links(computedGraph.links)
+    .on("tick", function() {
+      computedGraph.paths
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+      computedGraph.circles
+        .attr("transform", function(d, i) {
+            return "translate(" + [ d.x,d.y ] + ")"
+        });
+    });
+
+  restart();
+
+  force.start();
+
+  showNodesFirefoxHack();
+
+  computedGraph.nodes.map( function(d) { d.favourite = false; return d; });
+
+  setTimeout(restart, 1000);
+});
+
+function showNodesFirefoxHack() {
+  n = d3.selectAll(".node")
+  n.classed("node", false)
+  setTimeout(function(){n.classed("node", true)}, 0);
+}
+
+function restart() {
+  // paths (links)
+  computedGraph.paths = computedGraph.paths
+    .data(computedGraph.links)
+
+  // add new links
+  computedGraph.paths
     .enter().append("line")
-      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.3})
       .attr("class", function( d) {
             return "link " + d.relation;
-        });
+        })
+      .classed("hover", function(d) { return d.hover });
       //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-  var nodeGroup = svg.selectAll(".node")
-      .data(computedNodes)
-    .enter().append("g")
-      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5})
+  // update existing & new links
+  computedGraph.paths
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.3})
+
+  // remove old links
+  computedGraph.paths.exit().remove();
+
+
+  // circles (nodes)
+  computedGraph.circles = computedGraph.circles
+    .data(computedGraph.nodes, function(d) { return d.id; })
+
+  // add new nodes
+  var g = computedGraph.circles
+    .enter().append("g");
+
+  g
       .attr({
         "transform" : function( d) {
             return "translate("+ [d.x,d.y] + ")";
@@ -224,20 +265,22 @@ d3.json("data.json", function(error, graph) {
             return "node " + d.relation;
         }
       })
-      .call(force.drag)
+      .call(force.drag);
 
-  nodeGroup.append("circle")
+  g.append("circle")
       .attr("r", 30)
-      .on("mouseover", function(){
-          d3.select( this.parentNode).classed( "hover", true);
+      .on("mouseover", function() {
+          d3.select(this.parentNode).classed("hover", true);
+          restart();
       })
       .on("mouseout", function() { 
-          d3.select( this.parentNode).classed( "hover", false);
+          d3.select(this.parentNode).classed("hover", false);
+          restart();
       })
     .append("title")
       .text(function(d) { return d.name; });
 
-  nodeGroup.append("text")
+  g.append("text")
       .attr({
           'text-anchor'   : 'middle',
           y               : 4
@@ -246,20 +289,12 @@ d3.json("data.json", function(error, graph) {
           return shortenString(d.name);
       });
 
+  // update existing & new nodes
+  computedGraph.circles
+    .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5})
 
-  force.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    nodeGroup.attr("transform", function(d, i) {
-        return "translate(" + [ d.x,d.y ] + ")"
-    })
-
-  //console.log(JSON.stringify(computedNodes))
-
-  });
-});
+  // remove old nodes
+  computedGraph.circles.exit().remove();
+}
 
 </script>
