@@ -117,18 +117,6 @@ TODO
 <script src="d3.js"></script>
 <script>
 
-var getAllNodes = function(triples) {
-  return triples.filter(function(triple) {
-    return "id" in triple;
-  })
-}
-
-var getAllLinks = function(triples) {
-  return triples.filter(function(triple) {
-    return "sourceId" in triple && "targetId" in triple;
-  })
-}
-
 function shortenString(str) {
   if (str.length > 8) {
     return str.slice(0, 5) + "..";
@@ -184,10 +172,10 @@ var computedGraph =
   }
 
 d3.json("data.json", function(error, graph) {
-  //console.log(JSON.stringify(graph))
+  console.log(JSON.stringify(graph))
 
-  computedGraph.nodes = getAllNodes(graph);
-  computedGraph.links = nodeIdsToReferences(computedGraph.nodes, getAllLinks(graph));
+  computedGraph.nodes = graph.nodes;
+  computedGraph.links = nodeIdsToReferences(computedGraph.nodes, graph.links);
 
   //console.log(computedGraph.links[0]);
   //console.log(JSON.stringify(computedGraph.nodes));
