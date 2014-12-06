@@ -1,3 +1,7 @@
+/*
+ * d3 gallery style
+ */
+
 html {
   min-width: 1040px;
 }
@@ -116,7 +120,11 @@ aside,
   color: #e6550d;
 }
 
-svg.navigator-canvas {
+/*
+ * Navigator specific styles
+ */
+
+svg.graphView {
   width: 960px;
   height: 500px;
   border: 1px solid #DEDEDE;
@@ -127,4 +135,60 @@ svg.navigator-canvas {
   vertical-align: middle;
 }
   
+.node circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+  cursor: pointer;
+}
+
+g.paper circle {
+  fill: #292;
+}
+
+g.paper.hover circle {
+  fill: #fff;
+}
+g.paper.hover circle {
+  stroke: #292;
+  stroke-width: 1.5px;
+}
+g.paper.hover text {
+  fill: #292;
+}
+
+g.author circle {
+  fill: #1F77B4;
+}
+g.author.hover circle {
+  fill: #fff;
+}
+g.author.hover circle {
+  stroke: #1F77B4;
+  stroke-width: 1.5px;
+}
+g.author.hover text {
+  fill: #1F77B4;
+}
+
+.node text {
+  fill: #fff;
+  pointer-events: none;
+}
+
+.link {
+  stroke: #888;
+  stroke-width: 1.5px;
+}
+.link.hover {
+  stroke: #444;
+  stroke-width: 1.5px;
+}
+
+.similarity {
+  stroke-dasharray: 7,7;
+}
+.citation {
+}
+.isAuthor {
+}
 
