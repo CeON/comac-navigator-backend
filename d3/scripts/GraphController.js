@@ -6,7 +6,7 @@
 
 
 function GraphController(dataProvider) {
-  this.favouriteIds = ["paper_0", "paper_2", "paper_3", "author_1"];
+  this.favouriteIds = ["paper_2", "paper_3", "author_1"];
 
   this.graphView = d3.select("body").selectAll(".graphView")
     .attr("width", this.width)
@@ -36,7 +36,7 @@ function GraphController(dataProvider) {
     , circles : this.graphView.selectAll(".node")
     }
 
-  dataProvider.getInitialGraphByFavouriteIds(this.favouriteIds, this.showInitialGraph.bind(this));
+  dataProvider.getGraphByFavouriteIds(this.favouriteIds, this.showInitialGraph.bind(this));
 
   //this.computedGraph.nodes.map(function(d) { d.favourite = false; return d; });
   //setTimeout(this.restart.bind(this), 1000);
@@ -131,11 +131,9 @@ GraphController.prototype = {
         .attr("r", 30)
         .on("mouseover", function() {
             d3.select(this.parentNode).classed("hover", true);
-            restart();
         })
         .on("mouseout", function() { 
             d3.select(this.parentNode).classed("hover", false);
-            restart();
         })
       .append("title")
         .text(function(d) { return d.name; });

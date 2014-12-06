@@ -18,9 +18,17 @@ DataProvider.prototype = {
    * @param favouriteIds nodes to start the query from
    * @param callback     continuation, function(error, graph)
    */
-  getInitialGraphByFavouriteIds: function(favouriteIds, callback) {
+  getGraphByFavouriteIds: function(favouriteIds, callback) {
     // TODO hardcoded data, implement REST service
-    d3.json("data.json", callback);
+    d3.json("data.json", function(error, graph) {
+      if (error === null) {
+        // no error, continue
+        callback(error, graph[favouriteIds.sort().join("|")]);
+      } else {
+        // propagate error
+        callback(error, graph);
+      }
+    });
   }
 }
 
