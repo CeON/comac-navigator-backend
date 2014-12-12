@@ -6,21 +6,22 @@
 
 
 function GraphController(dataProvider) {
-  this.favouriteIds = ["paper_2", "paper_3", "author_1"];
-
-  this.graphView = d3.select("body").selectAll(".graphView")
+  this.graphView = {};
+  this.graphView.canvas = d3.select("body").selectAll("svg.graphView")
     .attr("width", this.width)
     .attr("height", this.height);
+  this.graphView.paths   = this.graphView.canvas.append('svg:g').selectAll(".link");
+  this.graphView.circles = this.graphView.canvas.append('svg:g').selectAll(".node")
 
   this.force = d3.layout.force()
-    .charge(-800)
+    .charge(-600)
     //.charge(function(node) {
     //  if (node.favourite)
     //    return -500;;
     //  else
     //    return -1600;
     //})
-    .linkDistance(100)
+    .linkDistance(120)
     //.linkDistance(function(link) {
     //  if (link.favourite)
     //    return 100;
@@ -29,17 +30,21 @@ function GraphController(dataProvider) {
     //})
     .size([this.width, this.height]);
 
-  this.computedGraph =
-    { nodes   : null
-    , links   : null
-    , paths   : this.graphView.selectAll(".link")
-    , circles : this.graphView.selectAll(".node")
+  this.graphModel =
+    { nodes       : null
+    , links       : null
+    , favouriteIds: ["paper_2", "paper_3", "author_1"]
     }
 
-  dataProvider.getGraphByFavouriteIds(this.favouriteIds, this.showInitialGraph.bind(this));
+  this.dataProvider = dataProvider;
 
-  //this.computedGraph.nodes.map(function(d) { d.favourite = false; return d; });
+  dataProvider.getGraphByFavouriteIds(
+      this.graphModel.favouriteIds,
+      this.showInitialGraph.bind(this));
+
+  //this.graphModel.nodes.map(function(d) { d.favourite = false; return d; });
   //setTimeout(this.restart.bind(this), 1000);
+  setTimeout((function() {this.addFavouriteNodes(["paper_0"])}).bind(this), 1000);
 }
 
 
@@ -50,33 +55,59 @@ GraphController.prototype = {
   showInitialGraph: function(error, graph) {
     //console.log(JSON.stringify(graph))
 
-    this.computedGraph.nodes = graph.nodes;
-    this.computedGraph.links = GraphController.nodeIdsToReferences(
-                                                  this.computedGraph.nodes,
+    this.graphModel.nodes = graph.nodes;
+    this.graphModel.links = GraphController.nodeIdsToReferences(
+                                                  this.graphModel.nodes,
                                                   graph.links);
 
-    //console.log(this.computedGraph.links[0]);
-    //console.log(JSON.stringify(this.computedGraph.nodes));
-    //console.log(JSON.stringify(this.computedGraph.links));
+    //console.log(this.graphModel.links[0]);
+    //console.log(JSON.stringify(this.graphModel.nodes));
+    //console.log(JSON.stringify(this.graphModel.links));
 
     this.force
-      .nodes(this.computedGraph.nodes)
-      .links(this.computedGraph.links)
+      .nodes(this.graphModel.nodes)
+      .links(this.graphModel.links)
       .on("tick", (function() {
-        this.computedGraph.paths
+        this.graphView.paths
           .attr("x1", function(d) { return d.source.x; })
           .attr("y1", function(d) { return d.source.y; })
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; });
 
-        this.computedGraph.circles
+        this.graphView.circles
           .attr("transform", function(d, i) {
               return "translate(" + [ d.x,d.y ] + ")"
           });
       }).bind(this));
 
     this.restart();
-    this.force.start();
+    this.showNodesFirefoxHack();
+  },
+
+  addFavouriteNodes: function(newNodeIds) {
+    this.graphModel.favouriteIds =
+      this.graphModel.favouriteIds.concat(newNodeIds);
+    this.dataProvider.getGraphByFavouriteIds(
+        this.graphModel.favouriteIds, 
+        this.showChangedGraph.bind(this));
+
+    // this.graphModel.addFavouriteNodes(newNodeIds);
+    // this.restart();
+  },
+
+  showChangedGraph: function(error, graph) {
+    var oldNodes = this.graphModel.nodes;
+
+    this.graphModel.nodes = graph.nodes;
+    this.graphModel.links = GraphController.nodeIdsToReferences(
+                                                  this.graphModel.nodes,
+                                                  graph.links);
+    GraphController.repositionNodes(oldNodes, graph.nodes, "paper_0");
+
+    this.force
+      .nodes(this.graphModel.nodes)
+      .links(this.graphModel.links)
+    this.restart();
     this.showNodesFirefoxHack();
   },
 
@@ -88,11 +119,11 @@ GraphController.prototype = {
 
   restart: function() {
     // paths (links)
-    this.computedGraph.paths = this.computedGraph.paths
-      .data(this.computedGraph.links)
+    this.graphView.paths = this.graphView.paths
+      .data(this.graphModel.links)
 
     // add new links
-    this.computedGraph.paths
+    this.graphView.paths
       .enter().append("line")
         .attr("class", function( d) {
               return "link " + d.type;
@@ -101,19 +132,19 @@ GraphController.prototype = {
         //.style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
     // update existing & new links
-    this.computedGraph.paths
+    this.graphView.paths
         .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.3})
 
     // remove old links
-    this.computedGraph.paths.exit().remove();
+    this.graphView.paths.exit().remove();
 
 
     // circles (nodes)
-    this.computedGraph.circles = this.computedGraph.circles
-      .data(this.computedGraph.nodes, function(d) { return d.id; })
+    this.graphView.circles = this.graphView.circles
+      .data(this.graphModel.nodes, function(d) { return d.id; })
 
     // add new nodes
-    var g = this.computedGraph.circles
+    var g = this.graphView.circles
       .enter().append("g");
 
     g
@@ -148,11 +179,13 @@ GraphController.prototype = {
         });
 
     // update existing & new nodes
-    this.computedGraph.circles
+    this.graphView.circles
       .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5})
 
     // remove old nodes
-    this.computedGraph.circles.exit().remove();
+    this.graphView.circles.exit().remove();
+
+    this.force.start();
   }
 }
 
@@ -176,3 +209,29 @@ GraphController.nodeIdsToReferences = function(nodes, links) {
     return link;
   });
 }
+
+GraphController.repositionNodes = function(oldNodesRaw, newNodes, clickedNodeId) {
+  function asDictionaryByIds(xs) {
+    return xs.reduce(function (dict, item) {
+      dict[item.id] = item;
+      return dict;
+    }, {});
+  };
+
+  var oldNodes = asDictionaryByIds(oldNodesRaw)
+
+  newNodes.map(function(newNode) {
+    var copyFrom;
+    var newNodeId = newNode.id;
+    if(oldNodes.hasOwnProperty(newNodeId)) {
+      copyFrom = oldNodes[newNodeId];
+    } else {
+      copyFrom = oldNodes[clickedNodeId];
+      console.log(oldNodes[clickedNodeId]);
+    }
+    newNode.x = copyFrom.x;
+    newNode.y = copyFrom.y;
+    return newNode;
+  });
+}
+
