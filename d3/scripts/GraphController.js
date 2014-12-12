@@ -102,7 +102,7 @@ GraphController.prototype = {
     this.graphModel.links = GraphController.nodeIdsToReferences(
                                                   this.graphModel.nodes,
                                                   graph.links);
-    GraphController.repositionNodes(oldNodes, graph.nodes, "paper_0");
+    GraphController.repositionNodes(oldNodes, graph.nodes);
 
     this.force
       .nodes(this.graphModel.nodes)
@@ -210,28 +210,26 @@ GraphController.nodeIdsToReferences = function(nodes, links) {
   });
 }
 
-GraphController.repositionNodes = function(oldNodesRaw, newNodes, clickedNodeId) {
+GraphController.repositionNodes = function(oldNodesRaw, newNodes) {
+  var oldNodes = asDictionaryByIds(oldNodesRaw);
+  newNodes.forEach(repositionSingleNode(oldNodes));
+
   function asDictionaryByIds(xs) {
     return xs.reduce(function (dict, item) {
       dict[item.id] = item;
       return dict;
     }, {});
-  };
+  }
 
-  var oldNodes = asDictionaryByIds(oldNodesRaw)
-
-  newNodes.map(function(newNode) {
-    var copyFrom;
-    var newNodeId = newNode.id;
-    if(oldNodes.hasOwnProperty(newNodeId)) {
-      copyFrom = oldNodes[newNodeId];
-    } else {
-      copyFrom = oldNodes[clickedNodeId];
-      console.log(oldNodes[clickedNodeId]);
+  function repositionSingleNode(oldNodes) {
+    return function(newNode) {
+      var newNodeId = newNode.id;
+      if(oldNodes.hasOwnProperty(newNodeId)) {
+        var copyFrom = oldNodes[newNodeId];
+        newNode.x = copyFrom.x;
+        newNode.y = copyFrom.y;
+      }
     }
-    newNode.x = copyFrom.x;
-    newNode.y = copyFrom.y;
-    return newNode;
-  });
+  }
 }
 
