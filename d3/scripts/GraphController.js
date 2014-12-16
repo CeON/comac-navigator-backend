@@ -42,7 +42,7 @@ function GraphController(dataProvider) {
       this.graphModel.favouriteIds,
       this.updateGraph.bind(this));
 
-  setTimeout((function() {this.addFavouriteNodes(["paper_0"])}).bind(this), 1000);
+  //setTimeout((function() {this.addFavouriteNodes(["paper_0"])}).bind(this), 1000);
 }
 
 
@@ -111,6 +111,10 @@ GraphController.prototype = {
         .on("mouseout", function() { 
             d3.select(this.parentNode).classed("hover", false);
         })
+        .on("mousedown", (function(d) {
+            //TODO toggle add/remove nodes
+            this.addFavouriteNodes([d.id]);
+        }).bind(this))
       .append("title")
         .text(function(d) { return d.name; });
 
@@ -142,6 +146,7 @@ GraphController.prototype = {
   addFavouriteNodes: function(newNodeIds) {
     this.graphModel.favouriteIds =
       this.graphModel.favouriteIds.concat(newNodeIds);
+    //TODO handle errors
     this.dataProvider.getGraphByFavouriteIds(
         this.graphModel.favouriteIds, 
         this.updateGraph.bind(this));
