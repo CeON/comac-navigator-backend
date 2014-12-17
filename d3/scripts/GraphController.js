@@ -33,14 +33,12 @@ function GraphController(dataProvider) {
   this.graphModel =
     { nodes       : []
     , links       : []
-    , favouriteIds: ["paper_2", "paper_3", "author_1"]
+    , favouriteIds: []
     }
 
   this.dataProvider = dataProvider;
 
-  dataProvider.getGraphByFavouriteIds(
-      this.graphModel.favouriteIds,
-      this.updateGraph.bind(this));
+  this.addFavouriteNodes(["paper_2", "paper_3", "author_1"]);
 }
 
 
@@ -48,19 +46,27 @@ GraphController.prototype = {
   width:  960,
   height: 500,
 
-  updateGraph: function(error, graphJSON) {
-    var oldNodes = this.graphModel.nodes;
-    GraphModel.updateGraphModel(this.graphModel, graphJSON);
-    GraphModel.repositionNodes(oldNodes, this.graphModel.nodes);
+  updateGraph: function(newFavouriteIds) {
+    return function(error, graphJSON) {
+      if (error === null) {
+        var oldNodes = this.graphModel.nodes;
+        GraphModel.updateGraphModel(newFavouriteIds, this.graphModel, graphJSON);
+        GraphModel.repositionNodes(oldNodes, this.graphModel.nodes);
+        this.updateGraphView();
+      } else {
+        console.error(
+            "Failed to get graph for ids: " + newFavouriteIds +
+            ". Got an error: " + error);
+      }
+    }
+  },
 
+  updateGraphView: function() {
     this.force
       .nodes(this.graphModel.nodes)
       .links(this.graphModel.links)
       .start();
-    this.updateGraphView();
-  },
 
-  updateGraphView: function() {
     // paths (links)
     this.graphView.paths = this.graphView.paths
       .data(this.graphModel.links)
@@ -144,23 +150,9 @@ GraphController.prototype = {
   addFavouriteNodes: function(newNodeIds) {
     var newFavouriteIds = 
       this.graphModel.favouriteIds.concat(newNodeIds);
-    //TODO handle errors
     this.dataProvider.getGraphByFavouriteIds(
         newFavouriteIds,
-        continuation(newFavouriteIds).bind(this));
-
-    function continuation(newFavouriteIds) {
-      return function(error, graphJSON) {
-        if (error === null) {
-          this.graphModel.favouriteIds = newFavouriteIds;
-          this.updateGraph(error, graphJSON);
-        } else {
-          console.error(
-              "Failed to get graph for ids: " + favouriteIds +
-              ". Got an error: " + error);
-        }
-      }
-    }
+        this.updateGraph(newFavouriteIds).bind(this));
   }
 }
 
@@ -182,7 +174,9 @@ GraphController.shortenString = function(str) {
 
 function GraphModel() {}
 
-GraphModel.updateGraphModel = function(graphModel, graphJSON) {
+GraphModel.updateGraphModel = function(newFavouriteIds, graphModel, graphJSON) {
+  graphModel.favouriteIds = newFavouriteIds;
+
   graphModel.nodes = graphJSON.nodes;
   graphModel.links = nodeIdsToReferences(graphJSON.nodes,
                                          graphJSON.links);
