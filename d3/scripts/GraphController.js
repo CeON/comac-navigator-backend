@@ -38,7 +38,7 @@ function GraphController(dataProvider) {
 
   this.dataProvider = dataProvider;
 
-  this.addFavouriteNodes(["paper_2", "paper_3", "author_1"]);
+  this.setFavouriteNodes(["paper_2", "paper_3", "author_1"]);
 }
 
 
@@ -130,9 +130,8 @@ GraphController.prototype = {
           d3.select(this.parentNode).classed("hover", false);
       })
       .on("mousedown", (function(d) {
-        console.log(d.favourite);
         if (d.favourite) {
-          //TODO toggle add/remove nodes
+          this.removeFavouriteNodes([d.id]);
         } else {
           this.addFavouriteNodes([d.id]);
         }
@@ -154,6 +153,23 @@ GraphController.prototype = {
   addFavouriteNodes: function(newNodeIds) {
     var newFavouriteIds = 
       this.graphModel.favouriteIds.concat(newNodeIds);
+    this.setFavouriteNodes(newFavouriteIds);
+  },
+
+  removeFavouriteNodes: function(deletedNodeIds) {
+    var newFavouriteIds =
+      this.graphModel.favouriteIds
+        .filter(function(id) { 
+          return !arrayContains(deletedNodeIds, id);
+        });
+    this.setFavouriteNodes(newFavouriteIds);
+
+    function arrayContains(xs, x) {
+      return xs.indexOf(x) > -1;
+    }
+  },
+
+  setFavouriteNodes: function(newFavouriteIds) {
     this.dataProvider.getGraphByFavouriteIds(
         newFavouriteIds,
         this.updateGraph(newFavouriteIds).bind(this));
@@ -164,7 +180,7 @@ GraphController.shortenString = function(str) {
   if (str.length > 8) {
     return str.slice(0, 5) + "..";
   } else {
-    return str
+    return str;
   }
 }
 
