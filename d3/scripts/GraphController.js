@@ -109,16 +109,6 @@ GraphController.prototype = {
 
     g.append("circle")
         .attr("r", 30)
-        .on("mouseover", function() {
-            d3.select(this.parentNode).classed("hover", true);
-        })
-        .on("mouseout", function() { 
-            d3.select(this.parentNode).classed("hover", false);
-        })
-        .on("mousedown", (function(d) {
-            //TODO toggle add/remove nodes
-            this.addFavouriteNodes([d.id]);
-        }).bind(this))
       .append("title")
         .text(function(d) { return d.name; });
 
@@ -133,7 +123,21 @@ GraphController.prototype = {
 
     // update existing & new nodes
     this.graphView.circles
-      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5})
+      .on("mouseover", function() {
+          d3.select(this.parentNode).classed("hover", true);
+      })
+      .on("mouseout", function() { 
+          d3.select(this.parentNode).classed("hover", false);
+      })
+      .on("mousedown", (function(d) {
+        console.log(d.favourite);
+        if (d.favourite) {
+          //TODO toggle add/remove nodes
+        } else {
+          this.addFavouriteNodes([d.id]);
+        }
+      }).bind(this))
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5});
 
     // remove old nodes
     this.graphView.circles.exit().remove();
