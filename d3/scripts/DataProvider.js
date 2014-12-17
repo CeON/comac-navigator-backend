@@ -9,6 +9,8 @@ function DataProvider() {
 }
 
 DataProvider.prototype = {
+  // TODO hardcoded data, implement REST service
+
   /**
    * Provides the initial graph. Such graph consists of:
    *  - favourite nodes,
@@ -19,8 +21,7 @@ DataProvider.prototype = {
    * @param callback     continuation, function(error, graph)
    */
   getGraphByFavouriteIds: function(favouriteIds, callback) {
-    // TODO hardcoded data, implement REST service
-    d3.json("data.json", function(error, graphs) {
+    d3.json("data/graph.json", function(error, graphs) {
       if (error !== null) {
         // propagate error
         callback(error, null);
