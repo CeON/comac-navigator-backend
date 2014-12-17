@@ -41,8 +41,6 @@ function GraphController(dataProvider) {
   dataProvider.getGraphByFavouriteIds(
       this.graphModel.favouriteIds,
       this.updateGraph.bind(this));
-
-  //setTimeout((function() {this.addFavouriteNodes(["paper_0"])}).bind(this), 1000);
 }
 
 
@@ -144,12 +142,25 @@ GraphController.prototype = {
   },
 
   addFavouriteNodes: function(newNodeIds) {
-    this.graphModel.favouriteIds =
+    var newFavouriteIds = 
       this.graphModel.favouriteIds.concat(newNodeIds);
     //TODO handle errors
     this.dataProvider.getGraphByFavouriteIds(
-        this.graphModel.favouriteIds, 
-        this.updateGraph.bind(this));
+        newFavouriteIds,
+        continuation(newFavouriteIds).bind(this));
+
+    function continuation(newFavouriteIds) {
+      return function(error, graphJSON) {
+        if (error === null) {
+          this.graphModel.favouriteIds = newFavouriteIds;
+          this.updateGraph(error, graphJSON);
+        } else {
+          console.error(
+              "Failed to get graph for ids: " + favouriteIds +
+              ". Got an error: " + error);
+        }
+      }
+    }
   }
 }
 

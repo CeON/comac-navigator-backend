@@ -20,13 +20,21 @@ DataProvider.prototype = {
    */
   getGraphByFavouriteIds: function(favouriteIds, callback) {
     // TODO hardcoded data, implement REST service
-    d3.json("data.json", function(error, graph) {
-      if (error === null) {
-        // no error, continue
-        callback(error, graph[favouriteIds.sort().join("|")]);
-      } else {
+    d3.json("data.json", function(error, graphs) {
+      if (error !== null) {
         // propagate error
-        callback(error, graph);
+        callback(error, null);
+      } else {
+        var query = favouriteIds.sort().join("|");
+        var graph = graphs[query];
+
+        if (graph === undefined) {
+          // response undefined
+          callback("Response for such list of node ids is undefined.", null);
+        } else {
+          // no error
+          callback(error, graph);
+        }
       }
     });
   }
