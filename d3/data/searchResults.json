@@ -1,9 +1,36 @@
 { "big":
-  [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity"}
-  , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data"}
-  , {"type": "paper", "id": "paper_3", "name": "The pathologies of big data"}
-
-  , {"type": "author", "id": "author_1", "name": "Lekki Bigos"}
-  ]
+  { "*":
+    { "response":
+      { "numFound": 6
+      , "start": 0
+      , "docs":
+        [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity"}
+        , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data"}
+        , {"type": "paper", "id": "paper_3", "name": "The pathologies of big data"}
+        , {"type": "author", "id": "author_1", "name": "Lekki Bigos"}
+        ]
+      }
+    , "nextCursorMark": "AoEjR0JQ"
+    }
+  , "AoEjR0JQ":
+    { "response":
+      { "numFound": 6
+      , "start": 0
+      , "docs":
+        [ {"type": "paper", "id": "paper_10", "name": "Big data: How do your data grow?"}
+        , {"type": "paper", "id": "paper_11", "name": "Starfish: A Self-tuning System for Big Data Analytics."}
+        ]
+      }
+    , "nextCursorMark": "AoEpdmlld3Nvbmlj"
+    }
+  , "AoEpdmlld3Nvbmlj":
+    { "response":
+      { "numFound": 6
+      , "start": 0
+      , "docs": []
+      }
+    , "nextCursorMark": "AoEpdmlld3Nvbmlj"
+    }
+  }
 }
 
