@@ -109,6 +109,12 @@ GraphController.prototype = {
 
     g.append("circle")
         .attr("r", 30)
+        .on("mouseover", function() {
+            d3.select(this.parentNode).classed("hover", true);
+        })
+        .on("mouseout", function() { 
+            d3.select(this.parentNode).classed("hover", false);
+        })
       .append("title")
         .text(function(d) { return d.name; });
 
@@ -123,12 +129,6 @@ GraphController.prototype = {
 
     // update existing & new nodes
     this.graphView.circles
-      .on("mouseover", function() {
-          d3.select(this.parentNode).classed("hover", true);
-      })
-      .on("mouseout", function() { 
-          d3.select(this.parentNode).classed("hover", false);
-      })
       .on("mousedown", (function(d) {
         if (d.favourite) {
           this.removeFavouriteNodes([d.id]);
