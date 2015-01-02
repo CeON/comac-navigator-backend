@@ -1,0 +1,58 @@
+{ "author_1|paper_2|paper_3":
+  { "nodes":
+    [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": false}
+    , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true}
+    , {"type": "paper", "id": "paper_3", "name": "The pathologies of big data", "favourite": true}
+    , {"type": "paper", "id": "paper_7", "name": "Presto: distributed machine learning and graph processing with sparse matrices", "favourite": false}
+    , {"type": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
+
+    , {"type": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
+    ]
+  , "links":
+    [ {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "favourite": false, "value": 10}
+    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
+    , {"type": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
+
+    , {"type": "citation",   "sourceId": "paper_2", "targetId": "paper_0", "favourite": false}
+
+    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0", "favourite": false}
+    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+    ]
+  }
+, "author_1|paper_0|paper_2|paper_3":
+  { "nodes":
+    [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": true}
+    , {"type": "paper", "id": "paper_1", "name": "Understanding big data: Analytics for enterprise class hadoop and streaming data", "favourite": false}
+    , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true}
+    , {"type": "paper", "id": "paper_3", "name": "The pathologies of big data", "favourite": true}
+    , {"type": "paper", "id": "paper_4", "name": "Spark: cluster computing with working sets", "favourite": false}
+    , {"type": "paper", "id": "paper_5", "name": "Resilient distributed datasets: A fault-tolerant abstraction for in-memory cluster computing", "favourite": false}
+    , {"type": "paper", "id": "paper_6", "name": "Towards a next generation of scientific computing in the cloud", "favourite": false}
+    , {"type": "paper", "id": "paper_7", "name": "Presto: distributed machine learning and graph processing with sparse matrices", "favourite": false}
+    , {"type": "paper", "id": "paper_8", "name": "Memory or Time: Performance Evaluation for Iterative Operation on Hadoop and Spark", "favourite": false}
+    , {"type": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
+
+    , {"type": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
+    ]
+  , "links":
+    [ {"type": "similarity", "sourceId": "paper_1", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "favourite": true, "value": 10}
+    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
+    , {"type": "similarity", "sourceId": "paper_4", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_5", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_6", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
+    , {"type": "similarity", "sourceId": "paper_8", "targetId": "paper_0", "favourite": false, "value": 2}
+    , {"type": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
+
+    , {"type": "citation",   "sourceId": "paper_1", "targetId": "paper_8", "favourite": false}
+    , {"type": "citation",   "sourceId": "paper_1", "targetId": "paper_5", "favourite": false}
+    , {"type": "citation",   "sourceId": "paper_2", "targetId": "paper_0", "favourite": true}
+
+    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0", "favourite": true}
+    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+    ]
+  }
+}
+
