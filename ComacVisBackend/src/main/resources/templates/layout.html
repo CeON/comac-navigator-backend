@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    <head>
+        <title>Layout</title>
+        <link rel="stylesheet"
+              th:href="@{/css/bootstrap.min.css}"
+              href="../static/css/bootstrap.min.css"/>
+        <link rel="shortcut icon" 
+              th:href="@{/ico/favicon.ico}"
+              href="../static/ico/favicon.ico"/>
+
+
+        <!-- Custom styles for this template -->
+        <link th:href="@{/css/starter-template.css}"  href="../static/css/starter-template.css" 
+              rel="stylesheet"/>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" th:href="@{/}">CoAnSys Explorer</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a th:href="@{/}" href="home.html">Home</a></li>
+                        <li><a th:href="@{/query}" href="query.html">Query sparql</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <form class="navbar-form navbar-left" method="POST" th:action="@{/shutdown}">
+                            <button type="submit" class="btn">Shutdown</button>
+                        </form>
+                        <!--<li><a th:href="@{/shutdown}">shutdown</a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="starter-template">
+                <div layout:fragment="page_menu"></div>
+                <h1 layout:fragment="header">Layout</h1>
+                <div th:if="${error}">
+                    <div class="alert alert-danger" role="alert" th:text="${error}">Some error message</div>
+                </div> 
+                <div th:if="${message}">
+                    <div class="alert alert-success" role="alert" th:text="${message}">Some success message</div>
+                </div>
+                <div layout:fragment="content">
+                    Fake content
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

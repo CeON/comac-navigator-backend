@@ -16,7 +16,9 @@
 package pl.edu.icm.comac.vis.server;
 
 import java.io.File;
+import javax.annotation.PreDestroy;
 import org.openrdf.repository.Repository;
+import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
@@ -36,9 +38,11 @@ public class ServerConfiguration {
     String workingDirectory;
 
     @Bean
-    Repository buildSesameRepository(Sail sail) {
+    Repository buildSesameRepository(Sail sail) throws RepositoryException {
         log.info("Building sesame repository...");
         SailRepository repo = new SailRepository(sail);
+        log.info("Initializing repository.");
+        repo.initialize();
         return repo;
     }
 
@@ -48,4 +52,5 @@ public class ServerConfiguration {
         Sail res = new MemoryStore(new File(workingDirectory));
         return res;
     }
+    
 }

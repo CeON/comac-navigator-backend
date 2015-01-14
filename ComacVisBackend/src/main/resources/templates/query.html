@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+    <head>
+        <title>Coansys - query</title>
+        <script type="text/javascript" th:inline="javascript">
+            $(document).ready(function () {
+                console.log("loading button");
+                $('#QueryButton').on('click', function () {
+                    var req = {
+                        query: $('#QueryInput').val(),
+                    };
+                    console.log(req);
+                    var url = /*[[@{/data/sparql}]]*/ '.';
+                    $.getJSON(url, req,
+                            function (resp) {
+                                console.log(resp);
+                            });
+
+                });
+                console.log("Finished.");
+            });
+
+        </script>
+    </head>
+    <body>
+        <h1 layout:fragment="header">SPARQL query</h1>
+        <div layout:fragment="content" class="container">
+            <div class="input-group">
+                <input id="QueryInput" type="text" class="form-control" placeholder="enter sparql"></input>
+                <span class="input-group-btn">
+                    <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
+                </span>
+            </div>
+        </div>
+
+    </body>
+</html>

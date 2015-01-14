@@ -19,34 +19,46 @@ import org.openrdf.repository.Repository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * A controller for the views dedicated to user
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Controller
 @EnableAutoConfiguration
-public class SampleController {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(SampleController.class.getName());
+public class UserViewController {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(UserViewController.class.getName());
 
     @Autowired
     Repository sesameRepository;
-    
-    @RequestMapping("/xx")
-    @ResponseBody
+
+    @Autowired
+    DataManager dataManager;
+
+    @RequestMapping("/")
     String home() {
-        log.info("Home caled...");
-        return "Hello World!";
+        return "home";
     }
-    
-    
-    @RequestMapping("/test")
-    @ResponseBody
-    String repositoryTest() {
-        return "Data dir is: "+sesameRepository.getDataDir().getAbsolutePath();
+
+    @RequestMapping("/query")
+    String sparql() {
+        return "query";
+    }
+
+    @RequestMapping("/read_data")
+    String readData(ModelMap model) {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                dataManager.importData();
+            }
+        }).start();
+        return "home";
     }
 }
