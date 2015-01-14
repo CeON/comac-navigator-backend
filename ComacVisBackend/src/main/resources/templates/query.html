@@ -5,6 +5,8 @@
     <head>
         <title>Coansys - query</title>
         <script type="text/javascript" th:inline="javascript">
+
+            // <![CDATA[
             $(document).ready(function () {
                 console.log("loading button");
                 $('#QueryButton').on('click', function () {
@@ -15,13 +17,46 @@
                     var url = /*[[@{/data/sparql}]]*/ '.';
                     $.getJSON(url, req,
                             function (resp) {
-                                console.log(resp);
+                                processAjaxResult(resp)
                             });
-
                 });
                 console.log("Finished.");
             });
 
+            function processAjaxResult(resp) {
+                console.log("Got an response from ajax");
+                $("#MessageArea").empty();
+                $("#ResultArea").empty();
+                if (resp.error) {
+                    var message = '<div class="alert alert-danger" role="alert"><b>Error:</b>' + resp.error + '</div>';
+                    $("#MessageArea").append(message);
+                } else {
+                    if (resp.warning) {
+                        message = '<div class="alert alert-warning" role="alert"><b>Error:</b>' + resp.warning + '</div>';
+                        $("#MessageArea").append(message);
+                    }
+                    var table = "<table><thead>";
+                    for (var i = 0; i < resp.header.length; i++) {
+                        table += '<th>' + resp.header[i] + '</th>';
+                    }
+
+                    table += "</thead>";
+
+                    for (var i = 0; i < resp.values.length; i++) {
+                        table += '<tr>';
+                        for (var j = 0; j < resp.values[i].length; j++) {
+                            table += '<td>';
+                            table += resp.values[i][j];
+                            table += '</td>';
+                        }
+                        table += '</tr>'
+                    }
+                    table += '</table>';
+                    $("#ResultArea").append(table);
+                }
+            }
+
+            // ]]>
         </script>
     </head>
     <body>
@@ -32,6 +67,13 @@
                 <span class="input-group-btn">
                     <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
                 </span>
+            </div>
+
+            <div id="MessageArea">
+
+            </div>
+            <div id="ResultArea">
+
             </div>
         </div>
 

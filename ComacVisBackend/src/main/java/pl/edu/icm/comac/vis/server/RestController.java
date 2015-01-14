@@ -53,12 +53,16 @@ public class RestController {
         List<String> variables = new ArrayList<String>();
         List<String[]> resultArray = new ArrayList<>();
 
+        Map<String, Object> res = new HashMap<String, Object>();
+        if(query.trim().isEmpty()) {
+            res.put("error", "Query is empty");
+        }
         try {
             RepositoryConnection con = repo.getConnection();
             try {
-                String queryString = "SELECT (COUNT(*) AS ?no) { ?s ?p ?o  }";
+                String queryString = query;//"SELECT (COUNT(*) AS ?no) { ?s ?p ?o  }";
                 TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
-                
+
                 TupleQueryResult result = tupleQuery.evaluate();
                 try {
                     variables.addAll(result.getBindingNames());
@@ -79,12 +83,11 @@ public class RestController {
             } finally {
                 con.close();
             }
+            res.put("header", variables);
+            res.put("values", resultArray);
         } catch (OpenRDFException e) {
-   // handle exception
+            res.put("error", e.getMessage());
         }
-        Map<String, Object> res = new  HashMap<String, Object>();
-        res.put("header", variables);
-        res.put("values", resultArray);
         return res;
     }
 }
