@@ -177,8 +177,8 @@ GraphController.prototype = {
 }
 
 GraphController.shortenString = function(str) {
-  if (str.length > 8) {
-    return str.slice(0, 5) + "..";
+  if (str.length > 7) {
+    return str.slice(0, 4) + "..";
   } else {
     return str;
   }

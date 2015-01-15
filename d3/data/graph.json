@@ -7,17 +7,26 @@
     , {"type": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
 
     , {"type": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
+
+    , {"type": "journal", "id": "journal_0", "name": "Communications of the ACM", "favourite": true}
+
+    , {"type": "dataset", "id": "dataset_0", "name": "Benchmark test dataset", "favourite": false}
     ]
   , "links":
-    [ {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "favourite": false, "value": 10}
-    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
-    , {"type": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
+    [ {"type": "similarity",       "sourceId": "paper_3", "targetId": "paper_0", "favourite": false, "value": 10}
+    , {"type": "similarity",       "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
+    , {"type": "similarity",       "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
 
-    , {"type": "citation",   "sourceId": "paper_2", "targetId": "paper_0", "favourite": false}
+    , {"type": "citation",         "sourceId": "paper_2", "targetId": "paper_0", "favourite": false}
 
-    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0", "favourite": false}
-    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+    , {"type": "isAuthor",         "sourceId": "author_1", "targetId": "paper_0", "favourite": false}
+    , {"type": "isAuthor",         "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+
+    , {"type": "inJournal",        "sourceId": "paper_3", "targetId": "journal_0", "favourite": true}
+    , {"type": "inJournal",        "sourceId": "paper_9", "targetId": "journal_0", "favourite": false}
+
+    , {"type": "datasetMentioned", "sourceId": "paper_3", "targetId": "dataset_0", "favourite": false}
     ]
   }
 , "author_1|paper_0|paper_2|paper_3":
@@ -34,24 +43,33 @@
     , {"type": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}
 
     , {"type": "author", "id": "author_1", "name": "Carlos Amigos", "favourite": true}
+
+    , {"type": "journal", "id": "journal_0", "name": "Communications of the ACM", "favourite": true}
+
+    , {"type": "dataset", "id": "dataset_0", "name": "Benchmark test dataset", "favourite": true}
     ]
   , "links":
-    [ {"type": "similarity", "sourceId": "paper_1", "targetId": "paper_0", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_0", "favourite": true, "value": 10}
-    , {"type": "similarity", "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
-    , {"type": "similarity", "sourceId": "paper_4", "targetId": "paper_0", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_5", "targetId": "paper_0", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_6", "targetId": "paper_0", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
-    , {"type": "similarity", "sourceId": "paper_8", "targetId": "paper_0", "favourite": false, "value": 2}
-    , {"type": "similarity", "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
+    [ {"type": "similarity",       "sourceId": "paper_1", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_3", "targetId": "paper_0", "favourite": true, "value": 10}
+    , {"type": "similarity",       "sourceId": "paper_3", "targetId": "paper_2", "favourite": true, "value": 6}
+    , {"type": "similarity",       "sourceId": "paper_4", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_5", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_6", "targetId": "paper_0", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_7", "targetId": "paper_3", "favourite": false, "value": 1}
+    , {"type": "similarity",       "sourceId": "paper_8", "targetId": "paper_0", "favourite": false, "value": 2}
+    , {"type": "similarity",       "sourceId": "paper_9", "targetId": "paper_2", "favourite": false, "value": 1}
 
-    , {"type": "citation",   "sourceId": "paper_1", "targetId": "paper_8", "favourite": false}
-    , {"type": "citation",   "sourceId": "paper_1", "targetId": "paper_5", "favourite": false}
-    , {"type": "citation",   "sourceId": "paper_2", "targetId": "paper_0", "favourite": true}
+    , {"type": "citation",         "sourceId": "paper_1", "targetId": "paper_8", "favourite": false}
+    , {"type": "citation",         "sourceId": "paper_1", "targetId": "paper_5", "favourite": false}
+    , {"type": "citation",         "sourceId": "paper_2", "targetId": "paper_0", "favourite": true}
 
-    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_0", "favourite": true}
-    , {"type": "isAuthor",   "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+    , {"type": "isAuthor",         "sourceId": "author_1", "targetId": "paper_0", "favourite": true}
+    , {"type": "isAuthor",         "sourceId": "author_1", "targetId": "paper_9", "favourite": false}
+
+    , {"type": "inJournal",        "sourceId": "paper_3", "targetId": "journal_0", "favourite": true}
+    , {"type": "inJournal",        "sourceId": "paper_9", "targetId": "journal_0", "favourite": false}
+
+    , {"type": "datasetMentioned", "sourceId": "paper_3", "targetId": "dataset_0", "favourite": false}
     ]
   }
 }

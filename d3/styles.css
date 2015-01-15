@@ -144,13 +144,8 @@ svg.graphView {
 g.paper circle {
   fill: #292;
 }
-
-g.paper.hover circle {
-  fill: #fff;
-}
 g.paper.hover circle {
   stroke: #292;
-  stroke-width: 1.5px;
 }
 g.paper.hover text {
   fill: #292;
@@ -160,14 +155,36 @@ g.author circle {
   fill: #1F77B4;
 }
 g.author.hover circle {
-  fill: #fff;
-}
-g.author.hover circle {
   stroke: #1F77B4;
-  stroke-width: 1.5px;
 }
 g.author.hover text {
   fill: #1F77B4;
+}
+
+g.dataset circle {
+  fill: #FF7F0E;
+}
+g.dataset.hover circle {
+  stroke: #FF7F0E;
+}
+g.dataset.hover text {
+  fill: #FF7F0E;
+}
+
+g.journal circle {
+  fill: #D62728;
+}
+g.journal.hover circle {
+  stroke: #D62728;
+}
+g.journal.hover text {
+  fill: #D62728;
+}
+
+
+g.hover circle {
+  fill: #fff;
+  stroke-width: 1.5px;
 }
 
 .node text {
