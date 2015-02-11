@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @EnableAutoConfiguration
 public class RestController {
-
+    private static final int MAX_RESPONSE=500;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RestController.class.getName());
 
     @Autowired
@@ -54,7 +54,7 @@ public class RestController {
         List<String[]> resultArray = new ArrayList<>();
 
         Map<String, Object> res = new HashMap<String, Object>();
-        if(query.trim().isEmpty()) {
+        if (query.trim().isEmpty()) {
             res.put("error", "Query is empty");
         }
         try {
@@ -66,13 +66,17 @@ public class RestController {
                 TupleQueryResult result = tupleQuery.evaluate();
                 try {
                     variables.addAll(result.getBindingNames());
-                    while (result.hasNext()) {  // iterate over the result
+                    while (result.hasNext()&& resultArray.size()<MAX_RESPONSE) {  // iterate over the result
                         String[] arr = new String[variables.size()];
                         BindingSet bindingSet = result.next();
                         for (int i = 0; i < arr.length; i++) {
                             String var = variables.get(i);
-                            String val = bindingSet.getValue(var).stringValue();
-                            log.debug("Result var {}={}", var, val);
+
+                            String val = null;
+                            if (var != null) {
+                                val = bindingSet.getValue(var).stringValue();
+                            }
+                            log.debug("Result var {}={}, table size={}", var, val, resultArray.size());
                             arr[i] = val;
                         }
                         resultArray.add(arr);

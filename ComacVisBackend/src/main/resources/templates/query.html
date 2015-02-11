@@ -35,7 +35,7 @@
                         message = '<div class="alert alert-warning" role="alert"><b>Error:</b>' + resp.warning + '</div>';
                         $("#MessageArea").append(message);
                     }
-                    var table = "<table><thead>";
+                    var table = '<table class="table table-stripped table-bordered"><thead>';
                     for (var i = 0; i < resp.header.length; i++) {
                         table += '<th>' + resp.header[i] + '</th>';
                     }
@@ -68,14 +68,15 @@
                     <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
                 </span>
             </div>
+            <p>
+                <div id="MessageArea">
 
-            <div id="MessageArea">
+                </div>
+                <div id="ResultArea">
 
-            </div>
-            <div id="ResultArea">
+                </div>
+            </p>
+    </div>
 
-            </div>
-        </div>
-
-    </body>
+</body>
 </html>
