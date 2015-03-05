@@ -22,7 +22,7 @@ DataProvider.prototype = {
    */
   getGraphByFavouriteIds: function(favouriteIds, callback) {
     var query = favouriteIds.sort().join("|");
-    DataProvider.queryJSON("data/graph.json", query, callback);
+    DataProvider.queryJSON("http://localhost:8080/data/graph.json", query, callback);
 
   },
 
@@ -38,12 +38,12 @@ DataProvider.prototype = {
 }
 
 DataProvider.queryJSON = function(fileName, query, callback) {
-  d3.json(fileName, function(error, data) {
+  d3.json(fileName+"?query="+query, function(error, data) {
     if (error !== null) {
       // propagate error
       callback(error, null);
     } else {
-      var result = data[query];
+        var result = data;
 
       if (result === undefined) {
         // response undefined
