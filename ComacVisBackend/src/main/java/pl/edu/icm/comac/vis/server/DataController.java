@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.openrdf.OpenRDFException;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryLanguage;
@@ -29,18 +30,17 @@ import org.openrdf.repository.RepositoryConnection;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-@Controller
+@RestController
 @EnableAutoConfiguration
-public class RestController {
+public class DataController {
     private static final int MAX_RESPONSE=500;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RestController.class.getName());
 
@@ -48,7 +48,6 @@ public class RestController {
     Repository repo;
 
     @RequestMapping("/data/sparql")
-    @ResponseBody
     Map sparql(@RequestParam("query") String query) {
         List<String> variables = new ArrayList<String>();
         List<String[]> resultArray = new ArrayList<>();
