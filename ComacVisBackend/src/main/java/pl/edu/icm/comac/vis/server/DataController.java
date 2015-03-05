@@ -15,6 +15,10 @@
  */
 package pl.edu.icm.comac.vis.server;
 
+import static java.util.Collections.emptyMap;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
@@ -44,8 +50,28 @@ public class DataController {
     private static final int MAX_RESPONSE=500;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RestController.class.getName());
 
+    private static final Map<String, Map<String, Object>> GRAPH = parseJson();
+
     @Autowired
     Repository repo;
+
+    @RequestMapping("/data/graph")
+    Map<String, Object> graph(@RequestParam String query) {
+        if (GRAPH.containsKey(query)) {
+            return GRAPH.get(query);
+        } else {
+            return emptyMap();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, Map<String, Object>> parseJson() {
+        try {
+            return new ObjectMapper().readValue(new File("../d3/data/graph.json"), Map.class);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     @RequestMapping("/data/sparql")
     Map sparql(@RequestParam("query") String query) {
