@@ -38,7 +38,7 @@ function GraphController(dataProvider) {
 
   this.dataProvider = dataProvider;
 
-  this.setFavouriteNodes(["paper_2", "paper_3", "author_1"]);
+  this.setFavouriteNodes(["comac:pbn_9999"]);
 }
 
 
