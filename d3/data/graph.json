@@ -1,4 +1,4 @@
-{ "author_1|paper_2|paper_3":
+{ "author_1|journal_0|paper_2|paper_3":
   { "nodes":
     [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": false}
     , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true}
@@ -29,7 +29,7 @@
     , {"type": "datasetMentioned", "sourceId": "paper_3", "targetId": "dataset_0", "favourite": false}
     ]
   }
-, "author_1|paper_0|paper_2|paper_3":
+, "author_1|journal_0|paper_0|paper_2|paper_3":
   { "nodes":
     [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": true}
     , {"type": "paper", "id": "paper_1", "name": "Understanding big data: Analytics for enterprise class hadoop and streaming data", "favourite": false}
