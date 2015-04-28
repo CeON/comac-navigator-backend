@@ -18,6 +18,7 @@ package pl.edu.icm.comac.vis.server;
 import javax.annotation.PreDestroy;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.http.HTTPRepository;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  *
@@ -40,6 +42,7 @@ public class ServerConfiguration {
     private ServerSettings settings;
 
     @Bean
+    @Profile("local")
     Repository buildSesameRepository(Sail sail) throws RepositoryException {
         log.info("Building sesame repository...");
         SailRepository repo = new SailRepository(sail);
@@ -49,10 +52,18 @@ public class ServerConfiguration {
     }
 
     @Bean
+    @Profile("local")
     Sail buildSailStore() {
         log.info("Building sail store...");
         Sail res = new MemoryStore(settings.getWorkingDirectory());
         return res;
     }
-    
+
+    @Bean
+    @Profile("remote")
+    Repository httpRepository() throws RepositoryException {
+        HTTPRepository repo = new HTTPRepository(settings.getRepositoryUrl());
+        repo.initialize();
+        return repo;
+    }
 }

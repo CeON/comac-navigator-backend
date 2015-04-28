@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ServerSettings {
 
     /**
+     * URL of a remote Sesame repository
+     */
+    private String repositoryUrl;
+    /**
      * Location for a local Sesame repository
      */
     private File workingDirectory;
@@ -30,5 +34,13 @@ public class ServerSettings {
 
     public void setInputDirectory(File inputDirectory) {
         this.inputDirectory = inputDirectory;
+    }
+
+    public String getRepositoryUrl() {
+        return repositoryUrl;
+    }
+
+    public void setRepositoryUrl(String repositoryUrl) {
+        this.repositoryUrl = repositoryUrl;
     }
 }
