@@ -29,7 +29,6 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,8 +41,8 @@ public class DataManager {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(DataManager.class.getName());
     @Autowired
     Repository repository;
-    @Value("${input_data_dir}")
-    String inputDirectory;
+    @Autowired
+    private ServerSettings settings;
 
     boolean running = false;
 
@@ -58,8 +57,8 @@ public class DataManager {
         List<File> inputFiles = new ArrayList<File>();
         RepositoryConnection con = null;
         try {
-            File input = new File(inputDirectory);
-            log.info("Input directory: {}", inputDirectory);
+            File input = settings.getInputDirectory();
+            log.info("Input directory: {}", input);
             if (input.isDirectory()) {
                 inputFiles.addAll(FileUtils.listFiles(input, null, true));
             } else {

@@ -15,7 +15,6 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-import java.io.File;
 import javax.annotation.PreDestroy;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
@@ -23,7 +22,8 @@ import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,10 +32,12 @@ import org.springframework.context.annotation.Configuration;
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
+@EnableConfigurationProperties(ServerSettings.class)
 public class ServerConfiguration {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ServerConfiguration.class.getName());
-    @Value("${working_dir}")
-    String workingDirectory;
+
+    @Autowired
+    private ServerSettings settings;
 
     @Bean
     Repository buildSesameRepository(Sail sail) throws RepositoryException {
@@ -49,7 +51,7 @@ public class ServerConfiguration {
     @Bean
     Sail buildSailStore() {
         log.info("Building sail store...");
-        Sail res = new MemoryStore(new File(workingDirectory));
+        Sail res = new MemoryStore(settings.getWorkingDirectory());
         return res;
     }
     
