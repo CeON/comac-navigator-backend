@@ -5,7 +5,7 @@
  */
 
 
-function GraphController(dataProvider) {
+function GraphController(dataProvider, initialNodes) {
   this.graphView = {};
   this.graphView.canvas = d3.select("body").selectAll("svg.graphView")
     .attr("width", this.width)
@@ -38,7 +38,7 @@ function GraphController(dataProvider) {
 
   this.dataProvider = dataProvider;
 
-  this.setFavouriteNodes(["comac:pbn_9999"]);
+  this.setFavouriteNodes(initialNodes);
 }
 
 

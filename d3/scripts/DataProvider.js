@@ -5,7 +5,8 @@
  */
 
 
-function DataProvider() {
+function DataProvider(graphUri) {
+    this.graph = graphUri;
 }
 
 DataProvider.prototype = {
@@ -22,7 +23,7 @@ DataProvider.prototype = {
    */
   getGraphByFavouriteIds: function(favouriteIds, callback) {
     var query = favouriteIds.sort().join("|");
-    DataProvider.queryJSON("http://localhost:8080/data/graph.json", query, callback);
+    DataProvider.queryJSON(this.graph, query, callback);
 
   },
 
