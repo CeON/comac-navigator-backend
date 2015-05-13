@@ -274,3 +274,10 @@ g.hover circle {
 #searchInput {
     border-radius: 2px;
 }
+#search-results .author {
+    background: #80bcd3;
+}
+
+#search-results .paper {
+    background: #bdf25a
+}

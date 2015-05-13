@@ -34,7 +34,29 @@ DataProvider.prototype = {
    */
   getSearchResultsByText: function(text, callback) {
     DataProvider.queryJSON("data/searchResults.json", text, callback);
+  },
+  
+  
+  search: function(textQuery, cursorMark, callback) {
+      console.log("Search invoked, query="+textQuery+" cursor="+cursorMark);
+      if(!cursorMark){
+          cursorMark = '*';
+      }
+      this.mockSearch(cursorMark, callback);
+      
+  },
+  
+  mockSearch: function(cursorMark, callback) {
+      console.log("Running mock search");
+      DataProvider.queryJSON("data/searchResults.json","", function(error, data) {
+//          console.log('got as error from query json: ' + error);
+//          console.log('got as result from query json: ' + JSON.stringify(data));
+          var res = data['big'][cursorMark];
+//          console.log(res);
+          callback(null, res);
+      });
   }
+  
 }
 
 DataProvider.queryJSON = function(fileName, query, callback) {
