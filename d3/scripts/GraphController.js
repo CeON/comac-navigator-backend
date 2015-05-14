@@ -7,14 +7,23 @@
 
 function GraphController(dataProvider) {
   this.graphView = {};
-  this.graphView.canvas = d3.select("body").selectAll("svg.graphView")
-    .attr("width", this.width)
-    .attr("height", this.height);
+  
+  
+//  this.graphView.canvas = d3.select("body").selectAll("svg.graphView")
+//    .attr("width", this.width)
+//    .attr("height", this.height);
+    //
+    this.graphView.canvas  = d3.select("svg.graphView");
+    var canv = this.graphView.canvas;
+    this.width = parseInt(canv.style("width"));
+    this.height = parseInt(canv.style("height"));
+    console.log("Width and height are: "+this.width+", "+this.height);
+//    .attr("height", this.height);
   this.graphView.paths   = this.graphView.canvas.append('svg:g').selectAll(".link");
   this.graphView.circles = this.graphView.canvas.append('svg:g').selectAll(".node")
 
   this.force = d3.layout.force()
-    .charge(-600)
+    .charge(-200)
     .linkDistance(120)
     .size([this.width, this.height])
     .on("tick", (function() {

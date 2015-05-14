@@ -128,11 +128,12 @@ svg.graphView {
     /*  width: 960px;
       height: 500px;*/
     width: 99%;
+    height: 99%;
     border: 1px solid #DEDEDE;
     /*margin-bottom: 2em;*/
 }
 
-.legend svg {
+#legend svg {
     vertical-align: middle;
 }
 
@@ -222,7 +223,13 @@ g.hover circle {
 .right.col { left: 255px; right: 0; }
 .header.row { height: 120px; line-height: 120px; }
 .body.row { top: 120px; bottom: 250px; }
-.footer.row { height: 250px; bottom: 0; line-height: 250px; }
+.footer.row { 
+    height: 250px; 
+    bottom: 0; 
+    /*line-height: 250px;*/ 
+}
+
+
 
 #search-sidebar {
     border-right: #595959 solid 1px;
@@ -244,13 +251,6 @@ g.hover circle {
     padding-right: .8em;
 }
 
-#workspace {
-    /*padding-left: 10px;*/
-    width: 99%;
-    height: 99%;
-    border: black solid 1px;
-    background: #dee8d6;
-}
 
 .search-result {
     border-top:  darkgray solid 1px;
@@ -281,3 +281,40 @@ g.hover circle {
 #search-results .paper {
     background: #bdf25a
 }
+
+#legend {
+    -webkit-column-count:3;
+    -moz-column-count:3;
+    -ms-column-count:3;
+    -o-column-count:3;
+    column-count:3;
+    -webkit-column-gap:15px;
+    -moz-column-gap:15px;
+    -ms-column-gap:15px;
+    -o-column-gap:15px;
+    column-gap:15px;
+    columns:3;
+}
+#legend > ul > li {
+    font-size: larger;
+}
+#legend > ul > li > ul{
+    margin-top: 15px;
+    font-size: medium;
+}
+
+#legend > ul > li > ul > li{
+    font-size: medium;
+}
+
+#legend > ul > li {
+    display: inline-block;
+    width: 100%;
+}
+
+#legend ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
