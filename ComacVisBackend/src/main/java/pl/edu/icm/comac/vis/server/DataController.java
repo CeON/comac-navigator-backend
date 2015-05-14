@@ -50,7 +50,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @EnableAutoConfiguration
 public class DataController {
-    private static final int MAX_RESPONSE=500;
+
+    private static final int MAX_RESPONSE = 500;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(RestController.class.getName());
 
     @Autowired
@@ -87,21 +88,21 @@ public class DataController {
         try {
             String sparql = GRAPH_QUERY_INIT;
             for (int n = 0; n < uris.length; n++) {
-                sparql += "|| ?fav = ?fav"+n;
+                sparql += "|| ?fav = ?fav" + n;
             }
             sparql += ")}";
             log.debug("Graph query: {}", sparql);
 
             GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
             for (int n = 0; n < uris.length; n++) {
-                query.setBinding("fav"+n, vf.createURI(uris[n]));
+                query.setBinding("fav" + n, vf.createURI(uris[n]));
             }
             GraphQueryResult graph = query.evaluate();
             try {
                 List<Map<String, Object>> links = new ArrayList<>();
                 Map<URI, Map<String, Object>> nodes = new HashMap<>();
 
-                while(graph.hasNext()) {
+                while (graph.hasNext()) {
                     Statement spo = graph.next();
                     log.debug("Result triple: {}", spo);
                     Resource s = spo.getSubject();
@@ -109,11 +110,11 @@ public class DataController {
                     Value o = spo.getObject();
 
                     if (p.equals(type)) {
-                        nodes.computeIfAbsent((URI)s, k -> new HashMap<>()).put("type", o.stringValue());
+                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("type", mapTypeValue(o.stringValue()));
                     } else if (p.equals(name)) {
-                        nodes.computeIfAbsent((URI)s, k -> new HashMap<>()).put("name", o.stringValue());
+                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("name", o.stringValue());
                     } else if (p.equals(fav)) {
-                        nodes.computeIfAbsent((URI)s, k -> new HashMap<>()).put("favourite", true);
+                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("favourite", true);
                     } else {
                         Map<String, Object> l = new HashMap<>();
                         l.put("type", p.stringValue());
@@ -158,7 +159,7 @@ public class DataController {
                 TupleQueryResult result = tupleQuery.evaluate();
                 try {
                     variables.addAll(result.getBindingNames());
-                    while (result.hasNext()&& resultArray.size()<MAX_RESPONSE) {  // iterate over the result
+                    while (result.hasNext() && resultArray.size() < MAX_RESPONSE) {  // iterate over the result
                         String[] arr = new String[variables.size()];
                         BindingSet bindingSet = result.next();
                         for (int i = 0; i < arr.length; i++) {
@@ -183,6 +184,26 @@ public class DataController {
             res.put("values", resultArray);
         } catch (OpenRDFException e) {
             res.put("error", e.getMessage());
+        }
+        return res;
+    }
+
+    /**
+     * Method which converts fully qualified type value from RDF into proper
+     * types expected by the graph.
+     *
+     * @param fullType
+     * @return
+     */
+    protected String mapTypeValue(String fullType) {
+        String res = fullType;
+        switch (fullType) {
+            case "http://data.ceon.pl/ontology/1.0/text":
+                res = "paper";
+                break;
+            case "http://data.ceon.pl/ontology/1.0/person":
+                res = "author";
+                break;
         }
         return res;
     }

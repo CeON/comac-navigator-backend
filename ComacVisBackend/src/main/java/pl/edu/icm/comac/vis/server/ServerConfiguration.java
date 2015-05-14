@@ -16,7 +16,6 @@
 package pl.edu.icm.comac.vis.server;
 
 import java.io.File;
-import javax.annotation.PreDestroy;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
@@ -28,7 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *
+ * Creates the repository itself based on spring configuration.
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
