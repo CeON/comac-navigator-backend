@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>pl.edu.icm.comac.vis.server.ComacVisServer</start-class>
-        <sesame.version>2.7.14</sesame.version>
+        <sesame.version>2.8.3</sesame.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
