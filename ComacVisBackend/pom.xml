@@ -106,11 +106,6 @@
 
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-runtime</artifactId>
-            <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-sail</artifactId>
             <version>${sesame.version}</version>
         </dependency>
@@ -121,12 +116,7 @@
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-sail-nativerdf</artifactId>
-            <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfxml</artifactId>
+            <artifactId>sesame-repository-http</artifactId>
             <version>${sesame.version}</version>
         </dependency>
         <dependency>
