@@ -20,6 +20,7 @@ import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
 import org.openrdf.repository.sail.SailRepository;
+import org.openrdf.repository.sparql.SPARQLRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
@@ -63,6 +64,14 @@ public class ServerConfiguration {
     @Profile("remote")
     Repository httpRepository() throws RepositoryException {
         HTTPRepository repo = new HTTPRepository(settings.getRepositoryUrl());
+        repo.initialize();
+        return repo;
+    }
+
+    @Bean
+    @Profile("sparql")
+    Repository sparqlRepository() throws RepositoryException {
+        Repository repo = new SPARQLRepository(settings.getRepositoryUrl());
         repo.initialize();
         return repo;
     }
