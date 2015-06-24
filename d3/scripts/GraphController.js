@@ -44,7 +44,9 @@ function GraphController(dataProvider) {
 
   this.dataProvider = dataProvider;
 
-  this.setFavouriteNodes(["comac:pbn_9999"]);
+  this.setFavouriteNodes([
+      "comac:bwmeta1.element.bwnjournal-article-appv113n337kz"
+  ]);
   
   
     // create the zoom listener
@@ -59,11 +61,6 @@ function GraphController(dataProvider) {
     }
     zoomListener(canv);
 
-    this.graphView.drag = d3.behavior.drag()
-            .origin(function(d) { return d; })
-            .on("dragstart", dragstarted)
-            .on("drag", dragged)
-            .on("dragend", dragended);
 
 }
 

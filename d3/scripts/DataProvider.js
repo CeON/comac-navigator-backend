@@ -21,34 +21,34 @@ DataProvider.prototype = {
    * @param callback     continuation, function(error, graph)
    */
   getGraphByFavouriteIds: function(favouriteIds, callback) {
-    var query = favouriteIds.sort().join("|");
+    var query = encodeURIComponent(favouriteIds.sort().join("|"));
     DataProvider.queryJSON("http://localhost:8080/data/graph.json", query, callback);
 
   },
-
-  /**
-   * Provides search results. Provided results (document, author, etc) match the query text.
-   * 
-   * @param text     the search query
-   * @param callback continuation, function(error, results)
-   */
-  getSearchResultsByText: function(text, callback) {
-    DataProvider.queryJSON("data/searchResults.json", text, callback);
-  },
+//
+//  /**
+//   * Provides search results. Provided results (document, author, etc) match the query text.
+//   * 
+//   * @param text     the search query
+//   * @param callback continuation, function(error, results)
+//   */
+//  getSearchResultsByText: function(text, callback) {
+//    DataProvider.queryJSON("data/searchResults.json", text, callback);
+//  },
+//  
   
-  
-  search: function(textQuery, cursorMark, callback) {
-      console.log("Search invoked, query="+textQuery+" cursor="+cursorMark);
-      if(!cursorMark){
-          cursorMark = '*';
-      }
-      this.mockSearch(cursorMark, callback);
+  search: function(textQuery, callback) {
+      console.log("Search invoked, query="+textQuery);
+      //now inwoke the ajax:
+      
+      DataProvider.queryJSON("http://localhost:8080/data/search", textQuery, callback);
+//      this.mockSearch(cursorMark, callback);
       
   },
   
   mockSearch: function(cursorMark, callback) {
       console.log("Running mock search");
-      DataProvider.queryJSON("data/searchResults.json","", function(error, data) {
+      DataProvider.queryJSON("data/searchResultsV2.json","", function(error, data) {
 //          console.log('got as error from query json: ' + error);
 //          console.log('got as result from query json: ' + JSON.stringify(data));
           var res = data['big'][cursorMark];
