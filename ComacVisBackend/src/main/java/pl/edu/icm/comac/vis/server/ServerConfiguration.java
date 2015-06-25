@@ -21,6 +21,7 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
+import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +49,7 @@ public class ServerConfiguration {
     @Bean
     Sail buildSailStore() {
         log.info("Building sail store...");
-        Sail res = new MemoryStore(new File(workingDirectory));
+        Sail res = new NativeStore(new File(workingDirectory), "spoc posc opsc");
         return res;
     }
     
