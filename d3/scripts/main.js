@@ -19,6 +19,7 @@ require(
   var sidebarController = new SidebarController(dataProvider, graphController);
 
   window.sidebar.dataProvider = dataProvider;  
+  window.sidebar.graphController = graphController;
   window.sidebar.init();
 }); // require end
 

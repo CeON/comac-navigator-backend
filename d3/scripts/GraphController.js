@@ -45,7 +45,7 @@ function GraphController(dataProvider) {
   this.dataProvider = dataProvider;
 
   this.setFavouriteNodes([
-      "comac:bwmeta1.element.bwnjournal-article-appv113n337kz"
+//      "comac:bwmeta1.element.bwnjournal-article-appv113n337kz"
   ]);
   
   

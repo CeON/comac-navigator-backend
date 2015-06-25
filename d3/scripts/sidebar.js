@@ -10,11 +10,27 @@ window.sidebar = {
 
 window.sidebar.init = function () {
     console.log("Loading button...");
-    
+
     $("#search-button").click(function (event) {
         event.preventDefault();
         console.log("Button pressed");
         window.sidebar.doSearch();
+    });
+    d3.select("#mainGraph").attr("droppable", true).on('dragenter', function (d) {
+        console.log('dragenter');
+        d3.event.preventDefault();
+        d3.event.stopPropagation();
+    }).on('dragover', function (d) {
+        console.log('drag');
+        d3.event.preventDefault();
+        d3.event.stopPropagation();
+    }).on('dragend', function (d) {
+        console.log('dragEnd');
+    }).on('drop', function (d) {
+        var id = d3.event.dataTransfer.getData("text");
+        console.log('droped '+id);
+        window.sidebar.graphController.addFavouriteNodes([id]);
+        d3.event.preventDefault();
     });
 
 }
@@ -77,7 +93,7 @@ window.sidebar.appendSearchResultEntries = function (documents) {
 }
 
 
-window.sidebar.onDragDiv=function(d, i) {
+window.sidebar.onDragDiv = function (d, i) {
     console.log("Dragging started.");
     d3.event.dataTransfer.setData("text", d.id);
 }
@@ -89,6 +105,7 @@ function allowDrop(ev) {
 
 function drop(ev) {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    console.log("Drop....");
+//    var data = ev.dataTransfer.getData("text");
+//    ev.target.appendChild(document.getElementById(data));
 }
