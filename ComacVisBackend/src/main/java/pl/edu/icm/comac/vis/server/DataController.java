@@ -19,6 +19,7 @@ import java.text.Format;
 import static java.util.Collections.emptyMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,60 +88,67 @@ public class DataController {
         URI name = vf.createURI("http://example.org/name");
         URI fav = vf.createURI("http://example.org/fav");
 
-        try {
-            String sparql = GRAPH_QUERY_INIT;
-            for (int n = 0; n < uris.length; n++) {
-                sparql += "|| ?fav = ?fav" + n;
-            }
-            sparql += ")}";
-            log.debug("Graph query: {}", sparql);
+        Map<String, Object> result = new HashMap<>();
+        //special case - empty graph:
 
-            GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
-            for (int n = 0; n < uris.length; n++) {
-                query.setBinding("fav" + n, vf.createURI(uris[n]));
-            }
-            GraphQueryResult graph = query.evaluate();
+        if (uris.length == 1 && uris[0].isEmpty()) {
+            result.put("links", Collections.EMPTY_SET);
+            result.put("nodes", Collections.EMPTY_SET);
+        } else {
             try {
-                List<Map<String, Object>> links = new ArrayList<>();
-                Map<URI, Map<String, Object>> nodes = new HashMap<>();
-
-                while (graph.hasNext()) {
-                    Statement spo = graph.next();
-                    log.debug("Result triple: {}", spo);
-                    Resource s = spo.getSubject();
-                    URI p = spo.getPredicate();
-                    Value o = spo.getObject();
-
-                    if (p.equals(type)) {
-                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("type", mapTypeValue(o.stringValue()));
-                    } else if (p.equals(name)) {
-                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("name", o.stringValue());
-                    } else if (p.equals(fav)) {
-                        nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("favourite", true);
-                    } else {
-                        Map<String, Object> l = new HashMap<>();
-                        l.put("type", p.stringValue());
-                        l.put("sourceId", s.stringValue());
-                        l.put("targetId", o.stringValue());
-                        links.add(l);
-                    }
+                String sparql = GRAPH_QUERY_INIT;
+                for (int n = 0; n < uris.length; n++) {
+                    sparql += "|| ?fav = ?fav" + n;
                 }
-                Map<String, Object> map = new HashMap<>();
-                map.put("links", links);
-                map.put("nodes",
-                        nodes.entrySet().stream().map(
-                                e -> {
-                                    Map<String, Object> node = e.getValue();
-                                    node.put("id", e.getKey().stringValue());
-                                    return node;
-                                }).toArray());
-                return map;
+                sparql += ")}";
+                log.debug("Graph query: {}", sparql);
+
+                GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
+                for (int n = 0; n < uris.length; n++) {
+                    query.setBinding("fav" + n, vf.createURI(uris[n]));
+                }
+                GraphQueryResult graph = query.evaluate();
+                try {
+                    List<Map<String, Object>> links = new ArrayList<>();
+                    Map<URI, Map<String, Object>> nodes = new HashMap<>();
+
+                    while (graph.hasNext()) {
+                        Statement spo = graph.next();
+                        log.debug("Result triple: {}", spo);
+                        Resource s = spo.getSubject();
+                        URI p = spo.getPredicate();
+                        Value o = spo.getObject();
+
+                        if (p.equals(type)) {
+                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("type", mapTypeValue(o.stringValue()));
+                        } else if (p.equals(name)) {
+                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("name", o.stringValue());
+                        } else if (p.equals(fav)) {
+                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("favourite", true);
+                        } else {
+                            Map<String, Object> l = new HashMap<>();
+                            l.put("type", p.stringValue());
+                            l.put("sourceId", s.stringValue());
+                            l.put("targetId", o.stringValue());
+                            links.add(l);
+                        }
+                    }
+                    result.put("links", links);
+                    result.put("nodes",
+                            nodes.entrySet().stream().map(
+                                    e -> {
+                                        Map<String, Object> node = e.getValue();
+                                        node.put("id", e.getKey().stringValue());
+                                        return node;
+                                    }).toArray());
+                } finally {
+                    graph.close();
+                }
             } finally {
-                graph.close();
+                conn.close();
             }
-        } finally {
-            conn.close();
         }
+        return result;
     }
 
     @RequestMapping("/data/sparql")
@@ -207,7 +215,7 @@ public class DataController {
                 + " filter(CONTAINS(lcase(?favname),?query)). "
                 + "?fav a ?type"
                 + "} "
-//                + "order by ?favname "
+                //                + "order by ?favname "
                 + "LIMIT " + (MAX_SEARCH_RESULTS + 1);
 
 //        String countQuery="PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
