@@ -16,6 +16,13 @@ window.sidebar.init = function () {
         console.log("Button pressed");
         window.sidebar.doSearch();
     });
+    //do the same for the search text field:
+    $("#search-input").keyup(function (e) {
+        if (e.keyCode === 13) {
+            console.log("Enter pressed.");
+            window.sidebar.doSearch();
+        }
+    });
     d3.select("#mainGraph").attr("droppable", true).on('dragenter', function (d) {
         console.log('dragenter');
         d3.event.preventDefault();
@@ -28,7 +35,7 @@ window.sidebar.init = function () {
         console.log('dragEnd');
     }).on('drop', function (d) {
         var id = d3.event.dataTransfer.getData("text");
-        console.log('droped '+id);
+        console.log('droped ' + id);
         window.sidebar.graphController.addFavouriteNodes([id]);
         d3.event.preventDefault();
     });
@@ -38,8 +45,20 @@ window.sidebar.init = function () {
 
 window.sidebar.doSearch = function () {
     var query = d3.select("#search-input").property('value');
+    //now clear results and append search div:
+
+    d3.select("#search-results").selectAll("*").remove();
+    //append searching text:
+    $("#search-results").html("<div class='loading_message'>"+
+            "<p>Searching...</p>"+
+            "<p><img src='images/preloader.gif'></img></p>"+
+            "</div>");
+    $("#search-follow").empty();
+
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
+    $("#search-results").empty();
+    $("#search-follow").html("<div class='sidebar_error'>Unable to load data, server error.</div>");
             console.log(error);
         } else {
             window.sidebar.newSearchResults(data, query);

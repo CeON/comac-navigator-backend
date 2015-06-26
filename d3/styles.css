@@ -330,3 +330,10 @@ div.tooltip {
   border-radius: 8px;           
   pointer-events: none;         
 }
+
+.loading_message {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 2em;
+}
