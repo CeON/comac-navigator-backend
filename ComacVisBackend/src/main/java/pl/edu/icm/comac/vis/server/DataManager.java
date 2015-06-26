@@ -33,7 +33,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * A class to support management of the data. Should be considered temporary,
+ * as data management int final version will be separated from the Navigator.
+ * 
+ * 
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Service

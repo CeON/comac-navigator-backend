@@ -3,56 +3,56 @@
  */
 
 html {
-  min-width: 1040px;
+    min-width: 1040px;
 }
-
+/*
 body {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   margin: 1em auto 4em auto;
   position: relative;
   tab-size: 2;
   width: 960px;
-}
+}*/
 
 h1 {
-  font-size: 64px;
-  font-weight: 300;
-  letter-spacing: -2px;
-  margin: .3em 0 .1em 0;
+    font-size: 64px;
+    font-weight: 300;
+    letter-spacing: -2px;
+    margin: .3em 0 .1em 0;
 }
 
 h2 {
-  margin-top: 0.7em;
+    margin-top: 0.7em;
 }
 
 h1, h2 {
-  text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
 }
-
+/*
 h2 a {
   color: #ccc;
   left: -20px;
   position: absolute;
   width: 740px;
-}
+}*/
 
 .date {
-  color: #aaa;
-  margin-left: 1em;
+    color: #aaa;
+    margin-left: 1em;
 }
 
 footer {
-  margin-top: 8em;
+    margin-top: 8em;
 }
-
+/*
 aside {
   font-size: small;
   left: 780px;
   position: absolute;
   text-align: right;
   width: 180px;
-}
-
+}*/
+/*
 p {
   line-height: 1.5em;
   width: 720px;
@@ -64,60 +64,60 @@ blockquote {
 
 li {
   width: 680px;
-}
+}*/
 
 a {
-  color: steelblue;
+    color: steelblue;
 }
 
 a:not(:hover) {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 pre, code, textarea {
-  font-family: "Menlo", monospace;
-  line-height: normal;
+    font-family: "Menlo", monospace;
+    line-height: normal;
 }
 
 textarea {
-  font-size: 100%;
+    font-size: 100%;
 }
-
+/*
 pre {
   border-left: solid 2px #ccc;
   padding-left: 18px;
   margin: 2em 0 2em -20px;
   width: 960px;
   overflow-x: auto;
-}
+}*/
 
 .html .value,
 .javascript .string,
 .javascript .regexp {
-  color: #756bb1;
+    color: #756bb1;
 }
 
 .html .tag,
 .css .tag,
 .javascript .keyword {
-  color: #3182bd;
+    color: #3182bd;
 }
 
 aside,
 .comment {
-  color: #636363;
+    color: #636363;
 }
 
 .html .doctype,
 .javascript .number {
-  color: #31a354;
+    color: #31a354;
 }
 
 .html .attribute,
 .css .attribute,
 .javascript .class,
 .javascript .special {
-  color: #e6550d;
+    color: #e6550d;
 }
 
 /*
@@ -125,87 +125,215 @@ aside,
  */
 
 svg.graphView {
-  width: 960px;
-  height: 500px;
-  border: 1px solid #DEDEDE;
-  margin-bottom: 2em;
+    /*  width: 960px;
+      height: 500px;*/
+    width: 99%;
+    height: 99%;
+    border: 1px solid #DEDEDE;
+    /*margin-bottom: 2em;*/
 }
 
-.legend svg {
-  vertical-align: middle;
+#legend svg {
+    vertical-align: middle;
 }
-  
+
 .node circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
-  cursor: pointer;
+    stroke: #fff;
+    stroke-width: 1.5px;
+    cursor: pointer;
 }
 
 g.paper circle {
-  fill: #292;
+    fill: #292;
 }
 g.paper.hover circle {
-  stroke: #292;
+    stroke: #292;
 }
 g.paper.hover text {
-  fill: #292;
+    fill: #292;
 }
 
 g.author circle {
-  fill: #1F77B4;
+    fill: #1F77B4;
 }
 g.author.hover circle {
-  stroke: #1F77B4;
+    stroke: #1F77B4;
 }
 g.author.hover text {
-  fill: #1F77B4;
+    fill: #1F77B4;
 }
 
 g.dataset circle {
-  fill: #FF7F0E;
+    fill: #FF7F0E;
 }
 g.dataset.hover circle {
-  stroke: #FF7F0E;
+    stroke: #FF7F0E;
 }
 g.dataset.hover text {
-  fill: #FF7F0E;
+    fill: #FF7F0E;
 }
 
 g.journal circle {
-  fill: #D62728;
+    fill: #D62728;
 }
 g.journal.hover circle {
-  stroke: #D62728;
+    stroke: #D62728;
 }
 g.journal.hover text {
-  fill: #D62728;
+    fill: #D62728;
 }
 
 
 g.hover circle {
-  fill: #fff;
-  stroke-width: 1.5px;
+    fill: #fff;
+    stroke-width: 1.5px;
 }
 
 .node text {
-  fill: #fff;
-  pointer-events: none;
+    fill: #fff;
+    pointer-events: none;
 }
 
 .link {
-  stroke: #888;
-  stroke-width: 1.5px;
+    stroke: #888;
+    stroke-width: 1.5px;
 }
 .link.hover {
-  stroke: #444;
-  stroke-width: 1.5px;
+    stroke: #444;
+    stroke-width: 1.5px;
 }
 
 .similarity {
-  stroke-dasharray: 7,7;
+    stroke-dasharray: 7,7;
 }
 .citation {
 }
 .isAuthor {
 }
 
+/* layout */
+.row, .col { overflow: hidden; position: absolute; }
+.row { left: 0; right: 0; }
+.col { top: 0; bottom: 0; }
+.scroll-x { overflow-x: auto; }
+.scroll-y { overflow-y: auto; }
+
+
+.left.col { width: 250px; left: 0}
+.right.col { left: 255px; right: 0; }
+.header.row { height: 120px; line-height: 120px; }
+.body.row { top: 120px; bottom: 250px; }
+.footer.row { 
+    height: 250px; 
+    bottom: 0; 
+    /*line-height: 250px;*/ 
+}
+
+
+
+#search-sidebar {
+    border-right: #595959 solid 1px;
+    margin-right: 10px;
+    background: #ffffff;
+    font-size: small;
+}
+
+#search-input {
+    width: 100%;
+}
+
+#search-button {
+    float: right;
+}
+
+#search-input-wrap {
+    overflow: hidden; 
+    padding-right: .8em;
+}
+
+
+.search-result {
+    border-top:  darkgray solid 1px;
+    border-bottom: darkgray solid 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.search-result .title {
+    font-weight: bold;
+}
+
+.search-result .authors {
+    font-style: italic;
+}
+
+#search-form {
+    margin: 15px;
+}
+
+#searchInput {
+    border-radius: 2px;
+}
+#search-results .author {
+    background: #80bcd3;
+}
+
+#search-results .paper {
+    background: #bdf25a
+}
+
+#legend {
+    -webkit-column-count:3;
+    -moz-column-count:3;
+    -ms-column-count:3;
+    -o-column-count:3;
+    column-count:3;
+    -webkit-column-gap:15px;
+    -moz-column-gap:15px;
+    -ms-column-gap:15px;
+    -o-column-gap:15px;
+    column-gap:15px;
+    columns:3;
+}
+#legend > ul > li {
+    font-size: larger;
+}
+#legend > ul > li > ul{
+    margin-top: 15px;
+    font-size: medium;
+}
+
+#legend > ul > li > ul > li{
+    font-size: medium;
+}
+
+#legend > ul > li {
+    display: inline-block;
+    width: 100%;
+}
+
+#legend ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+.loading_message {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 2em;
+}

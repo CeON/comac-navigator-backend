@@ -16,19 +16,19 @@
 package pl.edu.icm.comac.vis.server;
 
 import java.io.File;
-import javax.annotation.PreDestroy;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
+import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *
+ * Creates the repository itself based on spring configuration.
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
@@ -49,7 +49,7 @@ public class ServerConfiguration {
     @Bean
     Sail buildSailStore() {
         log.info("Building sail store...");
-        Sail res = new MemoryStore(new File(workingDirectory));
+        Sail res = new NativeStore(new File(workingDirectory), "spoc posc opsc");
         return res;
     }
     
