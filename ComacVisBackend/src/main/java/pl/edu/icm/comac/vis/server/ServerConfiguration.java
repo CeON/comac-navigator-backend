@@ -15,23 +15,24 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-import javax.annotation.PreDestroy;
+import java.io.File;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.repository.sparql.SPARQLRepository;
 import org.openrdf.sail.Sail;
-import org.openrdf.sail.memory.MemoryStore;
+import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 /**
- *
+ * Creates the repository itself based on spring configuration.
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
@@ -56,7 +57,7 @@ public class ServerConfiguration {
     @Profile("local")
     Sail buildSailStore() {
         log.info("Building sail store...");
-        Sail res = new MemoryStore(settings.getWorkingDirectory());
+        Sail res = new NativeStore(settings.getWorkingDirectory(), "spoc posc opsc");
         return res;
     }
 

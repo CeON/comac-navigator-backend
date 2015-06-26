@@ -26,16 +26,38 @@ DataProvider.prototype = {
     DataProvider.queryJSON(this.graph, query, callback);
 
   },
-
-  /**
-   * Provides search results. Provided results (document, author, etc) match the query text.
-   * 
-   * @param text     the search query
-   * @param callback continuation, function(error, results)
-   */
-  getSearchResultsByText: function(text, callback) {
-    DataProvider.queryJSON("data/searchResults.json", text, callback);
+//
+//  /**
+//   * Provides search results. Provided results (document, author, etc) match the query text.
+//   * 
+//   * @param text     the search query
+//   * @param callback continuation, function(error, results)
+//   */
+//  getSearchResultsByText: function(text, callback) {
+//    DataProvider.queryJSON("data/searchResults.json", text, callback);
+//  },
+//  
+  
+  search: function(textQuery, callback) {
+      console.log("Search invoked, query="+textQuery);
+      //now inwoke the ajax:
+      
+      DataProvider.queryJSON("http://localhost:8080/data/search", textQuery, callback);
+//      this.mockSearch(cursorMark, callback);
+      
+  },
+  
+  mockSearch: function(cursorMark, callback) {
+      console.log("Running mock search");
+      DataProvider.queryJSON("data/searchResultsV2.json","", function(error, data) {
+//          console.log('got as error from query json: ' + error);
+//          console.log('got as result from query json: ' + JSON.stringify(data));
+          var res = data['big'][cursorMark];
+//          console.log(res);
+          callback(null, res);
+      });
   }
+  
 }
 
 DataProvider.queryJSON = function(fileName, query, callback) {

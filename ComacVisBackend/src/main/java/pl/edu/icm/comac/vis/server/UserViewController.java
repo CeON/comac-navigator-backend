@@ -49,6 +49,12 @@ public class UserViewController {
     String sparql() {
         return "query";
     }
+    
+    
+    @RequestMapping("/search")
+    String search() {
+        return "search";
+    }
 
     @RequestMapping("/read_data")
     String readData(ModelMap model) {

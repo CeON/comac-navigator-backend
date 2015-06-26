@@ -7,14 +7,20 @@
 
 function GraphController(dataProvider, initialNodes) {
   this.graphView = {};
-  this.graphView.canvas = d3.select("body").selectAll("svg.graphView")
-    .attr("width", this.width)
-    .attr("height", this.height);
-  this.graphView.paths   = this.graphView.canvas.append('svg:g').selectAll(".link");
-  this.graphView.circles = this.graphView.canvas.append('svg:g').selectAll(".node")
+  
+  
+    this.graphView.canvas  = d3.select("svg.graphView");
+    var canv = this.graphView.canvas;
+    this.width = parseInt(canv.style("width"));
+    this.height = parseInt(canv.style("height"));
+    console.log("Width and height are: "+this.width+", "+this.height);
+    var globg = canv.append('svg:g').attr('id', 'globalG');
+    
+  this.graphView.paths   = globg.append('svg:g').selectAll(".link");
+  this.graphView.circles = globg.append('svg:g').selectAll(".node")
 
   this.force = d3.layout.force()
-    .charge(-600)
+    .charge(-900)
     .linkDistance(120)
     .size([this.width, this.height])
     .on("tick", (function() {
@@ -38,7 +44,24 @@ function GraphController(dataProvider, initialNodes) {
 
   this.dataProvider = dataProvider;
 
-  this.setFavouriteNodes(initialNodes);
+  this.setFavouriteNodes([
+//      "comac:bwmeta1.element.bwnjournal-article-appv113n337kz"
+  ]);
+  
+  
+    // create the zoom listener
+    var zoomListener = d3.behavior.zoom()
+            .scaleExtent([0.05, 1.5])
+            .on("zoom", zoomHandler);
+
+// function for handling zoom event
+    function zoomHandler() {
+        console.log(d3.event);
+        globg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+    zoomListener(canv);
+
+
 }
 
 
@@ -69,7 +92,7 @@ GraphController.prototype = {
 
     // paths (links)
     this.graphView.paths = this.graphView.paths
-      .data(this.graphModel.links)
+      .data(this.graphModel.links);
 
     // add new links
     this.graphView.paths
@@ -106,7 +129,9 @@ GraphController.prototype = {
           }
         })
         .call(this.force.drag);
-
+//    this.force.drag.on("dragstart", function() {
+//  d3.event.sourceEvent.stopPropagation(); // silence other listeners
+//});
     g.append("circle")
         .attr("r", 30)
         .on("mouseover", function() {
@@ -129,15 +154,16 @@ GraphController.prototype = {
 
     // update existing & new nodes
     this.graphView.circles
-      .on("mousedown", (function(d) {
+      .on("dblclick", (function(d) {
+         d3.event.stopPropagation();  
         if (d.favourite) {
           this.removeFavouriteNodes([d.id]);
         } else {
           this.addFavouriteNodes([d.id]);
         }
       }).bind(this))
-      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.5});
-
+      .style("opacity", function(d) { if (d.favourite) return 1.0; else return 0.3})
+      .on("mousedown", function() {d3.event.stopPropagation();});
     // remove old nodes
     this.graphView.circles.exit().remove();
 
