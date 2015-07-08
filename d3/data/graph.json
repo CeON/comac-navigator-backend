@@ -1,7 +1,7 @@
 { "author_1|journal_0|paper_2|paper_3":
   { "nodes":
     [ {"type": "paper", "id": "paper_0", "name": "Big data: The next frontier for innovation, competition, and productivity", "favourite": false}
-    , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true}
+    , {"type": "paper", "id": "paper_2", "name": "Six provocations for big data", "favourite": true, "importance": 1.5}
     , {"type": "paper", "id": "paper_3", "name": "The pathologies of big data", "favourite": true}
     , {"type": "paper", "id": "paper_7", "name": "Presto: distributed machine learning and graph processing with sparse matrices", "favourite": false}
     , {"type": "paper", "id": "paper_9", "name": "Fast and interactive analytics over Hadoop data with Spark", "favourite": false}

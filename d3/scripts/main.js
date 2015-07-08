@@ -14,7 +14,7 @@ require(
     ], function()
 {
 
-  var dataProvider = new DataProvider("http://localhost:8080/data/graph.json");
+  var dataProvider = new DataProvider("http://localhost:8080/data/graph.json", "http://localhost:8080/data/search");
   var graphController = new GraphController(dataProvider, ["comac:pbn_9999"]);
   var sidebarController = new SidebarController(dataProvider, graphController);
 

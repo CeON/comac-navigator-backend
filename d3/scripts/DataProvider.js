@@ -5,8 +5,9 @@
  */
 
 
-function DataProvider(graphUri) {
+function DataProvider(graphUri,searchUri) {
     this.graph = graphUri;
+    this.searchAddress = searchUri;
 }
 
 DataProvider.prototype = {
@@ -42,7 +43,7 @@ DataProvider.prototype = {
       console.log("Search invoked, query="+textQuery);
       //now inwoke the ajax:
       
-      DataProvider.queryJSON("http://localhost:8080/data/search", textQuery, callback);
+      DataProvider.queryJSON(this.searchAddress, textQuery, callback);
 //      this.mockSearch(cursorMark, callback);
       
   },

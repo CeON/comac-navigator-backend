@@ -32,7 +32,8 @@ function GraphController(dataProvider, initialNodes) {
 
       this.graphView.circles
         .attr("transform", function(d, i) {
-            return "translate(" + [ d.x,d.y ] + ")"
+            
+            return "translate(" + [ d.x,d.y ] + ")";
         });
     }).bind(this));
 
@@ -57,7 +58,7 @@ function GraphController(dataProvider, initialNodes) {
 // function for handling zoom event
     function zoomHandler() {
         console.log(d3.event);
-        globg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        globg.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
     }
     zoomListener(canv);
 
@@ -113,7 +114,14 @@ GraphController.prototype = {
 
     // circles (nodes)
     this.graphView.circles = this.graphView.circles
-      .data(this.graphModel.nodes, function(d) { return d.id; })
+      .data(this.graphModel.nodes, function(d) { return d.id; });
+    
+    this.graphView.circles.select("g").transition().duration(1000).attr("transform", function( d) {
+              if(!d.importance) {
+              d.importance = 0.7+0.6*Math.random();
+          }
+              return "scale("+d.importance+")";
+          })
 
     // add new nodes
     var g = this.graphView.circles
@@ -122,7 +130,7 @@ GraphController.prototype = {
     g
         .attr({
           "transform" : function( d) {
-              return "translate("+ [d.x,d.y] + ")";
+              return " translate("+ [d.x,d.y] + ")";
           },
           "class"     : function( d) {
               return "node " + d.type;
@@ -132,18 +140,24 @@ GraphController.prototype = {
 //    this.force.drag.on("dragstart", function() {
 //  d3.event.sourceEvent.stopPropagation(); // silence other listeners
 //});
-    g.append("circle")
+    var inner = g.append("g");
+    inner.attr("transform", function( d) {
+            if (!d.importance)
+                d.importance = 0.7 + 0.6 * Math.random();
+            return "scale(" + d.importance + ")";
+          })
+    inner.append("circle")
         .attr("r", 30)
         .on("mouseover", function() {
-            d3.select(this.parentNode).classed("hover", true);
+            d3.select(this.parentNode.parentNode).classed("hover", true);
         })
         .on("mouseout", function() { 
-            d3.select(this.parentNode).classed("hover", false);
+            d3.select(this.parentNode.parentNode).classed("hover", false);
         })
       .append("title")
         .text(function(d) { return d.name; });
 
-    g.append("text")
+    inner.append("text")
         .attr({
             'text-anchor'   : 'middle',
             y               : 4
@@ -166,7 +180,6 @@ GraphController.prototype = {
       .on("mousedown", function() {d3.event.stopPropagation();});
     // remove old nodes
     this.graphView.circles.exit().remove();
-
     this.showNodesFirefoxHack();
   },
 
