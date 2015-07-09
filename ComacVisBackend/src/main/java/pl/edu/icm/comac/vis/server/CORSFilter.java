@@ -14,20 +14,27 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * A _very_ basic <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>
- * implementation in a filter. Adds "Access-Control-Allow-Origin: *" header
- * to every response to a CORS request.
+ * A _very_ basic
+ * <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>
+ * implementation in a filter. Adds "Access-Control-Allow-Origin: *" header to
+ * every response to a CORS request.
  */
 @Component
 public class CORSFilter implements Filter {
 
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        if (((HttpServletRequest)req).getHeader("Origin")!=null) {
-            ((HttpServletResponse)resp).setHeader("Access-Control-Allow-Origin", "*");
+        if (((HttpServletRequest) req).getHeader("Origin") != null) {
+            ((HttpServletResponse) resp).setHeader("Access-Control-Allow-Origin", "*");
         }
         chain.doFilter(req, resp);
     }
 
-    public void init(FilterConfig filterConfig) throws ServletException {}
-    public void destroy() {}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
+    }
 }

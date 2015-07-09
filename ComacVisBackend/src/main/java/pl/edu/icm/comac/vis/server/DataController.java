@@ -18,6 +18,7 @@ package pl.edu.icm.comac.vis.server;
 import static java.util.Collections.emptyMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,6 +48,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.icm.comac.vis.server.model.Link;
+import pl.edu.icm.comac.vis.server.service.GraphIdService;
+import pl.edu.icm.comac.vis.server.service.UnknownGraphException;
 
 /**
  *
@@ -63,12 +66,33 @@ public class DataController {
 
     @Autowired
     Repository repo;
+    
+    @Autowired
+    GraphIdService graphIdService;
+    
+    
     private static final int MAX_SEARCH_RESULTS = 500;
 
     @RequestMapping("/data/graph")
     Map<String, Object> graph(@RequestParam String query) {
         try {
-            return graph(query.split("\\|"));
+            final String[] idArray = query.split("\\|");
+            String graphId = graphIdService.getGraphId(Arrays.asList(idArray));
+            Map<String, Object> res = graph(idArray);
+            res.put("graphId", graphId);
+            return res;
+        } catch (OpenRDFException e) {
+            log.error("query failed", e);
+            return emptyMap();
+        }
+    }
+    
+    @RequestMapping("/data/graphById")
+    Map<String, Object> graphById(@RequestParam String query) throws UnknownGraphException {
+        try {
+            List<String> nodes = graphIdService.getNodes(query);
+            Map<String, Object> graph= graph(nodes.toArray(new String[nodes.size()]));
+            return graph;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
             return emptyMap();
