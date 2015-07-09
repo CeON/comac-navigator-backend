@@ -5,9 +5,10 @@
  */
 
 
-function DataProvider(graphUri,searchUri) {
+function DataProvider(graphUri,searchUri, graphByIdUri) {
     this.graph = graphUri;
     this.searchAddress = searchUri;
+    this.graphById = graphByIdUri;
 }
 
 DataProvider.prototype = {
@@ -25,19 +26,11 @@ DataProvider.prototype = {
   getGraphByFavouriteIds: function(favouriteIds, callback) {
     var query = favouriteIds.sort().join("|");
     DataProvider.queryJSON(this.graph, query, callback);
-
   },
-//
-//  /**
-//   * Provides search results. Provided results (document, author, etc) match the query text.
-//   * 
-//   * @param text     the search query
-//   * @param callback continuation, function(error, results)
-//   */
-//  getSearchResultsByText: function(text, callback) {
-//    DataProvider.queryJSON("data/searchResults.json", text, callback);
-//  },
-//  
+  
+  getGraphById: function(graphId, callback) {
+      DataProvider.queryJSON(this.graphById, graphId, callback);
+  },
   
   search: function(textQuery, callback) {
       console.log("Search invoked, query="+textQuery);

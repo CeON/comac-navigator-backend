@@ -70,17 +70,19 @@ GraphController.prototype = {
   width:  960,
   height: 500,
 
-  updateGraph: function(newFavouriteIds) {
+  updateGraph: function() {
     return function(error, graphJSON) {
       if (error === null) {
         var oldNodes = this.graphModel.nodes;
-        GraphModel.updateGraphModel(newFavouriteIds, this.graphModel, graphJSON);
+        GraphModel.updateGraphModel(this.graphModel, graphJSON);
         GraphModel.repositionNodes(oldNodes, this.graphModel.nodes);
         this.updateGraphView();
+        if(graphJSON.graphId) {
+            window.history.pushState("Anything", "Title", "?graph="+graphJSON.graphId);
+        }
       } else {
         console.error(
-            "Failed to get graph for ids: " + newFavouriteIds +
-            ". Got an error: " + error);
+            "Failed to get graph. Got an error: " + error);
       }
     }
   },
@@ -118,7 +120,7 @@ GraphController.prototype = {
     
     this.graphView.circles.select("g").transition().duration(1000).attr("transform", function( d) {
               if(!d.importance) {
-              d.importance = 0.7+0.6*Math.random();
+              d.importance = 1;
           }
               return "scale("+d.importance+")";
           })
@@ -211,8 +213,28 @@ GraphController.prototype = {
   setFavouriteNodes: function(newFavouriteIds) {
     this.dataProvider.getGraphByFavouriteIds(
         newFavouriteIds,
-        this.updateGraph(newFavouriteIds).bind(this));
-  }
+        this.updateGraph().bind(this));
+  },
+  
+    loadInitialGraph: function () {
+        console.log("Loading initial graph...");
+        var graphId;
+        var url = window.location.search.substr(1);
+        KeysValues = url.split(/[\?&]+/);
+        for (i = 0; i < KeysValues.length; i++) {
+            KeyValue = KeysValues[i].split("=");
+            if (KeyValue[0] == "graph") {
+                graphId = KeyValue[1];
+            }
+        }
+
+        //now request initial graphs:
+        if (graphId) {
+            this.dataProvider.getGraphById(graphId,
+                    this.updateGraph().bind(this));
+        } 
+    }
+
 }
 
 GraphController.shortenString = function(str) {
@@ -233,10 +255,14 @@ GraphController.shortenString = function(str) {
 
 function GraphModel() {}
 
-GraphModel.updateGraphModel = function(newFavouriteIds, graphModel, graphJSON) {
-  graphModel.favouriteIds = newFavouriteIds;
-
+GraphModel.updateGraphModel = function(graphModel, graphJSON) {
+  //graphModel.favouriteIds = newFavouriteIds;
   graphModel.nodes = graphJSON.nodes;
+  graphModel.favouriteIds=graphModel.nodes
+          .filter(function(node) {return node.favourite;})
+          .map(function(node){return node.id;});
+  
+  graphModel.graphId = graphJSON.graphId;
   graphModel.links = nodeIdsToReferences(graphJSON.nodes,
                                          graphJSON.links);
 

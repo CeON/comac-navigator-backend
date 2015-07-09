@@ -27,7 +27,8 @@
     , {"type": "inJournal",        "sourceId": "paper_9", "targetId": "journal_0", "favourite": false}
 
     , {"type": "datasetMentioned", "sourceId": "paper_3", "targetId": "dataset_0", "favourite": false}
-    ]
+    
+    ], "graphId": "1234"
   }
 , "author_1|journal_0|paper_0|paper_2|paper_3":
   { "nodes":
