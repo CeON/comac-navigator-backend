@@ -44,10 +44,7 @@ function GraphController(dataProvider, initialNodes) {
     }
 
   this.dataProvider = dataProvider;
-
-  this.setFavouriteNodes([
-//      "comac:bwmeta1.element.bwnjournal-article-appv113n337kz"
-  ]);
+  this.loadInitialGraph();
   
   
     // create the zoom listener
@@ -215,7 +212,8 @@ GraphController.prototype = {
         newFavouriteIds,
         this.updateGraph().bind(this));
   },
-  
+    //uses url to locate graph for page. If there is no 'graph' request key in url, then empty 
+    //graph is loaded.
     loadInitialGraph: function () {
         console.log("Loading initial graph...");
         var graphId;
@@ -232,7 +230,10 @@ GraphController.prototype = {
         if (graphId) {
             this.dataProvider.getGraphById(graphId,
                     this.updateGraph().bind(this));
-        } 
+        } else {
+            this.setFavouriteNodes([
+            ]);
+        }
     }
 
 }
