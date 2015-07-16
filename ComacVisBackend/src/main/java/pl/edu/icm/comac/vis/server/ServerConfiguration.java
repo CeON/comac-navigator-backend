@@ -15,7 +15,6 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-import java.io.File;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
@@ -25,7 +24,6 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

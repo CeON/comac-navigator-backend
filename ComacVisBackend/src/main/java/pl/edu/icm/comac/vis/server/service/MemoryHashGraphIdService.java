@@ -20,13 +20,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-@Service
+//@Service
 public class MemoryHashGraphIdService implements GraphIdService {
 
     Map<String, List<String>> hashStorage= new HashMap<>();
