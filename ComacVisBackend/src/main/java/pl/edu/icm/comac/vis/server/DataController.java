@@ -36,6 +36,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.GraphQuery;
 import org.openrdf.query.GraphQueryResult;
+import org.openrdf.query.Query;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
@@ -62,7 +63,7 @@ public class DataController {
     protected static final String JSON_FAVOURITE = "favourite";
     protected static final String JSON_IMPORTANCE="importance";
     private static final int MAX_RESPONSE = 500;
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(RestController.class.getName());
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(DataController.class);
 
     @Autowired
     Repository repo;
@@ -78,7 +79,7 @@ public class DataController {
         try {
             final String[] idArray = query.split("\\|");
             String graphId = graphIdService.getGraphId(Arrays.asList(idArray));
-            Map<String, Object> res = graph(idArray);
+            Map<String, Object> res = personPublicationGraph(idArray);
             res.put("graphId", graphId);
             return res;
         } catch (OpenRDFException e) {
@@ -91,7 +92,7 @@ public class DataController {
     Map<String, Object> graphById(@RequestParam String query) throws UnknownGraphException {
         try {
             List<String> nodes = graphIdService.getNodes(query);
-            Map<String, Object> graph= graph(nodes.toArray(new String[nodes.size()]));
+            Map<String, Object> graph= personPublicationGraph(nodes.toArray(new String[nodes.size()]));
             return graph;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
@@ -110,7 +111,7 @@ public class DataController {
             + " OPTIONAL { ?fav ?outrel ?out . ?out a ?outtype . { ?out foaf:name ?outname } UNION { ?out dc:title ?outname } }"
             + " FILTER (1=0";
 
-    private Map<String, Object> graph(String... uris) throws OpenRDFException {
+    private Map<String, Object> personPublicationGraph(String... uris) throws OpenRDFException {
         RepositoryConnection conn = repo.getConnection();
         ValueFactory vf = conn.getValueFactory();
         URI type = vf.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
@@ -156,17 +157,14 @@ public class DataController {
                         } else if (p.equals(fav)) {
                             nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put(JSON_FAVOURITE, true);
                         } else {
-//                            Map<String, Object> l = new HashMap<>();
-//                            l.put("type", p.stringValue());
-//                            l.put("sourceId", s.stringValue());
-//                            l.put("targetId", o.stringValue());
-//                            links.add(l);
                             links.add(new Link(p.stringValue(), s.stringValue(), o.stringValue()));
                         }
                     }
                     result.put("links", links);
+                    
                     Map<String, Double> importance = calculateImportance(nodes, links);
                     applyImportance(nodes, importance);
+                    
                     result.put("nodes",
                             nodes.entrySet().stream().map(
                                     e -> {
@@ -183,8 +181,46 @@ public class DataController {
         }
         return result;
     }
+    
+    private void buildJournalGraph(List<String> favWorks, List<String> otherWorks, List<String> favJournals) {
+        
+        return;
+    }
+    
+    @RequestMapping("/data/sparql_construct") 
+    Map<String, Object> sparqlConstruct(@RequestParam("query") String query) {
+//        List<String> variables = new ArrayList<String>();
+        List<String[]> resultArray = new ArrayList<>();
 
-    @RequestMapping("/data/sparql")
+        Map<String, Object> res = new HashMap<String, Object>();
+        if (query.trim().isEmpty()) {
+            res.put("error", "Query is empty");
+        }
+        try {
+            RepositoryConnection con = repo.getConnection();
+            try {
+                GraphQuery graphQuery = con.prepareGraphQuery(QueryLanguage.SPARQL, query);
+                GraphQueryResult qres = graphQuery.evaluate();
+                try {
+                    while (qres.hasNext() && resultArray.size() < MAX_RESPONSE) {  // iterate over the result
+                        Statement st = qres.next();
+                        resultArray.add(new String[]{st.getSubject().stringValue(), st.getPredicate().stringValue(), st.getObject().stringValue()});
+                    }
+                } finally {
+                    qres.close();
+                }
+            } finally {
+                con.close();
+            }
+            res.put("header", new String[] {"Subject", "Predicate", "Object"});
+            res.put("values", resultArray);
+        } catch (OpenRDFException e) {
+            res.put("error", e.getMessage());
+        }
+        return res;
+    }
+
+    @RequestMapping("/data/sparql_select")
     Map sparql(@RequestParam("query") String query) {
         List<String> variables = new ArrayList<String>();
         List<String[]> resultArray = new ArrayList<>();

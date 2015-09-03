@@ -50,7 +50,6 @@ public class UserViewController {
         return "query";
     }
     
-    
     @RequestMapping("/search")
     String search() {
         return "search";
