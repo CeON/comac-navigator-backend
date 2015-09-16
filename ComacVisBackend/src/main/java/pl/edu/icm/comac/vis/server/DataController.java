@@ -312,11 +312,12 @@ public class DataController {
         Map<String, Object> response = new HashMap<String, Object>();
         String baseQuery = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
                 + "PREFIX dc: <http://purl.org/dc/elements/1.1/>  "
+                + "PREFIX bds: <http://www.bigdata.com/rdf/search#> "
                 + "select ?fav ?favname ?type "
                 + "where "
                 + "{ "
+                + "?favname bds:search ?query . ?favname bds:matchAllTerms \"true\" . "
                 + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } . "
-                + " filter(CONTAINS(lcase(?favname),?query)). "
                 + "?fav a ?type"
                 + "} "
                 //                + "order by ?favname "
