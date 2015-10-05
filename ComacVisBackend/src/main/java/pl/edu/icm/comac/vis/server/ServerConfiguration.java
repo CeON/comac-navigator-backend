@@ -37,12 +37,12 @@ import org.springframework.context.annotation.Profile;
 @EnableConfigurationProperties(ServerSettings.class)
 public class ServerConfiguration {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ServerConfiguration.class.getName());
-
+    
     @Autowired
     private ServerSettings settings;
 
     @Bean
-    @Profile("local")
+    @Profile("sesame")
     Repository buildSesameRepository(Sail sail) throws RepositoryException {
         log.info("Building sesame repository...");
         SailRepository repo = new SailRepository(sail);
@@ -52,7 +52,7 @@ public class ServerConfiguration {
     }
 
     @Bean
-    @Profile("local")
+    @Profile("sesame")
     Sail buildSailStore() {
         log.info("Building sail store...");
         Sail res = new NativeStore(settings.getWorkingDirectory(), "spoc posc opsc");

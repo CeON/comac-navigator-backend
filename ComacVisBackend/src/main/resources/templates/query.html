@@ -16,7 +16,7 @@
                     console.log(req);
                     var type = $('input[name=type]:checked').val()
                     var url = /*[[@{/data/sparql}]]*/ '.';
-                    url=url+"_"+type;
+                    url = url + "_" + type;
                     $.getJSON(url, req,
                             function (resp) {
                                 processAjaxResult(resp)
@@ -30,7 +30,7 @@
                 $("#MessageArea").empty();
                 $("#ResultArea").empty();
                 if (resp.error) {
-                    var message = '<div class="alert alert-danger" role="alert"><b>Error:</b>' + resp.error + '</div>';
+                    var message = '<div class="alert alert-danger" role="alert"><i>' + new Date().toTimeString() + '</i> <b>Error:</b>' + resp.error + '</div>';
                     $("#MessageArea").append(message);
                 } else {
                     if (resp.warning) {
@@ -64,30 +64,39 @@
     <body>
         <h1 layout:fragment="header">SPARQL query</h1>
         <div layout:fragment="content" class="container">
+            Predefined namespaces:
+            <ul>
+                <li th:each="ns: ${T(pl.edu.icm.comac.vis.server.RDFConstants).PREDEFINED_NAMESPACES}">
+                    <span th:text="${ns[0]}">ns</span>: <span th:text="${ns[1]}">http://blabla/</span>
+                </li>
+            </ul>
+            <div>
+                <div class="form-group">
+                    <label for="QueryInput">Query:</label>
+                    <textarea id="QueryInput" class="form-control" placeholder="enter sparql"></textarea>
+                    <!--                <div id="queryRow" class="input-group">
+                                        <input id="QueryInput" type="text" class="form-control" placeholder="enter sparql"></input>
+                                        <span class="input-group-btn">
+                                            <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
+                                        </span>
+                                    </div>-->
+                </div>
+                <div class="form-group">
+                    <label for="querySelector">Query type:</label>
+                    <div id="querySelector" class="input-group btn-group"  data-toggle="buttons" >
+                        <label class="btn btn-default active">
+                            <input type="radio" name="type" value="select" autocomplete="off" checked="true"></input>SELECT
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="type" value="construct" autocomplete="off"></input>GRAPH
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="type" value="describe" autocomplete="off"></input>DESCRIBE
+                        </label>
+                    </div>
 
-            
-            <div class="form-group">
-                <label for="queryRow">Query:</label>
-                <div id="queryRow" class="input-group">
-                    <input id="QueryInput" type="text" class="form-control" placeholder="enter sparql"></input>
-                    <span class="input-group-btn">
-                        <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
-                    </span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="querySelector">Query type:</label>
-                <div id="querySelector" class="input-group btn-group"  data-toggle="buttons" >
-                    <label class="btn btn-default active">
-                        <input type="radio" name="type" value="select" autocomplete="off" checked="true"></input>SELECT
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="type" value="construct" autocomplete="off"></input>GRAPH
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="type" value="describe" autocomplete="off"></input>DESCRIBE
-                    </label>
-                </div>
+                <button id="QueryButton" class="btn btn-default" type="button">Query!</button>
             </div>
             <p>
             <div id="MessageArea">

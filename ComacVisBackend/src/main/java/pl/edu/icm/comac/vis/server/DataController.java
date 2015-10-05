@@ -61,17 +61,16 @@ import pl.edu.icm.comac.vis.server.service.UnknownGraphException;
 public class DataController {
 
     protected static final String JSON_FAVOURITE = "favourite";
-    protected static final String JSON_IMPORTANCE="importance";
+    protected static final String JSON_IMPORTANCE = "importance";
     private static final int MAX_RESPONSE = 500;
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(DataController.class);
 
     @Autowired
     Repository repo;
-    
+
     @Autowired
     GraphIdService graphIdService;
-    
-    
+
     private static final int MAX_SEARCH_RESULTS = 500;
 
     @RequestMapping("/data/graph")
@@ -87,12 +86,12 @@ public class DataController {
             return emptyMap();
         }
     }
-    
+
     @RequestMapping("/data/graphById")
     Map<String, Object> graphById(@RequestParam String query) throws UnknownGraphException {
         try {
             List<String> nodes = graphIdService.getNodes(query);
-            Map<String, Object> graph= personPublicationGraph(nodes.toArray(new String[nodes.size()]));
+            Map<String, Object> graph = personPublicationGraph(nodes.toArray(new String[nodes.size()]));
             return graph;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
@@ -161,10 +160,10 @@ public class DataController {
                         }
                     }
                     result.put("links", links);
-                    
+
                     Map<String, Double> importance = calculateImportance(nodes, links);
                     applyImportance(nodes, importance);
-                    
+
                     result.put("nodes",
                             nodes.entrySet().stream().map(
                                     e -> {
@@ -181,14 +180,15 @@ public class DataController {
         }
         return result;
     }
-    
+
     private void buildJournalGraph(List<String> favWorks, List<String> otherWorks, List<String> favJournals) {
-        
+        String f = "";
         return;
     }
-    
-    @RequestMapping("/data/sparql_construct") 
+
+    @RequestMapping("/data/sparql_construct")
     Map<String, Object> sparqlConstruct(@RequestParam("query") String query) {
+        log.debug("Invoking construct query: {}", query);
 //        List<String> variables = new ArrayList<String>();
         List<String[]> resultArray = new ArrayList<>();
 
@@ -212,16 +212,20 @@ public class DataController {
             } finally {
                 con.close();
             }
-            res.put("header", new String[] {"Subject", "Predicate", "Object"});
+            res.put("header", new String[]{"Subject", "Predicate", "Object"});
             res.put("values", resultArray);
+            log.debug("Finished query got {} results", resultArray.size());
         } catch (OpenRDFException e) {
             res.put("error", e.getMessage());
+            log.debug("Exception parsing query: {}", e.getMessage());
         }
+
         return res;
     }
 
     @RequestMapping("/data/sparql_select")
     Map sparql(@RequestParam("query") String query) {
+        log.debug("Invoking tuple query: {}", query);
         List<String> variables = new ArrayList<String>();
         List<String[]> resultArray = new ArrayList<>();
 
@@ -231,10 +235,17 @@ public class DataController {
         }
         try {
             RepositoryConnection con = repo.getConnection();
+            String queryString = query;//"SELECT (COUNT(*) AS ?no) { ?s ?p ?o  }";
+            //now add predefined connections:
+            if (!query.trim().toUpperCase().startsWith("PREFIX")) {
+                StringBuilder b = new StringBuilder();
+                for (String[] ns : RDFConstants.PREDEFINED_NAMESPACES) {
+                    b.append("PREFIX " + ns[0] + ": <" + ns[1] + "> ");
+                }
+                queryString = b.toString()+" "+query;
+            }
             try {
-                String queryString = query;//"SELECT (COUNT(*) AS ?no) { ?s ?p ?o  }";
                 TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
-
                 TupleQueryResult result = tupleQuery.evaluate();
                 try {
                     variables.addAll(result.getBindingNames());
@@ -246,7 +257,12 @@ public class DataController {
 
                             String val = null;
                             if (var != null) {
-                                val = bindingSet.getValue(var).stringValue();
+                                final Value v = bindingSet.getValue(var);
+                                if (v != null) {
+                                    val = v.stringValue();
+                                } else {
+                                    val = null;
+                                }
                             }
                             log.debug("Result var {}={}, table size={}", var, val, resultArray.size());
                             arr[i] = val;
@@ -261,8 +277,10 @@ public class DataController {
             }
             res.put("header", variables);
             res.put("values", resultArray);
-        } catch (OpenRDFException e) {
+            log.debug("Finished query got {} results", resultArray.size());
+        } catch (Exception e) {
             res.put("error", e.getMessage());
+            log.debug("Exception parsing query: {}", e);
         }
         return res;
     }
@@ -333,7 +351,7 @@ public class DataController {
                 }
             }
             res.put("response", response);
-        } catch (OpenRDFException e) {
+        } catch (Exception e) {
             res.put("error", e.getMessage());
         }
         return res;
@@ -388,11 +406,11 @@ public class DataController {
         }
         for (String other : others) {
             int[] lc = linkCount.computeIfAbsent(other, x -> new int[2]);
-            int l = 2*lc[0] + lc[1]-1;
+            int l = 2 * lc[0] + lc[1] - 1;
             if (l < 1) {
                 l = 1;
             }
-            res.put(other,0.7 + 0.7 * (1. - 1. / l));
+            res.put(other, 0.7 + 0.7 * (1. - 1. / l));
         }
         return res;
     }
@@ -400,11 +418,11 @@ public class DataController {
     private void applyImportance(Map<URI, Map<String, Object>> nodes, Map<String, Double> importance) {
         Map<String, Map<String, Object>> snodes = nodes.entrySet().stream().
                 collect(Collectors.toMap(
-                        e->e.getKey().stringValue(), e->e.getValue()
+                        e -> e.getKey().stringValue(), e -> e.getValue()
                 ));//necessary to change key type.
         for (Map.Entry<String, Double> entry : importance.entrySet()) {
             Map<String, Object> node = snodes.get(entry.getKey());
-            node.put(JSON_IMPORTANCE, ""+entry.getValue());
+            node.put(JSON_IMPORTANCE, "" + entry.getValue());
         }
     }
 
