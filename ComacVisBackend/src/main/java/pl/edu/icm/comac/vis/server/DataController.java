@@ -108,7 +108,7 @@ public class DataController {
             + " WHERE { ?fav a ?favtype . { ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname }"
             + " OPTIONAL { ?in ?inrel ?fav . ?in a ?intype . { ?in foaf:name ?inname } UNION { ?in dc:title ?inname } }"
             + " OPTIONAL { ?fav ?outrel ?out . ?out a ?outtype . { ?out foaf:name ?outname } UNION { ?out dc:title ?outname } }"
-            + " FILTER (1=0";
+            + " VALUES ?fav {";
 
     private Map<String, Object> personPublicationGraph(String... uris) throws OpenRDFException {
         RepositoryConnection conn = repo.getConnection();
@@ -127,9 +127,9 @@ public class DataController {
             try {
                 String sparql = GRAPH_QUERY_INIT;
                 for (int n = 0; n < uris.length; n++) {
-                    sparql += "|| ?fav = ?fav" + n;
+                    sparql += " ?fav" + n;
                 }
-                sparql += ")}";
+                sparql += " }}";
                 log.debug("Graph query: {}", sparql);
 
                 GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);

@@ -55,7 +55,7 @@ DataProvider.prototype = {
 }
 
 DataProvider.queryJSON = function(fileName, query, callback) {
-  d3.json(fileName+"?query="+query, function(error, data) {
+    d3.json(fileName+"?query="+encodeURIComponent(query), function(error, data) {
     if (error !== null) {
       // propagate error
       callback(error, null);
