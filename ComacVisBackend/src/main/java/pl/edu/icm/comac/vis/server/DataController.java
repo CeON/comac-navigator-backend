@@ -291,6 +291,7 @@ public class DataController {
      */
     @RequestMapping("/data/search")
     Map search(@RequestParam("query") String query) {
+        log.debug("Got a search query: {}", query);
         Map<String, Object> res = new HashMap<String, Object>();
         Map<String, Object> response = new HashMap<String, Object>();
         String baseQuery = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
@@ -305,17 +306,8 @@ public class DataController {
                 //                + "order by ?favname "
                 + "LIMIT " + (MAX_SEARCH_RESULTS + 1);
 
-//        String countQuery="PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
-//                + "PREFIX dc: <http://purl.org/dc/elements/1.1/>  "
-//                + "select (count(*) as ?count) "
-//                + "where "
-//                + "{ "
-//                + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } . "
-//                + "filter(CONTAINS(lcase(?favname), \"%s\")). } ";
         query = query.toLowerCase();
-        log.debug("Starting count query:");
-        //now count the query:
-//        String q = String.format(countQuery, query);
+        
         try {
             RepositoryConnection con = repo.getConnection();
             ValueFactory vf = con.getValueFactory();
@@ -337,14 +329,9 @@ public class DataController {
                         hasMore = true;
                     }
                 }
-
-//                //we expect only one result:
-//                int rexCount = Integer.parseInt(result.next().getValue("count").stringValue());
-//                log.debug("Query gives {} results", rexCount);
-//                response.put("numFound", rexCount);
-//                //now true query:
                 response.put("docs", searchResultList);
                 response.put("hasMoreResults", hasMore);
+                log.debug("search success, got {} results.", searchResultList.size());
             } finally {
                 if (con != null) {
                     con.close();
