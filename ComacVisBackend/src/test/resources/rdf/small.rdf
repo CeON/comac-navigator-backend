@@ -1,0 +1,235 @@
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fec <http://www.w3.org/1999/02/22-rdf-syntax-ns#_1> <comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fec <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq> .
+<http://comac.ceon.pl/source-issn-2093-7911> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-2093-7911> <http://purl.org/ontology/bibo/issn> "2093-7911"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-2093-7911> <http://purl.org/dc/elements/1.1/title> "Safety and Health at Work"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> <http://xmlns.com/foaf/0.1/mbox> "chois@uww.edu"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> <http://xmlns.com/foaf/0.1/name> "Sang D. Choi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> <http://xmlns.com/foaf/0.1/family_name> "Choi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> <http://xmlns.com/foaf/0.1/givenname> "Sang D."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/date> "2015-02-01T01:00:28.297Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/subject> "INJURY"@en .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/subject> "WORK SAFETY"@en .
+<comac:pubmed%3A26106517> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/subject> "CONSTRUCTION"@en .
+<comac:pubmed%3A26106517> <http://purl.org/dc/terms/abstract> "The study was designed to identify any trends of injury type as it relates to the age and trade of construction workers. The participants for this study included any individual who, while working on a heavy and highway construction project in the Midwestern United States, sustained an injury during the specified time frame of when the data were collected. During this period, 143 injury reports were collected. The four trade/occupation groups with the highest injury rates were laborers, carpenters, iron workers, and operators. Data pertaining to injuries sustained by body part in each age group showed that younger workers generally suffered from finger/hand/wrist injuries due to cuts/lacerations and contusion, whereas older workers had increased sprains/strains injuries to the ankle/foot/toes, knees/lower legs, and multiple body parts caused by falls from a higher level or overexertion. Understanding these trade-related tasks can help present a more accurate depiction of the incident and identify trends and intervention methods to meet the needs of the aging workforce in the industry."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/subject> "OCCUPATION"@en .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/creator> <comac:415b4797-8ee8-3948-9c2b-1b47c97c0783> .
+<comac:pubmed%3A26106517> <http://purl.org/ontology/bibo/doi> "10.1016/j.shaw.2015.02.002"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/subject> "AGING WORKFORCE"@en .
+<comac:pubmed%3A26106517> <http://purl.org/ontology/bibo/authorList> _:B66dc2d68X3A14fd9b5178fX3AX2D7fec .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/title> "Aging Workers and Trade-Related Injuries in the US Construction Industry"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26106517> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-2093-7911> .
+<comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> <http://xmlns.com/foaf/0.1/name> "Mark J. Guiltinan"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> <http://xmlns.com/foaf/0.1/family_name> "Guiltinan"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> <http://xmlns.com/foaf/0.1/givenname> "Mark J."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_5> <comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_4> <comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_3> <comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_2> <comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_1> <comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq> .
+<comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> <http://xmlns.com/foaf/0.1/name> "Siela N. Maximova"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> <http://xmlns.com/foaf/0.1/family_name> "Maximova"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> <http://xmlns.com/foaf/0.1/givenname> "Siela N."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> <http://xmlns.com/foaf/0.1/name> "Mark J. Payne"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> <http://xmlns.com/foaf/0.1/family_name> "Payne"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> <http://xmlns.com/foaf/0.1/givenname> "Mark J."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> <http://xmlns.com/foaf/0.1/name> "Zi Shi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> <http://xmlns.com/foaf/0.1/family_name> "Shi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> <http://xmlns.com/foaf/0.1/givenname> "Zi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:pubmed%3A26109181> <http://purl.org/ontology/bibo/doi> "10.1186/s12870-015-0529-y"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/subject> "THEOBROMA CACAO"@en .
+<comac:pubmed%3A26109181> <http://purl.org/dc/terms/references> <comac:pubmed%3A26106517> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/terms/abstract> "BackgroundThe flavan-3-ols catechin and epicatechin, and their polymerized oligomers, the proanthocyanidins (PAs, also called condensed tannins), accumulate to levels of up to 15 % of the total weight of dry seeds of Theobroma cacao L. These compounds have been associated with several health benefits in humans. They also play important roles in pest and disease defense throughout the plant. In Arabidopsis, the R2R3 type MYB transcription factor TT2 regulates the major genes leading to the synthesis of PA.ResultsTo explore the transcriptional regulation of the PA synthesis pathway in cacao, we isolated and characterized an R2R3 type MYB transcription factor MYBPA from cacao. We examined the spatial and temporal gene expression patterns of the Tc-MYBPA gene and found it to be developmentally expressed in a manner consistent with its involvement in PAs and anthocyanin synthesis. Functional complementation of an Arabidopsis tt2 mutant with Tc-MYBPA suggested that it can functionally substitute the Arabidopsis TT2 gene. Interestingly, in addition to PA accumulation in seeds of the Tc-MYBPA expressing plants, we also observed an obvious increase of anthocyanidin accumulation in hypocotyls. We observed that overexpression of the Tc-MYBPA gene resulted in increased expression of several key genes encoding the major structural enzymes of the PA and anthocyanidin pathway, including DFR (dihydroflavanol reductase), LDOX (leucoanthocyanidin dioxygenase) and BAN (ANR, anthocyanidin reductase).ConclusionWe conclude that the Tc-MYBPA gene that encodes an R2R3 type MYB transcription factor is an Arabidopsis TT2 like transcription factor, and may be involved in the regulation of both anthocyanin and PA synthesis in cacao. This research may provide molecular tools for breeding of cacao varieties with improved disease resistance and enhanced flavonoid profiles for nutritional and pharmaceutical applications.Electronic supplementary materialThe online version of this article (doi:10.1186/s12870-015-0529-y) contains supplementary material, which is available to authorized users."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/subject> "TRANSCRIPTION FACTOR"@en .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/creator> <comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/creator> <comac:4a4cb2fa-e769-3f26-844a-6736c5240d49> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/title> "Tc-MYBPA an Arabidopsis TT2-like transcription factor and functions in the regulation of proanthocyanidin synthesis in Theobroma cacao"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/creator> <comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/subject> "TT2"@en .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/creator> <comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/subject> "PROANTHOCYANIDIN"@en .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/date> "2015-02-01T01:00:28.335Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-1471-2229> .
+<comac:pubmed%3A26109181> <http://purl.org/ontology/bibo/authorList> _:B66dc2d68X3A14fd9b5178fX3AX2D7fe2 .
+<comac:pubmed%3A26109181> <http://purl.org/dc/elements/1.1/creator> <comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856> .
+<comac:pubmed%3A26109181> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
+<comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> <http://xmlns.com/foaf/0.1/name> "Yi Liu"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> <http://xmlns.com/foaf/0.1/family_name> "Liu"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> <http://xmlns.com/foaf/0.1/givenname> "Yi"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:597eb8e6-2e8e-308b-9ad6-a6b9b7e30b09> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<http://comac.ceon.pl/source-issn-1471-2229> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-1471-2229> <http://purl.org/ontology/bibo/issn> "1471-2229"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-1471-2229> <http://purl.org/dc/elements/1.1/title> "BMC Plant Biology"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> <http://xmlns.com/foaf/0.1/name> "Ali Ghavidel"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> <http://xmlns.com/foaf/0.1/family_name> "Ghavidel"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> <http://xmlns.com/foaf/0.1/givenname> "Ali"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fee <http://www.w3.org/1999/02/22-rdf-syntax-ns#_1> <comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> .
+_:B66dc2d68X3A14fd9b5178fX3AX2D7fee <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq> .
+<http://comac.ceon.pl/source-issn-2008-5230> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-2008-5230> <http://purl.org/ontology/bibo/issn> "2008-5230"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-2008-5230> <http://purl.org/dc/elements/1.1/title> "Middle East Journal of Digestive Diseases"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26106472> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-2008-5230> .
+<comac:pubmed%3A26106472> <http://purl.org/dc/elements/1.1/date> "2015-02-01T01:00:28.292Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<comac:pubmed%3A26106472> <http://purl.org/dc/elements/1.1/creator> <comac:9c13338c-d575-3f33-ab05-41fbc98afc0e> .
+<comac:pubmed%3A26106472> <http://purl.org/ontology/bibo/authorList> _:B66dc2d68X3A14fd9b5178fX3AX2D7fee .
+<comac:pubmed%3A26106472> <http://purl.org/dc/elements/1.1/title> "A Rare Cause of Recurrent Abdominal Pain"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A26106472> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
+<comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> <http://xmlns.com/foaf/0.1/name> "Duncan J. Maskell"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> <http://xmlns.com/foaf/0.1/family_name> "Maskell"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> <http://xmlns.com/foaf/0.1/givenname> "Duncan J."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:30746fa1-e940-3935-b5c2-265738a6943e> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:30746fa1-e940-3935-b5c2-265738a6943e> <http://xmlns.com/foaf/0.1/name> "Michael E. Herrtage"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:30746fa1-e940-3935-b5c2-265738a6943e> <http://xmlns.com/foaf/0.1/family_name> "Herrtage"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:30746fa1-e940-3935-b5c2-265738a6943e> <http://xmlns.com/foaf/0.1/givenname> "Michael E."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:30746fa1-e940-3935-b5c2-265738a6943e> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> <http://xmlns.com/foaf/0.1/name> "Mark A. Holmes"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> <http://xmlns.com/foaf/0.1/family_name> "Holmes"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> <http://xmlns.com/foaf/0.1/givenname> "Mark A."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> <http://xmlns.com/foaf/0.1/name> "John J. Welch"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> <http://xmlns.com/foaf/0.1/family_name> "Welch"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> <http://xmlns.com/foaf/0.1/givenname> "John J."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> <http://xmlns.com/foaf/0.1/name> "James H. Warland"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> <http://xmlns.com/foaf/0.1/family_name> "Warland"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> <http://xmlns.com/foaf/0.1/givenname> "James H."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> <http://xmlns.com/foaf/0.1/name> "Ewan M. Harrison"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> <http://xmlns.com/foaf/0.1/family_name> "Harrison"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> <http://xmlns.com/foaf/0.1/givenname> "Ewan M."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_9> <comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_10> <comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_11> <comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_6> <comac:a781d4e4-5242-3cf3-921c-18227bf317c9> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_2> <comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_13> <comac:30746fa1-e940-3935-b5c2-265738a6943e> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_5> <comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_3> <comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_14> <comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_1> <comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_12> <comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_8> <comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_15> <comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_4> <comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_7> <comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> .
+<http://comac.ceon.pl/source-issn-2041-1723> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-2041-1723> <http://purl.org/ontology/bibo/issn> "2041-1723"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-2041-1723> <http://purl.org/dc/elements/1.1/title> "Nature Communications"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> <http://xmlns.com/foaf/0.1/name> "Simon R. Harris"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> <http://xmlns.com/foaf/0.1/family_name> "Harris"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> <http://xmlns.com/foaf/0.1/givenname> "Simon R."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> <http://xmlns.com/foaf/0.1/name> "Sharon J. Peacock"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> <http://xmlns.com/foaf/0.1/family_name> "Peacock"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> <http://xmlns.com/foaf/0.1/givenname> "Sharon J."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> <http://xmlns.com/foaf/0.1/name> "Fiona J. E. Morgan"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> <http://xmlns.com/foaf/0.1/family_name> "Morgan"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> <http://xmlns.com/foaf/0.1/givenname> "Fiona J. E."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> <http://xmlns.com/foaf/0.1/name> "Gavin K. Paterson"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> <http://xmlns.com/foaf/0.1/family_name> "Paterson"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> <http://xmlns.com/foaf/0.1/givenname> "Gavin K."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> <http://xmlns.com/foaf/0.1/name> "Julian Parkhill"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> <http://xmlns.com/foaf/0.1/family_name> "Parkhill"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> <http://xmlns.com/foaf/0.1/givenname> "Julian"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> <http://xmlns.com/foaf/0.1/name> "Gerrit Koop"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> <http://xmlns.com/foaf/0.1/family_name> "Koop"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> <http://xmlns.com/foaf/0.1/givenname> "Gerrit"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> <http://xmlns.com/foaf/0.1/name> "Gemma G. R. Murray"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> <http://xmlns.com/foaf/0.1/family_name> "Murray"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> <http://xmlns.com/foaf/0.1/givenname> "Gemma G. R."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> <http://xmlns.com/foaf/0.1/name> "Xiaoliang Ba"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> <http://xmlns.com/foaf/0.1/family_name> "Ba"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> <http://xmlns.com/foaf/0.1/givenname> "Xiaoliang"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:8763f483-f494-3a40-b33d-5f80a1ce23fd> .
+<comac:pubmed%3A25814293> <http://purl.org/ontology/bibo/doi> "10.1038/ncomms7560"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:f9d0fbd8-f0d6-37c1-a1e7-06b7cd9811fa> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:f3d834bc-33e1-3c19-a927-09e9624f4a42> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:a781d4e4-5242-3cf3-921c-18227bf317c9> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:e57847c5-76d7-3bb7-b7de-1c47683597d2> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:f09bb26c-1c92-38be-a402-5ae7ca905c3d> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/terms/abstract> "Genome sequencing is revolutionizing clinical microbiology and our understanding of infectious diseases. Previous studies have largely relied on the sequencing of a single isolate from each individual. However, it is not clear what degree of bacterial diversity exists within, and is transmitted between individuals. Understanding this ‘cloud of diversity’ is key to accurate identification of transmission pathways. Here, we report the deep sequencing of methicillin-resistant Staphylococcus aureus among staff and animal patients involved in a transmission network at a veterinary hospital. We demonstrate considerable within-host diversity and that within-host diversity may rise and fall over time. Isolates from invasive disease contained multiple mutations in the same genes, including inactivation of a global regulator of virulence and changes in phage copy number. This study highlights the need for sequencing of multiple isolates from individuals to gain an accurate picture of transmission networks and to further understand the basis of pathogenesis."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:6b9339c2-42a6-31c0-ac32-3c43f08796b1> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:69f1340a-3bc5-3859-8ff9-1e7abbc5d50a> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:7f68bc10-431d-3f64-b5c6-e29d7904ef36> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:30746fa1-e940-3935-b5c2-265738a6943e> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:92e869ec-dc97-3f4e-bd51-a9ca547e25f2> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/terms/abstract> "\n [...] Populations of bacterial pathogens can be diverse within colonized individuals. Here, the authors sequence the genomes of methicillin-resistant Staphylococcus aureus isolated from staff and animal patients at a veterinary hospital and show considerable within-host diversity that can rise and fall over time."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25814293> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-2041-1723> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:93eae8a3-9fa5-36ea-844d-0f56ad758c92> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/title> "Capturing the cloud of diversity reveals complexity and heterogeneity of MRSA carriage, infection and transmission"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:8c46e9a9-6d4a-34ec-9962-85eb536e5b84> .
+<comac:pubmed%3A25814293> <http://purl.org/ontology/bibo/authorList> _:BX2De9a1fc7X3A14fd9b138f0X3AX2D7ff2 .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/date> "2015-02-01T01:00:14.869Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:aa37f5fc-0cf7-34c4-845a-755f5d3572a9> .
+<comac:pubmed%3A25814293> <http://purl.org/dc/elements/1.1/creator> <comac:6e166263-5ccc-3a0b-b582-729a0bc016ba> .
+<comac:a781d4e4-5242-3cf3-921c-18227bf317c9> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a781d4e4-5242-3cf3-921c-18227bf317c9> <http://xmlns.com/foaf/0.1/name> "Matthew T. G. Holden"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a781d4e4-5242-3cf3-921c-18227bf317c9> <http://xmlns.com/foaf/0.1/family_name> "Holden"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a781d4e4-5242-3cf3-921c-18227bf317c9> <http://xmlns.com/foaf/0.1/givenname> "Matthew T. G."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a781d4e4-5242-3cf3-921c-18227bf317c9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:pubmed%3A25821808> <http://purl.org/dc/terms/abstract> "Suicidal erythrocyte death or eryptosis is characterized by erythrocyte shrinkage, cell membrane blebbing, and cell membrane scrambling with phosphatidylserine translocation to the erythrocyte surface. Triggers of eryptosis include Ca2+ entry, ceramide formation, stimulation of caspases, calpain activation, energy depletion, oxidative stress, and dysregulation of several kinases. Eryptosis is triggered by a wide variety of xenobiotics. It is inhibited by several xenobiotics and endogenous molecules including NO and erythropoietin. The susceptibility of erythrocytes to eryptosis increases with erythrocyte age. Phosphatidylserine exposing erythrocytes adhere to the vascular wall by binding to endothelial CXC-Motiv-Chemokin-16/Scavenger-receptor for phosphatidylserine and oxidized low density lipoprotein (CXCL16). Phosphatidylserine exposing erythrocytes are further engulfed by phagocytosing cells and are thus rapidly cleared from circulating blood. Eryptosis eliminates infected or defective erythrocytes thus counteracting parasitemia in malaria and preventing detrimental hemolysis of defective cells. Excessive eryptosis, however, may lead to anemia and may interfere with microcirculation. Enhanced eryptosis contributes to the pathophysiology of several clinical disorders including metabolic syndrome and diabetes, malignancy, cardiac and renal insufficiency, hemolytic uremic syndrome, sepsis, mycoplasma infection, malaria, iron deficiency, sickle cell anemia, thalassemia, glucose 6-phosphate dehydrogenase deficiency, and Wilson's disease. Facilitating or inhibiting eryptosis may be a therapeutic option in those disorders."^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25821808> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-2314-6133> .
+<comac:pubmed%3A25821808> <http://purl.org/dc/elements/1.1/date> "2015-02-01T01:00:21.348Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<comac:pubmed%3A25821808> <http://purl.org/ontology/bibo/doi> "10.1155/2015/513518"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25821808> <http://purl.org/dc/elements/1.1/creator> <comac:a1aad540-4d62-329d-bd2b-a658f63047f3> .
+<comac:pubmed%3A25821808> <http://purl.org/dc/elements/1.1/creator> <comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> .
+<comac:pubmed%3A25821808> <http://purl.org/ontology/bibo/authorList> _:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 .
+<comac:pubmed%3A25821808> <http://purl.org/dc/elements/1.1/title> "Triggers, Inhibitors, Mechanisms, and Significance of Eryptosis: The Suicidal Erythrocyte Death"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25821808> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_2> <comac:a1aad540-4d62-329d-bd2b-a658f63047f3> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#_1> <comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> .
+_:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq> .
+<comac:a1aad540-4d62-329d-bd2b-a658f63047f3> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a1aad540-4d62-329d-bd2b-a658f63047f3> <http://xmlns.com/foaf/0.1/name> "Florian Lang"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a1aad540-4d62-329d-bd2b-a658f63047f3> <http://xmlns.com/foaf/0.1/family_name> "Lang"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a1aad540-4d62-329d-bd2b-a658f63047f3> <http://xmlns.com/foaf/0.1/givenname> "Florian"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:a1aad540-4d62-329d-bd2b-a658f63047f3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> <http://xmlns.com/foaf/0.1/mbox> ""^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> <http://xmlns.com/foaf/0.1/name> "Elisabeth Lang"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> <http://xmlns.com/foaf/0.1/family_name> "Lang"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> <http://xmlns.com/foaf/0.1/givenname> "Elisabeth"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/person> .
+<http://comac.ceon.pl/source-issn-2314-6133> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-2314-6133> <http://purl.org/ontology/bibo/issn> "2314-6133"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-2314-6133> <http://purl.org/dc/elements/1.1/title> "BioMed Research International"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-0972-3919> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
+<http://comac.ceon.pl/source-issn-0972-3919> <http://purl.org/ontology/bibo/issn> "0972-3919"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://comac.ceon.pl/source-issn-0972-3919> <http://purl.org/dc/elements/1.1/title> "Indian Journal of Nuclear Medicine : IJNM : The Official Journal of the Society of Nuclear Medicine, India"^^<http://www.w3.org/2001/XMLSchema#string> .

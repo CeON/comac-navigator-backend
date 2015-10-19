@@ -15,6 +15,8 @@
  */
 package pl.edu.icm.comac.vis.server;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
@@ -31,15 +33,30 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * Creates the repository itself based on spring configuration.
+ *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
 @EnableConfigurationProperties(ServerSettings.class)
 public class ServerConfiguration {
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ServerConfiguration.class.getName());
-    
+
     @Autowired
     private ServerSettings settings;
+
+    @Bean
+    CacheManager buildCacheManager() {
+        CacheManager cm = CacheManager.getInstance();
+        return cm;
+    }
+
+    @Bean(name = "idCache")
+    Cache buildIdCache(CacheManager cm) {
+        cm.addCache(ID_CACHE_NAME);
+        return cm.getCache(ID_CACHE_NAME);
+    }
+    private static final String ID_CACHE_NAME = "idCache";
 
     @Bean
     @Profile("sesame")

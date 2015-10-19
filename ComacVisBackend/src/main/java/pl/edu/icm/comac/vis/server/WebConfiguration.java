@@ -20,6 +20,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     TimingInterceptor interceptor;
 
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor);
     }

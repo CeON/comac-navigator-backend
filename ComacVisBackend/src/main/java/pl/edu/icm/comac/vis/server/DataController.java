@@ -15,7 +15,6 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-import static java.util.Collections.emptyMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.GraphQuery;
 import org.openrdf.query.GraphQueryResult;
-import org.openrdf.query.Query;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
@@ -48,8 +46,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.icm.comac.vis.server.model.Graph;
 import pl.edu.icm.comac.vis.server.model.Link;
 import pl.edu.icm.comac.vis.server.service.GraphIdService;
+import pl.edu.icm.comac.vis.server.service.GraphService;
+import pl.edu.icm.comac.vis.server.service.NodeTypeService;
 import pl.edu.icm.comac.vis.server.service.UnknownGraphException;
 
 /**
@@ -66,39 +67,58 @@ public class DataController {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(DataController.class);
 
     @Autowired
+    GraphService graphService;
+    
+    @Autowired
     Repository repo;
 
     @Autowired
     GraphIdService graphIdService;
 
+    
+    @Autowired
+    NodeTypeService nodeTypeService;
+    
+    
     private static final int MAX_SEARCH_RESULTS = 500;
 
     @RequestMapping("/data/graph")
-    Map<String, Object> graph(@RequestParam String query) {
+    Graph graph(@RequestParam String query) {
         try {
             final String[] idArray = query.split("\\|");
             String graphId = graphIdService.getGraphId(Arrays.asList(idArray));
-            Map<String, Object> res = personPublicationGraph(idArray);
-            res.put("graphId", graphId);
+            Graph res = graphService.constructGraphs(idArray);
+            res.setGraphId(graphId);
             return res;
+//            Map<String, Object> res = personPublicationGraph(idArray);
+//            res.put("graphId", graphId);
+//            
+//            return res;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
-            return emptyMap();
+            return new Graph();
         }
     }
 
     @RequestMapping("/data/graphById")
-    Map<String, Object> graphById(@RequestParam String query) throws UnknownGraphException {
+    Graph graphById(@RequestParam String query) throws UnknownGraphException {
         try {
             List<String> nodes = graphIdService.getNodes(query);
-            Map<String, Object> graph = personPublicationGraph(nodes.toArray(new String[nodes.size()]));
-            return graph;
+            Graph res = graphService.constructGraphs(nodes.toArray(new String[nodes.size()]));
+            res.setGraphId(query);
+            return res;
+//            Map<String, Object> graph = personPublicationGraph(nodes.toArray(new String[nodes.size()]));
+//            return graph;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
-            return emptyMap();
+            return new Graph();
         }
     }
 
+    
+    
+    
+    
     private static final String GRAPH_QUERY_INIT = "PREFIX x: <http://example.org/>"
             + " PREFIX foaf: <http://xmlns.com/foaf/0.1/>"
             + " PREFIX dc: <http://purl.org/dc/elements/1.1/>"
@@ -181,10 +201,6 @@ public class DataController {
         return result;
     }
 
-    private void buildJournalGraph(List<String> favWorks, List<String> otherWorks, List<String> favJournals) {
-        String f = "";
-        return;
-    }
 
     @RequestMapping("/data/sparql_construct")
     Map<String, Object> sparqlConstruct(@RequestParam("query") String query) {
