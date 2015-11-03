@@ -58,4 +58,8 @@ public class Graph {
     public List<String> nodeIds() {
         return nodes.parallelStream().map(n->n.getId()).collect(Collectors.toList());
     }
+    
+    public List<String> favNodeIds() {
+        return nodes.stream().filter(x->x.isFavourite()).map(x->x.getId()).collect(Collectors.toList());
+    }
 }

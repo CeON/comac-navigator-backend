@@ -7,6 +7,8 @@ package pl.edu.icm.comac.vis.server.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +17,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.openrdf.OpenRDFException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.edu.icm.comac.vis.server.model.Graph;
+import pl.edu.icm.comac.vis.server.model.Link;
 import pl.edu.icm.comac.vis.server.model.Node;
 import pl.edu.icm.comac.vis.server.model.NodeType;
 
@@ -98,8 +102,7 @@ public class GraphServiceTest {
             {"comac:4a4cb2fa-e769-3f26-844a-6736c5240d49", "Zi Shi"},
             {"comac:b52564ed-fb24-3ed5-a3e4-0fa8832a5a7f", "Siela N. Maximova"},
             {"comac:dbfbc6a6-aa84-32f4-b7e6-9861db829f0b", "Mark J. Payne"},
-            {"comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856", "Mark J. Guiltinan"},
-        }) {
+            {"comac:ed3cbf99-2f33-342e-b7f3-27d04f8aa856", "Mark J. Guiltinan"},}) {
             n = new Node(oa[0], NodeType.PERSON, oa[1], 1.0);
             n.setFavourite(false);
             expNodes2.add(n);
@@ -147,6 +150,74 @@ public class GraphServiceTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of applyJournals method, of class GraphService.
+     */
+    @Test
+    @Ignore
+    public void testApplyJournals() throws OpenRDFException {
+        System.out.println("applyJournals");
+
+        Node favArt = new Node("comac:pubmed%3A25821808",
+                NodeType.PAPER, "Triggers, Inhibitors, Mechanisms, and Significance of Eryptosis: The Suicidal Erythrocyte Death", 1.0);
+        favArt.setFavourite(true);
+        Node favAuth1 = new Node("comac:a1aad540-4d62-329d-bd2b-a658f63047f3",
+                NodeType.PERSON, "Florian Lang", 1.0);
+        favAuth1.setFavourite(true);
+
+        //matching journal...
+        Node expUnfavJournal = new Node("http://comac.ceon.pl/source-issn-2314-6133",
+                NodeType.JOURNAL, "BioMed Research International", 1.0);
+        expUnfavJournal.setFavourite(false);
+        Graph g1 = new Graph();
+        g1.setNodes(Arrays.asList(new Node[]{}));
+        g1.setLinks(Arrays.asList(new Link[]{}));
+        Graph res = graphService.applyJournals(g1, Collections.EMPTY_SET);
+        assertTrue(res.getNodes().isEmpty());
+        assertTrue(res.getLinks().isEmpty());
+        //now try with real graph;
+        g1 = new Graph();
+        g1.setNodes(Arrays.asList(favArt, favAuth1));
+        g1.setLinks(Arrays.asList(
+                new Link("http://purl.org/dc/elements/1.1/creator", favArt.getId(), favAuth1.getId()))
+        );
+        res = graphService.applyJournals(g1, Collections.EMPTY_SET);
+        assertEquals(3, res.getNodes().size());
+        Node ng = res.nodeMap().get(expUnfavJournal.getId());
+        assertNotNull(res);
+        assertEquals(expUnfavJournal.getName(), ng.getName());
+        assertEquals(2, res.getLinks().size());
+        //now try with one fav j and paper nonfav:
+        Node favAuth2 = new Node("comac:9c13338c-d575-3f33-ab05-41fbc98afc0e",
+                NodeType.PERSON, "Ali Ghavidel", 1.0);
+        Node unfavArt = new Node("comac:pubmed%3A26106472", NodeType.PAPER,
+                "A Rare Cause of Recurrent Abdominal Pain", 1.0);
+        Node expFavJrn = new Node("http://comac.ceon.pl/source-issn-2008-5230",
+                NodeType.PAPER, "Middle East Journal of Digestive Diseases", 1.0);
+        Graph g2 = new Graph();
+        g2.setNodes(Arrays.asList(favAuth2));
+        Graph g2res = graphService.applyJournals(g2, new HashSet<>(Arrays.asList(expFavJrn.getId())));
+        assertEquals(3, g2res.getNodes().size());
+        assertEquals(2, g2res.getLinks().size());
+
+        //zadanie: dopisać test case, z dwoma artykułami z jednego journala, jeden fav, a 
+        //jeden indukowany przez autora.
+        Node favAuth3 = new Node("comac:b12f8e2c-b905-3f31-8ab8-b82d55314913", NodeType.PERSON,
+                "Elisabeth Lang", 1.0);
+        favAuth3.setFavourite(true);
+        Node unfavArt2 = new Node("comac:pubmed%3A25821808v2", NodeType.PAPER,
+                "Triggers, Inhibitors, Mechanisms, and Significance of "
+                + "Eryptosis: The Suicidal Erythrocyte Death-v2",
+                1.0);
+        unfavArt2.setFavourite(false);
+
+        Graph g3 = new Graph(Arrays.asList(favArt, favAuth3, unfavArt2),
+                Arrays.asList(new Link("http://purl.org/dc/elements/1.1/creator",
+                        unfavArt2.getId(), favAuth3.getId())));
+        Graph res2 = graphService.applyJournals(g3, Collections.EMPTY_SET);
+        assertEquals(3, res2.getLinks().size());
     }
 
 }

@@ -7,6 +7,7 @@ package pl.edu.icm.comac.vis.server.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.openrdf.query.GraphQueryResult;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,11 +70,12 @@ public class GraphService {
 
     /**
      * Prepare base graph of papers and persons.
+     *
      * @param ppids list of the identifiers to be included in the graph.
      * @return
-     * @throws OpenRDFException 
+     * @throws OpenRDFException
      */
-    protected Graph buildPersonPublicationGraph(Set<String> ppids) 
+    protected Graph buildPersonPublicationGraph(Set<String> ppids)
             throws OpenRDFException, UnknownNodeException {
         String GRAPH_QUERY_INIT = "PREFIX x: <http://example.org/>"
                 + " PREFIX foaf: <http://xmlns.com/foaf/0.1/>"
@@ -92,94 +95,100 @@ public class GraphService {
                 + "   VALUES ?fav { %s }"
                 + " }";
 
-        RepositoryConnection conn = repo.getConnection();
-        ValueFactory vf = conn.getValueFactory();
-        URI name = vf.createURI("http://example.org/name");
-        URI fav = vf.createURI("http://example.org/fav");
-
         Graph result;
         //special case - empty graph:
         if (ppids.isEmpty()) {
             result = new Graph();
         } else {
-            GraphQueryResult graph = null;
-            try {
+            List<Value[]> gres = processGraphQuery(GRAPH_QUERY_INIT, ppids);
+            RepositoryConnection conn = repo.getConnection();
+            ValueFactory vf = conn.getValueFactory();
+            URI name = vf.createURI("http://example.org/name");
+            URI fav = vf.createURI("http://example.org/fav");
+            Set<Link> links = new HashSet<>();
+            Map<String, Node> nodeMap = new HashMap<>();
+
+            for (Value[] triple : gres) {
+                Value s = triple[0];
+                Value p = triple[1];
+                Value o = triple[2];
+                String id = s.stringValue();
+
+                if (p.equals(name)) {
+                    nodeMap.computeIfAbsent(id, k -> new Node()).setName(o.stringValue());
+                } else if (p.equals(fav)) {
+                    nodeMap.computeIfAbsent(id, k -> new Node()).setFavourite(true);
+                } else {
+                    links.add(new Link(p.stringValue(), s.stringValue(), o.stringValue()));
+                }
+            }
+            List<Node> nodes = nodeMap.entrySet().stream().map(e -> {
+                e.getValue().setId(e.getKey());
+                return e.getValue();
+            }).collect(Collectors.toList());
+            result = new Graph(nodes, new ArrayList<>(links));
+            conn.close();
+        }
+        updateGraphNodeTypes(result);
+        return result;
+    }
+
+    protected List<Value[]> processGraphQuery(String q, Collection<String> ids) throws OpenRDFException {
+        RepositoryConnection conn = repo.getConnection();
+        GraphQueryResult graph = null;
 //                String vars = "";
 //                for (int n = 0; n < ppids.size(); n++) {
 //                    vars += " ?fav" + n;
 //                }
-                StringBuilder vals = new StringBuilder();
-                for (String ppid : ppids) {
-                    vals.append("<").append(ppid).append("> ");
-                }
-                String sparql = String.format(GRAPH_QUERY_INIT, vals);
-                log.debug("Graph query: {}", sparql);
+        StringBuilder vals = new StringBuilder();
+        for (String ppid : ids) {
+            vals.append("<").append(ppid).append("> ");
+        }
+        String sparql = String.format(q, vals);
+        log.debug("Graph query: {}", sparql);
 
-                GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
+        GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
 //                int n = 0;
 //                for (String ppid : ppids) {
 //                    query.setBinding("fav" + n, vf.createURI(ppid));
 //                    n++;
 //                }
-                graph = query.evaluate();
-                //List<Map<String, Object>> links = new ArrayList<>();
-                Set<Link> links = new HashSet<>();
-                Map<String, Node> nodeMap = new HashMap<>();
-//                Map<URI, Map<String, Object>> nodes = new HashMap<>();
+        graph = query.evaluate();
+        List<Value[]> res = new ArrayList<>();
 
-                while (graph.hasNext()) {
-                    Statement spo = graph.next();
-                    log.debug("Result triple: {}", spo);
-                    Resource s = spo.getSubject();
-                    URI p = spo.getPredicate();
-                    Value o = spo.getObject();
-                    String id = s.stringValue();
-
-                    if (p.equals(name)) {
-                        nodeMap.computeIfAbsent(id, k -> new Node()).setName(o.stringValue());
-                    } else if (p.equals(fav)) {
-                        nodeMap.computeIfAbsent(id, k -> new Node()).setFavourite(true);
-                    } else {
-                        links.add(new Link(p.stringValue(), s.stringValue(), o.stringValue()));
-                    }
-                }
-                List<Node> nodes = nodeMap.entrySet().stream().map(e -> {
-                    e.getValue().setId(e.getKey());
-                    return e.getValue();
-                }).collect(Collectors.toList());
-                result = new Graph(nodes, new ArrayList<>(links));
-
-            } finally {
-                if (graph != null) {
-                    graph.close();
-                }
-                conn.close();
-            }
+        while (graph.hasNext()) {
+            Statement spo = graph.next();
+            log.debug("Result triple: {}", spo);
+            Resource s = spo.getSubject();
+            URI p = spo.getPredicate();
+            Value o = spo.getObject();
+            res.add(new Value[]{s, p, o});
         }
-        updateGraphNodeTypes(result);
-        return result;
+        conn.close();
+        return res;
     }
-    
+
     /**
-     * Update node types of the graph using the service
-     * @param g 
+     * Update node types of the graph using the service.
+     *
+     * @param g graph to update with node types
      */
-    protected  void updateGraphNodeTypes(Graph g) throws OpenRDFException, UnknownNodeException {
+    protected void updateGraphNodeTypes(Graph g) throws OpenRDFException, UnknownNodeException {
         Set<String> ids = g.getNodes().stream()
-                .filter(n->n.getType()==null)
-                .map(n->n.getId())
+                .filter(n -> n.getType() == null)
+                .map(n -> n.getId())
                 .collect(Collectors.toSet());
         Map<String, NodeType> tmap = nodeTypeService.identifyTypes(ids);
-        
-        g.getNodes().stream().filter(n->n.getType()==null).forEach(n-> n.setType(tmap.get(n.getId())));
-        return;
+
+        g.getNodes().stream().filter(n -> n.getType() == null).forEach(n -> n.setType(tmap.get(n.getId())));
     }
 
-    /** Simple method to get list of ids by the 
-     * 
+    /**
+     * Simple method to get list of ids by the
+     *
      * @param idtypes
      * @param selectedTypes
-     * @return 
+     * @return
      */
     protected static Set<String> extractIdSetByTypes(Map<NodeType, Set<String>> idtypes,
             NodeType... selectedTypes) {
@@ -197,8 +206,79 @@ public class GraphService {
         return res;
     }
 
-    private Graph applyJournals(Graph in, Set<String> jids) {
-        return in;
+    /**
+     * Update the graph by applying journals (deduced and favorites).
+     *
+     * @param in graph to be updated
+     * @param favjids list of the ids of the favourite journals
+     * @return graph with applied data
+     */
+    protected Graph applyJournals(Graph in, Set<String> favjids) throws OpenRDFException {
+        //first: identify fav ids:
+        List<String> fin = in.favNodeIds();
+        final String JOURNAL_QUERY_ALL = "PREFIX x: <http://example.org/>\n"
+                + "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n"
+                + "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n"
+                + "PREFIX ceon: <http://data.ceon.pl/ontology/1.0/>\n"
+                + "\n"
+                + "CONSTRUCT {\n"
+                + "  ?j x:name ?jt\n"
+                + "  . ?inf ?infrel ?j\n"
+                + "  .\n"
+                + "}\n"
+                + "WHERE {  \n"
+                + "  ?j a ceon:journal\n"
+                + "  . ?j dc:title ?jt\n"
+                + "  . ?inf ?infrel ?j\n"
+                + "  VALUES\n"
+                + "  ?inf {\n"
+                + "       %s"
+                + "  } .\n"
+                + "}";
+        List<Value[]> njRns = processGraphQuery(JOURNAL_QUERY_ALL, fin);
+        String namePop = "http://example.org/name";
+        Map<String, Node> nodes = new HashMap<>();
+        Set<Link> links = new HashSet<>();
+        for (Value[] triple : njRns) {
+            if (namePop.equals(triple[1].stringValue())) {
+                Node n = new Node(triple[0].stringValue(), NodeType.JOURNAL, triple[2].stringValue(), 1.0);
+                nodes.put(n.getId(), n);
+            } else {
+                Link l = new Link(triple[1].stringValue(), triple[0].stringValue(), triple[2].stringValue());
+                links.add(l);
+            }
+        }
+        Graph res = new Graph();
+        in.getNodes().stream().forEach(n -> nodes.put(n.getId(), n));
+        res.setNodes(new ArrayList<>(nodes.values()));
+        links.addAll(in.getLinks());
+        res.setLinks(new ArrayList<>(links));
+
+        //Now apply links for the fav journals:
+        String journalLinksQuery = "PREFIX x: <http://example.org/>\n"
+                + "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n"
+                + "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n"
+                + "PREFIX ceon: <http://data.ceon.pl/ontology/1.0/>\n"
+                + "\n"
+                + "CONSTRUCT {\n"
+                + "  ?j x:name ?jt\n"
+                + "  . ?j a ceon:journal\n"
+                + "  . ?in ?inrel ?j\n"
+                + "  .\n"
+                + "}\n"
+                + "WHERE {\n"
+                + "  ?j dc:title ?jt\n"
+                + "  . ?in ?inrel ?j\n"
+                + "  VALUES\n"
+                + "  ?in {\n"
+                + "       %s\n"
+                + "  } .\n"
+                + "  VALUES \n"
+                + "  ?j {\n"
+                + "    %s\n"
+                + "  }\n"
+                + "}";
+        return res;
     }
 
     private Graph reduceGraph(Graph in) {

@@ -233,3 +233,11 @@ _:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 <http://www.w3.org/1999/02/22-rdf-syntax-n
 <http://comac.ceon.pl/source-issn-0972-3919> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/journal> .
 <http://comac.ceon.pl/source-issn-0972-3919> <http://purl.org/ontology/bibo/issn> "0972-3919"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://comac.ceon.pl/source-issn-0972-3919> <http://purl.org/dc/elements/1.1/title> "Indian Journal of Nuclear Medicine : IJNM : The Official Journal of the Society of Nuclear Medicine, India"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<comac:pubmed%3A25821808v2> <http://purl.org/dc/elements/1.1/source> <http://comac.ceon.pl/source-issn-2314-6133> .
+<comac:pubmed%3A25821808v2> <http://purl.org/ontology/bibo/doi> "10.1155/2015/513518"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25821808v2> <http://purl.org/dc/elements/1.1/creator> <comac:a1aad540-4d62-329d-bd2b-a658f63047f3> .
+<comac:pubmed%3A25821808v2> <http://purl.org/dc/elements/1.1/creator> <comac:b12f8e2c-b905-3f31-8ab8-b82d55314913> .
+<comac:pubmed%3A25821808v2> <http://purl.org/ontology/bibo/authorList> _:BX2De9a1fc7X3A14fd9b138f0X3AX2D7fa9 .
+<comac:pubmed%3A25821808v2> <http://purl.org/dc/elements/1.1/title> "Triggers, Inhibitors, Mechanisms, and Significance of Eryptosis: The Suicidal Erythrocyte Death-v2"^^<http://www.w3.org/2001/XMLSchema#string> .
+<comac:pubmed%3A25821808v2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data.ceon.pl/ontology/1.0/text> .
