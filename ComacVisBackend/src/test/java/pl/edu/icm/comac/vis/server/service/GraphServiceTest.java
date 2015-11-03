@@ -156,7 +156,6 @@ public class GraphServiceTest {
      * Test of applyJournals method, of class GraphService.
      */
     @Test
-    @Ignore
     public void testApplyJournals() throws OpenRDFException {
         System.out.println("applyJournals");
 
@@ -174,21 +173,21 @@ public class GraphServiceTest {
         Graph g1 = new Graph();
         g1.setNodes(Arrays.asList(new Node[]{}));
         g1.setLinks(Arrays.asList(new Link[]{}));
-        Graph res = graphService.applyJournals(g1, Collections.EMPTY_SET);
-        assertTrue(res.getNodes().isEmpty());
-        assertTrue(res.getLinks().isEmpty());
+        Graph g1res = graphService.applyJournals(g1, Collections.EMPTY_SET);
+        assertTrue(g1res.getNodes().isEmpty());
+        assertTrue(g1res.getLinks().isEmpty());
         //now try with real graph;
         g1 = new Graph();
         g1.setNodes(Arrays.asList(favArt, favAuth1));
         g1.setLinks(Arrays.asList(
                 new Link("http://purl.org/dc/elements/1.1/creator", favArt.getId(), favAuth1.getId()))
         );
-        res = graphService.applyJournals(g1, Collections.EMPTY_SET);
-        assertEquals(3, res.getNodes().size());
-        Node ng = res.nodeMap().get(expUnfavJournal.getId());
-        assertNotNull(res);
+        g1res = graphService.applyJournals(g1, Collections.EMPTY_SET);
+        assertEquals(3, g1res.getNodes().size());
+        Node ng = g1res.nodeMap().get(expUnfavJournal.getId());
+        assertNotNull(g1res);
         assertEquals(expUnfavJournal.getName(), ng.getName());
-        assertEquals(2, res.getLinks().size());
+        assertEquals(2, g1res.getLinks().size());
         //now try with one fav j and paper nonfav:
         Node favAuth2 = new Node("comac:9c13338c-d575-3f33-ab05-41fbc98afc0e",
                 NodeType.PERSON, "Ali Ghavidel", 1.0);
@@ -197,11 +196,13 @@ public class GraphServiceTest {
         Node expFavJrn = new Node("http://comac.ceon.pl/source-issn-2008-5230",
                 NodeType.PAPER, "Middle East Journal of Digestive Diseases", 1.0);
         Graph g2 = new Graph();
-        g2.setNodes(Arrays.asList(favAuth2));
+        g2.setNodes(Arrays.asList(favAuth2, unfavArt));
+        g2.setLinks(Arrays.asList(new Link("http://purl.org/dc/elements/1.1/creator", unfavArt.getId(), favAuth2.getId())));
         Graph g2res = graphService.applyJournals(g2, new HashSet<>(Arrays.asList(expFavJrn.getId())));
         assertEquals(3, g2res.getNodes().size());
         assertEquals(2, g2res.getLinks().size());
-
+        assertTrue(g2res.getLinks().indexOf(new Link("http://purl.org/dc/elements/1.1/source", unfavArt.getId(), expFavJrn.getId()))>=0);
+        
         //zadanie: dopisać test case, z dwoma artykułami z jednego journala, jeden fav, a 
         //jeden indukowany przez autora.
         Node favAuth3 = new Node("comac:b12f8e2c-b905-3f31-8ab8-b82d55314913", NodeType.PERSON,
@@ -218,6 +219,12 @@ public class GraphServiceTest {
                         unfavArt2.getId(), favAuth3.getId())));
         Graph res2 = graphService.applyJournals(g3, Collections.EMPTY_SET);
         assertEquals(3, res2.getLinks().size());
+        Graph g4=new Graph();
+        //only one favjrn:
+        Graph g4res = graphService.applyJournals(g4, new HashSet<>(Arrays.asList(expFavJrn.getId())));
+        assertEquals(1, g4res.getNodes().size());
+        assertEquals(NodeType.JOURNAL, g4res.getNodes().get(0).getType());
+        assertEquals(0, g4res.getLinks().size());
     }
 
 }
