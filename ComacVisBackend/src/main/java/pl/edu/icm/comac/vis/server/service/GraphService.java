@@ -29,6 +29,7 @@ import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.icm.comac.vis.server.RDFConstants;
 import pl.edu.icm.comac.vis.server.model.Graph;
 import pl.edu.icm.comac.vis.server.model.Link;
 import pl.edu.icm.comac.vis.server.model.Node;
@@ -133,16 +134,20 @@ public class GraphService {
         return result;
     }
 
-    protected List<Value[]> processGraphQuery(String q, Collection<String> ids) throws OpenRDFException {
+    protected List<Value[]> processGraphQuery(String q, Collection<String>... ids) throws OpenRDFException {
         RepositoryConnection conn = repo.getConnection();
         GraphQueryResult graph = null;
 //                String vars = "";
 //                for (int n = 0; n < ppids.size(); n++) {
 //                    vars += " ?fav" + n;
 //                }
-        StringBuilder vals = new StringBuilder();
-        for (String ppid : ids) {
-            vals.append("<").append(ppid).append("> ");
+        Object[] vals = new Object[ids.length];
+        for (int i = 0; i < ids.length; i++) {
+            StringBuilder v = new StringBuilder();
+            for (String ppid : ids[i]) {
+                v.append("<").append(ppid).append("> ");
+            }
+            vals[i] = v;
         }
         String sparql = String.format(q, vals);
         log.debug("Graph query: {}", sparql);
@@ -237,7 +242,7 @@ public class GraphService {
                 + "}";
         List<Value[]> njRns = processGraphQuery(JOURNAL_QUERY_ALL, fin);
         String namePop = "http://example.org/name";
-        Map<String, Node> nodes = new HashMap<>();
+        final Map<String, Node> nodes = new HashMap<>();
         Set<Link> links = new HashSet<>();
         for (Value[] triple : njRns) {
             if (namePop.equals(triple[1].stringValue())) {
@@ -248,11 +253,6 @@ public class GraphService {
                 links.add(l);
             }
         }
-        Graph res = new Graph();
-        in.getNodes().stream().forEach(n -> nodes.put(n.getId(), n));
-        res.setNodes(new ArrayList<>(nodes.values()));
-        links.addAll(in.getLinks());
-        res.setLinks(new ArrayList<>(links));
 
         //Now apply links for the fav journals:
         String journalLinksQuery = "PREFIX x: <http://example.org/>\n"
@@ -262,13 +262,10 @@ public class GraphService {
                 + "\n"
                 + "CONSTRUCT {\n"
                 + "  ?j x:name ?jt\n"
-                + "  . ?j a ceon:journal\n"
-                + "  . ?in ?inrel ?j\n"
-                + "  .\n"
+                + "  . ?in ?inrel ?j \n"
                 + "}\n"
                 + "WHERE {\n"
-                + "  ?j dc:title ?jt\n"
-                + "  . ?in ?inrel ?j\n"
+                + "  ?j dc:title ?jt .\n"
                 + "  VALUES\n"
                 + "  ?in {\n"
                 + "       %s\n"
@@ -277,8 +274,40 @@ public class GraphService {
                 + "  ?j {\n"
                 + "    %s\n"
                 + "  }\n"
+                + "  OPTIONAL { ?in ?inrel ?j } \n"
                 + "}";
+        //now select nodes and all other items:
+        Set<String> allitem = new HashSet<>();
+        Set<String> allJrn = new HashSet<>();
+        allJrn.addAll(favjids);
+        allJrn.addAll(nodes.values().stream().filter(x -> NodeType.JOURNAL.equals(x.getType()))
+                .map(n -> n.getId()).collect(Collectors.toSet()));
+        allitem.addAll(in.getNodes().stream().filter(x -> !NodeType.JOURNAL.equals(x.getType()))
+                .map(n -> n.getId()).collect(Collectors.toSet()));
+        if (!allJrn.isEmpty()) {
+            if (allitem.isEmpty()) {
+                allitem.add("none:nonexistent");
+            }
+            njRns = processGraphQuery(journalLinksQuery, allitem, allJrn);
+            for (Value[] triple : njRns) {
+                if (namePop.equals(triple[1].stringValue())) {
+                    Node n = new Node(triple[0].stringValue(), NodeType.JOURNAL, triple[2].stringValue(), 1.0);
+                    n.setFavourite(favjids.contains(n.getId()));
+                    nodes.put(n.getId(), n);
+                } else {
+                    Link l = new Link(triple[1].stringValue(), triple[0].stringValue(), triple[2].stringValue());
+                    links.add(l);
+                }
+            }
+        }
+        Graph res = new Graph();
+        in.getNodes().stream().forEach(n -> nodes.put(n.getId(), n));
+        res.setNodes(new ArrayList<>(nodes.values()));
+        links.addAll(in.getLinks());
+        res.setLinks(new ArrayList<>(links));
+
         return res;
+
     }
 
     private Graph reduceGraph(Graph in) {
