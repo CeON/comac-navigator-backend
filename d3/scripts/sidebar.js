@@ -68,6 +68,7 @@ window.sidebar.doSearch = function () {
 
 
 window.sidebar.newSearchResults = function (data, query) {
+    window.sidebar.addHelpMessage(data, query);
 //    window.sidebar.updateLastSearch(query, data.nextCursorMark);
     d3.select("#search-results").selectAll("*").remove();
     //add the tocuments:
@@ -78,6 +79,12 @@ window.sidebar.newSearchResults = function (data, query) {
     window.sidebar.setHasMoreLabel(data.response.hasMoreResults);
 }
 
+window.sidebar.addHelpMessage = function () {
+    $("#search-help").html(
+        "<p>To add the desired result to the graph, " +
+        " please drag and drop it on a canvas on the right.</p>"
+        );
+}
 
 window.sidebar.setHasMoreLabel = function (hasMore) {
     if (hasMore) {
