@@ -7,6 +7,7 @@
 require(
     [ "lib/d3"
     , "lib/jquery"
+    , "util"
     , "DataProvider"
     , "GraphController"
     , "SidebarController"

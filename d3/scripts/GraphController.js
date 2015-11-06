@@ -212,29 +212,21 @@ GraphController.prototype = {
         newFavouriteIds,
         this.updateGraph().bind(this));
   },
-    //uses url to locate graph for page. If there is no 'graph' request key in url, then empty 
-    //graph is loaded.
-    loadInitialGraph: function () {
-        console.log("Loading initial graph...");
-        var graphId;
-        var url = window.location.search.substr(1);
-        KeysValues = url.split(/[\?&]+/);
-        for (i = 0; i < KeysValues.length; i++) {
-            KeyValue = KeysValues[i].split("=");
-            if (KeyValue[0] == "graph") {
-                graphId = KeyValue[1];
-            }
-        }
 
-        //now request initial graphs:
-        if (graphId) {
-            this.dataProvider.getGraphById(graphId,
-                    this.updateGraph().bind(this));
-        } else {
-            this.setFavouriteNodes([
-            ]);
-        }
+  //uses url to locate graph for page. If there is no 'graph' request key in url, then empty 
+  //graph is loaded.
+  loadInitialGraph: function () {
+    console.log("Loading initial graph...");
+    var graphId = getQueryStringValue("graph");
+
+    //now request initial graphs:
+    if (graphId) {
+      this.dataProvider.getGraphById(graphId,
+                                     this.updateGraph().bind(this));
+    } else {
+      this.setFavouriteNodes([]);
     }
+  }
 
 }
 
