@@ -11,6 +11,8 @@ window.sidebar = {
 window.sidebar.init = function () {
     console.log("Loading button...");
 
+    $("#search-button").text(translations.getText("searchButton"));
+
     $("#search-button").click(function (event) {
         event.preventDefault();
         console.log("Button pressed");
@@ -49,16 +51,22 @@ window.sidebar.doSearch = function () {
 
     d3.select("#search-results").selectAll("*").remove();
     //append searching text:
-    $("#search-results").html("<div class='loading_message'>"+
-            "<p>Searching...</p>"+
-            "<p><img src='images/preloader.gif'></img></p>"+
+    $("#search-results").html("<div class='loading_message'>" +
+            "<p>" +
+            translations.getText("searchingMessage") +
+            "</p>" +
+            "<p><img src='images/preloader.gif'></img></p>" +
             "</div>");
     $("#search-follow").empty();
 
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
     $("#search-results").empty();
-    $("#search-follow").html("<div class='sidebar_error'>Unable to load data, server error.</div>");
+    $("#search-follow").html(
+            "<div class='sidebar_error'>" +
+            translations.getText("searchErrorMessage") +
+            "</div>"
+            );
             console.log(error);
         } else {
             window.sidebar.newSearchResults(data, query);
@@ -68,7 +76,7 @@ window.sidebar.doSearch = function () {
 
 
 window.sidebar.newSearchResults = function (data, query) {
-    window.sidebar.addHelpMessage(data, query);
+    window.sidebar.addHelpMessage();
 //    window.sidebar.updateLastSearch(query, data.nextCursorMark);
     d3.select("#search-results").selectAll("*").remove();
     //add the tocuments:
@@ -81,8 +89,7 @@ window.sidebar.newSearchResults = function (data, query) {
 
 window.sidebar.addHelpMessage = function () {
     $("#search-help").html(
-        "<p>To add the desired result to the graph, " +
-        " please drag and drop it on a canvas on the right.</p>"
+        "<p>" + translations.getText("sidebarHelpMessage") + "</p>"
         );
 }
 
@@ -91,7 +98,7 @@ window.sidebar.setHasMoreLabel = function (hasMore) {
         d3.select("#search-follow").selectAll("*").remove();
         d3.select("#search-follow").
                 append("span").
-                text("There more results. Try to narrow query");
+                text(translations.getText("hasMoreResultsMessage"));
 
     } else {
         d3.select("#search-follow").selectAll("*").remove();

@@ -8,12 +8,15 @@ require(
     [ "lib/d3"
     , "lib/jquery"
     , "util"
+    , "translations"
+    , "LanguageSelectorController"
     , "DataProvider"
     , "GraphController"
     , "SidebarController"
     , "sidebar"
     ], function()
 {
+  new LanguageSelectorController();
 
   var URLBase = "http://localhost:8080/data/";
   var dataProvider = new DataProvider(URLBase+"graph.json", URLBase+"search",URLBase+"graphById");
