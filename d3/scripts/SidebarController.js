@@ -1,10 +1,15 @@
 /**
- * SidebarController class
+ * @fileOverview SidebarController class.
  *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
-
+/**
+ * Creates an instance of SidebarController.
+ *
+ * @constructor
+ * @this {SidebarController}
+ */
 function SidebarController(dataProvider, graphController) {
 }
 

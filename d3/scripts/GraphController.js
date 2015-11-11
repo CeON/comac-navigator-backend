@@ -1,10 +1,17 @@
 /**
- * GraphController class
+ * @fileOverview GraphController class.
  *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
-
+/**
+ * Creates an instance of GraphController.
+ *
+ * @constructor
+ * @this {GraphController}
+ * @param {DataProvider} dataProvider
+ * @param {string[]} initialNodes
+ */
 function GraphController(dataProvider, initialNodes) {
   this.graphView = {};
   
@@ -217,7 +224,7 @@ GraphController.prototype = {
   //graph is loaded.
   loadInitialGraph: function () {
     console.log("Loading initial graph...");
-    var graphId = getQueryStringValue("graph");
+    var graphId = util.getQueryStringValue("graph");
 
     //now request initial graphs:
     if (graphId) {
@@ -235,64 +242,6 @@ GraphController.shortenString = function(str) {
     return str.slice(0, 4) + "..";
   } else {
     return str;
-  }
-}
-
-
-/**
- * GraphModel class
- *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
- */
-
-
-function GraphModel() {}
-
-GraphModel.updateGraphModel = function(graphModel, graphJSON) {
-  //graphModel.favouriteIds = newFavouriteIds;
-  graphModel.nodes = graphJSON.nodes;
-  graphModel.favouriteIds=graphModel.nodes
-          .filter(function(node) {return node.favourite;})
-          .map(function(node){return node.id;});
-  
-  graphModel.graphId = graphJSON.graphId;
-  graphModel.links = nodeIdsToReferences(graphJSON.nodes,
-                                         graphJSON.links);
-
-  function nodeIdsToReferences(nodes, links) {
-    return links.map(function(link) {
-      link.source = nodes.filter(function(node) {
-        return node.id === link.sourceId;
-      })[0];
-      link.target = nodes.filter(function(node) {
-        return node.id === link.targetId;
-      })[0];
-      link.hover = false;
-      return link;
-    });
-  }
-}
-
-GraphModel.repositionNodes = function(oldNodesRaw, newNodes) {
-  var oldNodes = asDictionaryByIds(oldNodesRaw);
-  newNodes.forEach(repositionSingleNode(oldNodes));
-
-  function asDictionaryByIds(xs) {
-    return xs.reduce(function (dict, item) {
-      dict[item.id] = item;
-      return dict;
-    }, {});
-  }
-
-  function repositionSingleNode(oldNodes) {
-    return function(newNode) {
-      var newNodeId = newNode.id;
-      if(oldNodes.hasOwnProperty(newNodeId)) {
-        var copyFrom = oldNodes[newNodeId];
-        newNode.x = copyFrom.x;
-        newNode.y = copyFrom.y;
-      }
-    }
   }
 }
 

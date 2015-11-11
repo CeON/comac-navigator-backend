@@ -1,5 +1,5 @@
 /**
- * @fileOverview DataProvider class
+ * @fileOverview DataProvider class.
  *
  * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */

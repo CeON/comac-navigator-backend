@@ -1,12 +1,17 @@
 /**
- * Translations object.
+ * @fileOverview Translations object.
  *
- * @author Michał Oniszczuk m.oniszczuk@icm.edu.pl
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
 
+/**
+ * Translations.
+ *
+ * @namespace
+ */
 translations = {
-  selectedLanguage: getQueryStringValue("lang") || "en",
+  selectedLanguage: util.getQueryStringValue("lang") || "en",
 
   getText: function (key) {
     return this.texts[key][this.selectedLanguage];

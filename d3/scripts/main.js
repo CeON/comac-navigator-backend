@@ -1,7 +1,7 @@
 /**
- * Application's main
+ * @fileOverview Application's main function.
  *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
 require(
@@ -12,6 +12,7 @@ require(
     , "LanguageSelectorController"
     , "DataProvider"
     , "GraphController"
+    , "GraphModel"
     , "SidebarController"
     , "sidebar"
     ], function()

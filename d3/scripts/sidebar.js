@@ -1,9 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @fileOverview TODO merge this file with SidebarController class.
+ *
+ * @author Aleksander Nowiński <a.nowinski@icm.edu.pl>
  */
-
 
 window.sidebar = {
 };
