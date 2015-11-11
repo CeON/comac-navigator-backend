@@ -1,19 +1,25 @@
 /**
- * DataProvider class
+ * @fileOverview DataProvider class
  *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
-
-function DataProvider(graphUri,searchUri, graphByIdUri) {
+/**
+ * Creates an instance of DataProvider.
+ *
+ * @constructor
+ * @this {DataProvider}
+ * @param {string} graphUri
+ * @param {string} searchUri
+ * @param {string} graphByIdUri
+ */
+function DataProvider(graphUri, searchUri, graphByIdUri) {
     this.graph = graphUri;
     this.searchAddress = searchUri;
     this.graphById = graphByIdUri;
 }
 
 DataProvider.prototype = {
-  // TODO hardcoded data in *.json files, implement a REST service
-
   /**
    * Provides graph data. Provided graph consists of:
    *  - favourite nodes,
