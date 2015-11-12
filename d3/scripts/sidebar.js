@@ -2,6 +2,7 @@
  * @fileOverview TODO merge this file with SidebarController class.
  *
  * @author Aleksander Nowiński <a.nowinski@icm.edu.pl>
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
 window.sidebar = {
@@ -9,8 +10,6 @@ window.sidebar = {
 
 window.sidebar.init = function () {
     console.log("Loading button...");
-
-    $("#search-button").text(translations.getText("searchButton"));
 
     $("#search-button").click(function (event) {
         event.preventDefault();
@@ -51,21 +50,20 @@ window.sidebar.doSearch = function () {
     d3.select("#search-results").selectAll("*").remove();
     //append searching text:
     $("#search-results").html("<div class='loading_message'>" +
-            "<p>" +
-            translations.getText("searchingMessage") +
-            "</p>" +
+            "<p data-i18n='searching'></p>" +
             "<p><img src='images/preloader.gif'></img></p>" +
             "</div>");
+    translations.translateAll();
     $("#search-follow").empty();
+    $("#search-help").empty();
 
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
     $("#search-results").empty();
     $("#search-follow").html(
-            "<div class='sidebar_error'>" +
-            translations.getText("searchErrorMessage") +
-            "</div>"
+            "<div class='sidebar_error' data-i18n='searchError'></div>"
             );
+            translations.translateAll();
             console.log(error);
         } else {
             window.sidebar.newSearchResults(data, query);
@@ -87,22 +85,20 @@ window.sidebar.newSearchResults = function (data, query) {
 }
 
 window.sidebar.addHelpMessage = function () {
-    $("#search-help").html(
-        "<p>" + translations.getText("sidebarHelpMessage") + "</p>"
-        );
+    $("#search-help")
+        .html("<p data-i18n='sidebarHelp'></p>");
+    translations.translateAll();
 }
 
 window.sidebar.setHasMoreLabel = function (hasMore) {
     if (hasMore) {
-        d3.select("#search-follow").selectAll("*").remove();
-        d3.select("#search-follow").
-                append("span").
-                text(translations.getText("hasMoreResultsMessage"));
-
+        $("#search-follow")
+            .html("<span data-i18n='hasMoreResults'></span>");
     } else {
-        d3.select("#search-follow").selectAll("*").remove();
-        d3.select("#search-follow").append("span").text("No more results.");
+        $("#search-follow")
+            .html("<span data-i18n='noMoreResults'></span>");
     }
+    translations.translateAll();
 }
 
 

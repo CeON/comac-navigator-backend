@@ -17,6 +17,7 @@ require(
     , "sidebar"
     ], function()
 {
+  translations.translateAll();
   new LanguageSelectorController();
 
   var URLBase = "http://localhost:8080/data/";

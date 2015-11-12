@@ -220,7 +220,7 @@ g.hover circle {
 .header.row { height: 120px; line-height: 120px; }
 .body.row { top: 120px; bottom: 20px; }
 .footer.row { 
-    bottom: 0; 
+    bottom: 0;
     /*line-height: 250px;*/ 
 }
 
