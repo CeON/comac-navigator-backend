@@ -208,15 +208,15 @@ g.hover circle {
 }
 
 /* layout */
-.row, .col { overflow: hidden; position: absolute; }
+.row, .col { position: absolute; }
 .row { left: 0; right: 0; }
 .col { top: 0; bottom: 0; }
 .scroll-x { overflow-x: auto; }
 .scroll-y { overflow-y: auto; }
 
 
-.left.col { width: 250px; left: 0}
-.right.col { left: 255px; right: 0; }
+.left.col { overflow: scroll; width: 250px; left: 0}
+.right.col { left: 270px; right: 0; }
 .header.row { height: 120px; line-height: 120px; }
 .body.row { top: 120px; bottom: 20px; }
 .footer.row {
@@ -227,25 +227,11 @@ g.hover circle {
 
 
 #search-sidebar {
-    border-right: #595959 solid 1px;
+    border-right: #8c8c8c solid 1px;
     margin-right: 10px;
     background: #ffffff;
     font-size: small;
 }
-
-#search-input {
-    width: 100%;
-}
-
-#search-button {
-    float: right;
-}
-
-#search-input-wrap {
-    overflow: hidden;
-    padding-right: .8em;
-}
-
 
 .search-result {
     border-top:  darkgray solid 1px;

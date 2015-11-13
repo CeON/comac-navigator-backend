@@ -1,48 +1,76 @@
 <!DOCTYPE html>
 <title>COMAC Navigator — d3 experiments</title>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="styles.css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <body>
 
-    <div id="search-sidebar" class="left col">
-        <div id="search-form">
-            <button id="search-button" name="search" value="Search" data-i18n="search"></button>
-            <div id="search-input-wrap">
-                <input id="search-input" type="text" name="term"  />
-            </div>
-        </div>
-        <!--        
-                    <input id="search-input" value="search" size="10">
-                    <button id="search-button" type="button">Search</button>
-                </div>-->
-        <div id="search-help">
+<div id="search-sidebar" class="left col">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">
+            <!--<span class="glyphicon glyphicon-search"></span>-->
+            <span data-i18n="searchTab">></span>
+        </a></li>
+        <li role="presentation"><a href="#">
+            <!--<span class="glyphicon glyphicon-info-sign"></span>-->
+            <span data-i18n="infoTab">></span>
+        </a></li>
+        <li role="presentation"><a href="#">
+            <!--<span class="glyphicon glyphicon-question-sign"></span>-->
+            <span data-i18n="helpTab">></span>
+        </a></li>
+    </ul>
+    <div id="search-form" class="input-group">
+        <input id="search-input" type="text" name="term" class="form-control"
+               placeholder="John ..."/>
+        <span class="input-group-btn">
+            <button name="search" value="Search" id="search-button"
+                    class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
 
-        </div>
-        <div id="search-results">
+    </div>
+    <!--
+    <div>
+        <input/>
+    </div>
+    -->
+    <!--
+                <input id="search-input" value="search" size="10">
+                <button id="search-button" type="button">Search</button>
+            </div>-->
+    <div id="search-help">
 
-        </div>
-        <div id="search-follow">
+    </div>
+    <div id="search-results">
 
+    </div>
+    <div id="search-follow">
+
+    </div>
+</div>
+<div class="right col">
+    <div class="header row">
+        <h1>COMAC Navigator</h1>
+    </div>
+    <div class="body row">
+        <!--<div class="body row">-->
+
+        <svg id="mainGraph" class="workspace graphView"></svg>
+    </div>
+
+    <div class="footer row">
+        <div id="languageSelector">
+            <button type="button" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-flag"></span>
+                <span data-i18n='languageSelector'></span>
+            </button>
         </div>
     </div>
-    <div class="right col">
-        <div class="header row">
-            <h1>COMAC Navigator</h1>
-        </div>
-        <div class="body row">
-            <!--<div class="body row">-->
-
-            <svg id="mainGraph" class="workspace graphView"></svg>
-        </div>
-
-        <div class="footer row">
-            <div id="languageSelector">
-                <button data-i18n='languageSelector'></button>
-            </div>
-        </div>
-    </div>
+</div>
 
 
-    <script data-main="scripts/main" src="scripts/lib/require.js"></script>
+<script data-main="scripts/main" src="scripts/lib/require.js"></script>
 
 </body>

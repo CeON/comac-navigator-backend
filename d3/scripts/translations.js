@@ -75,7 +75,19 @@ translations = {
             en: "Zmień język interfejsu na polski.",
             pl: "Change interface language to english."
         },
-        search: {
+        searchTab: {
+            en: "Search",
+            pl: "Szukaj"
+        },
+        infoTab: {
+            en: "Info",
+            pl: "Info"
+        },
+        helpTab: {
+            en: "Help",
+            pl: "Pomoc"
+        },
+        searchButton: {
             en: "Search",
             pl: "Szukaj"
         },
