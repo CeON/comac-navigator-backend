@@ -219,9 +219,9 @@ g.hover circle {
 .right.col { left: 255px; right: 0; }
 .header.row { height: 120px; line-height: 120px; }
 .body.row { top: 120px; bottom: 20px; }
-.footer.row { 
+.footer.row {
     bottom: 0;
-    /*line-height: 250px;*/ 
+    /*line-height: 250px;*/
 }
 
 
@@ -242,7 +242,7 @@ g.hover circle {
 }
 
 #search-input-wrap {
-    overflow: hidden; 
+    overflow: hidden;
     padding-right: .8em;
 }
 
@@ -277,17 +277,17 @@ g.hover circle {
     background: #bdf25a
 }
 
-div.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 60px;                  
-  height: 28px;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 
 .loading_message {
