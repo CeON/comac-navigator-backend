@@ -31,12 +31,17 @@
                     <span class="glyphicon glyphicon-share-alt"></span>
                     <span data-i18n='shareGraph'></span>
                 </a></li>
+                <li><a id="clearGraph" href="#" data-toggle="modal"
+                       data-target="#clearGraphModal">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    <span data-i18n='clearGraph'></span>
+                </a></li>
+                <li role="separator" class="divider"></li>
                 <li><a id="about" href="#" data-toggle="modal"
                        data-target="#aboutModal">
                     <span class="glyphicon glyphicon-info-sign"></span>
                     <span data-i18n='about'></span>
                 </a></li>
-                <li role="separator" class="divider"></li>
                 <li><a id="languageSelector" href="#">
                     <span class="glyphicon glyphicon-flag"></span>
                     <span data-i18n='languageSelector'></span>
@@ -89,12 +94,12 @@
 
 
 <!-- Share Graph Modal -->
-<div class="modal fade" id="shareGraphModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="shareGraphModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title">
                     <span class="glyphicon glyphicon-share-alt"></span>
                     <span data-i18n='shareGraph'></span>
                 </h4>
@@ -105,7 +110,7 @@
                            value=""/>
                     <span class="input-group-btn">
                     <button id="copyToClipboardButton"
-                            class="btn btn-default"
+                            class="btn btn-primary"
                             type="button">
                         <span data-i18n="copyToClipboard"></span>
                     </button>
@@ -116,13 +121,36 @@
     </div>
 </div>
 
+<!-- Clear Graph Modal -->
+<div class="modal fade" id="clearGraphModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    <span data-i18n='clearGraph'></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    <span data-i18n="cancel"></span></button>
+                <button id="clearGraphConfirm" type="button" class="btn
+                btn-danger pull-right" data-dismiss="modal">
+                    <span data-i18n="clearGraph"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- About Modal -->
-<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title">
                     <span class="glyphicon glyphicon-info-sign"></span>
                     <span data-i18n='about'></span>
                 </h4>

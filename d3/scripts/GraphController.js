@@ -74,8 +74,15 @@ GraphController.prototype = {
   width:  960,
   height: 500,
 
-    updateURL: function (graphJSON) {
-        var queryString = "?graph=" + graphJSON.graphId;
+    updateURL: function (graphId) {
+        var queryString;
+        if(graphId) {
+            queryString = "?graph=" + graphId;
+        }
+        else {
+            queryString = "?"
+        }
+        console.log("queryString: ", queryString);
         window.history.pushState("Anything", "Title", queryString);
         $("#shareGraphInput").attr("value", window.location);
     },
@@ -87,9 +94,7 @@ GraphController.prototype = {
         GraphModel.updateGraphModel(this.graphModel, graphJSON);
         GraphModel.repositionNodes(oldNodes, this.graphModel.nodes);
         this.updateGraphView();
-        if(graphJSON.graphId) {
-            this.updateURL(graphJSON);
-        }
+        this.updateURL(graphJSON.graphId);
       } else {
         console.error(
             "Failed to get graph. Got an error: " + error);
@@ -226,6 +231,10 @@ GraphController.prototype = {
         this.updateGraph().bind(this));
   },
 
+    clearGraph: function() {
+        this.setFavouriteNodes([]);
+    },
+
   //uses url to locate graph for page. If there is no 'graph' request key in url, then empty 
   //graph is loaded.
   loadInitialGraph: function () {
@@ -237,7 +246,7 @@ GraphController.prototype = {
       this.dataProvider.getGraphById(graphId,
                                      this.updateGraph().bind(this));
     } else {
-      this.setFavouriteNodes([]);
+      this.clearGraph();
     }
   }
 

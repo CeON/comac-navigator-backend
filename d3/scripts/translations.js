@@ -87,6 +87,14 @@ translations = {
             en: "About",
             pl: "O nas"
         },
+        clearGraph: {
+            en: "Clear graph",
+            pl: "Wyczyść graf"
+        },
+        cancel: {
+            en: "Cancel",
+            pl: "Anuluj"
+        },
         searchTab: {
             en: "Search",
             pl: "Szukaj"
