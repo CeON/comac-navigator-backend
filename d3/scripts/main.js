@@ -4,9 +4,23 @@
  * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
+requirejs.config({
+    paths: {
+        "jquery": "lib/jquery",
+        "jquery.bootstrap": "lib/bootstrap.min"
+    },
+    shim: {
+        "jquery.bootstrap": {
+            deps: ["jquery"]
+        }
+    }
+});
+
 require(
-    [ "lib/d3"
-    , "lib/jquery"
+    [ "lib/ZeroClipboard.min"
+    , "lib/d3"
+    , "jquery"
+    , "jquery.bootstrap"
     , "util"
     , "translations"
     , "LanguageSelectorController"
@@ -16,8 +30,27 @@ require(
     , "SidebarController"
     , "sidebar"
     ],
-    function()
+    function(ZeroClipboard)
 {
+    var client = new ZeroClipboard( $("#copyToClipboardButton") );
+    client.on( 'ready', function(event) {
+        console.log( 'movie is loaded' );
+
+        client.on( 'copy', function(event) {
+            event.clipboardData.setData('text/plain', $("#shareGraphInput").attr("value"));
+        } );
+
+        client.on( 'aftercopy', function(event) {
+            console.log('Copied text to clipboard: ' + event.data['text/plain']);
+        } );
+    } );
+
+    client.on( 'error', function(event) {
+        console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
+        ZeroClipboard.destroy();
+    } );
+
+
     translations.translateAll();
     new LanguageSelectorController();
 

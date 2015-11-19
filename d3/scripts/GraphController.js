@@ -74,7 +74,13 @@ GraphController.prototype = {
   width:  960,
   height: 500,
 
-  updateGraph: function() {
+    updateURL: function (graphJSON) {
+        var queryString = "?graph=" + graphJSON.graphId;
+        window.history.pushState("Anything", "Title", queryString);
+        $("#shareGraphInput").attr("value", window.location);
+    },
+
+    updateGraph: function() {
     return function(error, graphJSON) {
       if (error === null) {
         var oldNodes = this.graphModel.nodes;
@@ -82,7 +88,7 @@ GraphController.prototype = {
         GraphModel.repositionNodes(oldNodes, this.graphModel.nodes);
         this.updateGraphView();
         if(graphJSON.graphId) {
-            window.history.pushState("Anything", "Title", "?graph="+graphJSON.graphId);
+            this.updateURL(graphJSON);
         }
       } else {
         console.error(

@@ -19,6 +19,7 @@ h1 {
     font-weight: 300;
     letter-spacing: -2px;
     margin: .3em 0 .1em 0;
+    text-align: center;
 }
 
 h2 {
@@ -129,7 +130,7 @@ svg.graphView {
       height: 500px;*/
     width: 99%;
     height: 99%;
-    border: 1px solid #DEDEDE;
+    /*border: 1px solid #DEDEDE;*/
     /*margin-bottom: 2em;*/
 }
 
@@ -225,10 +226,12 @@ g.hover circle {
 }
 
 
+#navigation {
+    margin: 10px 0;
+}
 
 #search-sidebar {
     border-right: #8c8c8c solid 1px;
-    margin-right: 10px;
     background: #ffffff;
     font-size: small;
 }
@@ -248,13 +251,17 @@ g.hover circle {
     font-style: italic;
 }
 
-#search-form {
-    margin: 15px;
+#navigation > li:first-child {
+    margin-left: 10px;
+}
+#navigation > li:last-child {
+    margin-right: 10px;
 }
 
-#searchInput {
-    border-radius: 2px;
+#search-form {
+    margin: 10px;
 }
+
 #search-results .author {
     background: #80bcd3;
 }
@@ -282,3 +289,26 @@ div.tooltip {
     font-weight: bold;
     margin-top: 2em;
 }
+
+/* Align modal to center vertically */
+
+.modal {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* END of Align modal to center vertically */

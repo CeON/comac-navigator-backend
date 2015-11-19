@@ -72,8 +72,20 @@ translations = {
 
     texts: {
         languageSelector: {
-            en: "Zmień język interfejsu na polski.",
-            pl: "Change interface language to english."
+            en: "Po polsku",
+            pl: "In english"
+        },
+        shareGraph: {
+            en: "Share graph",
+            pl: "Udostępnij graf"
+        },
+        copyToClipboard: {
+            en: "Copy to clipboard",
+            pl: "Skopiuj do schowka"
+        },
+        about: {
+            en: "About",
+            pl: "O nas"
         },
         searchTab: {
             en: "Search",
@@ -86,6 +98,10 @@ translations = {
         helpTab: {
             en: "Help",
             pl: "Pomoc"
+        },
+        moreTab: {
+            en: "More",
+            pl: "Więcej"
         },
         searchButton: {
             en: "Search",

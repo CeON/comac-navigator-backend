@@ -6,23 +6,47 @@
 <body>
 
 <div id="search-sidebar" class="left col">
-    <ul class="nav nav-tabs">
+    <ul id="navigation" class="nav nav-pills">
+    <!--<ul id="navigation" class="nav nav-tabs">-->
+
         <li role="presentation" class="active"><a href="#">
             <!--<span class="glyphicon glyphicon-search"></span>-->
-            <span data-i18n="searchTab">></span>
+            <span data-i18n="searchTab"></span>
         </a></li>
         <li role="presentation"><a href="#">
             <!--<span class="glyphicon glyphicon-info-sign"></span>-->
-            <span data-i18n="infoTab">></span>
+            <span data-i18n="infoTab"></span>
         </a></li>
-        <li role="presentation"><a href="#">
-            <!--<span class="glyphicon glyphicon-question-sign"></span>-->
-            <span data-i18n="helpTab">></span>
-        </a></li>
+        <li role="presentation" class="dropdown pull-right">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" href="#">
+                <!--<span class="glyphicon glyphicon-question-sign"></span>-->
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+                <!--<span class="glyphicon glyphicon-option-horizontal"></span>-->
+                <!--<span data-i18n="moreTab"></span>-->
+                <!--<span class="caret"></span>-->
+            </a>
+            <ul class="dropdown-menu">
+                <li><a id="shareGraph" href="#" data-toggle="modal"
+                       data-target="#shareGraphModal">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <span data-i18n='shareGraph'></span>
+                </a></li>
+                <li><a id="about" href="#" data-toggle="modal"
+                       data-target="#aboutModal">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <span data-i18n='about'></span>
+                </a></li>
+                <li role="separator" class="divider"></li>
+                <li><a id="languageSelector" href="#">
+                    <span class="glyphicon glyphicon-flag"></span>
+                    <span data-i18n='languageSelector'></span>
+                </a></li>
+            </ul>
+        </li>
     </ul>
     <div id="search-form" class="input-group">
         <input id="search-input" type="text" name="term" class="form-control"
-               placeholder="John ..."/>
+               placeholder="John ..." autofocus/>
         <span class="input-group-btn">
             <button name="search" value="Search" id="search-button"
                     class="btn btn-default" type="button">
@@ -31,6 +55,7 @@
         </span>
 
     </div>
+
     <!--
     <div>
         <input/>
@@ -60,16 +85,57 @@
         <svg id="mainGraph" class="workspace graphView"></svg>
     </div>
 
-    <div class="footer row">
-        <div id="languageSelector">
-            <button type="button" class="btn btn-primary btn-xs">
-                <span class="glyphicon glyphicon-flag"></span>
-                <span data-i18n='languageSelector'></span>
-            </button>
+</div>
+
+
+<!-- Share Graph Modal -->
+<div class="modal fade" id="shareGraphModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <span data-i18n='shareGraph'></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <input id="shareGraphInput" type="text" class="form-control"
+                           value=""/>
+                    <span class="input-group-btn">
+                    <button id="copyToClipboardButton"
+                            class="btn btn-default"
+                            type="button">
+                        <span data-i18n="copyToClipboard"></span>
+                    </button>
+                    </span>
+                </div><!-- /input-group -->
+            </div>
         </div>
     </div>
 </div>
 
+<!-- About Modal -->
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <span data-i18n='about'></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p><a href="http://adalab.icm.edu.pl/">ADA Lab</a></p>
+                <p><a href="http://icm.edu.pl/">ICM</a></p>
+                <h4>Disclaimers</h4>
+                <p>…</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script data-main="scripts/main" src="scripts/lib/require.js"></script>
 
