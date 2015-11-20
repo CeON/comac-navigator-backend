@@ -5,8 +5,7 @@
  * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
-window.sidebar = {
-};
+window.sidebar = {};
 
 window.sidebar.init = function () {
     console.log("Loading button...");
@@ -50,18 +49,18 @@ window.sidebar.doSearch = function () {
     d3.select("#search-results").selectAll("*").remove();
     //append searching text:
     $("#search-results").html("<div class='loading_message'>" +
-            "<p data-i18n='searching'></p>" +
-            "<p><img src='images/preloader.gif'></img></p>" +
-            "</div>");
+        "<p data-i18n='searching'></p>" +
+        "<p><img src='images/preloader.gif'></img></p>" +
+        "</div>");
     translations.translateAll();
     $("#search-follow").empty();
     $("#search-help").empty();
 
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
-    $("#search-results").empty();
-    $("#search-follow").html(
-            "<div class='sidebar_error' data-i18n='searchError'></div>"
+            $("#search-results").empty();
+            $("#search-follow").html(
+                "<div class='sidebar_error' data-i18n='searchError'></div>"
             );
             translations.translateAll();
             console.log(error);
@@ -104,19 +103,19 @@ window.sidebar.setHasMoreLabel = function (hasMore) {
 
 window.sidebar.appendSearchResultEntries = function (documents) {
     var oldData = d3.select("#search-results").selectAll("div")
-            .data();
+        .data();
     var newData = oldData.concat(documents);
 //    console.log();
     var diventer = d3.select("#search-results").selectAll("div")
-            .data(newData)
-            .enter().append("div");
+        .data(newData)
+        .enter().append("div");
     diventer.attr("class", function (d) {
         return "search-result " + d.type
     }).on('dragstart', window.sidebar.onDragDiv).attr("draggable", "true");
     diventer.append("div")
-            .text(function (d) {
-                return d.name;
-            }).classed("title", true).attr("draggable", "true");
+        .text(function (d) {
+            return d.name;
+        }).classed("title", true).attr("draggable", "true");
 
 }
 

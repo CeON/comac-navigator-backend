@@ -68,7 +68,6 @@ DataProvider.prototype = {
         //now inwoke the ajax:
 
         DataProvider.queryJSON(this.searchAddress, textQuery, callback);
-//      this.mockSearch(cursorMark, callback);
 
     },
 }
