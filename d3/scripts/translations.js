@@ -7,7 +7,7 @@
 const LANG_PL = "pl";
 const LANG_EN = "en";
 
-const TRANS_ATTRIBUTE = "data-i18n";
+const TRANS_TARGET_ATTRIBUTE = "data-i18n";
 
 /**
  * Translations.
@@ -30,7 +30,7 @@ translations = {
 
     /**
      * Change the currently selected language and update all elements in the
-     * interface that have the TRANS_ATTRIBUTE attribute.
+     * interface that have the TRANS_TARGET_ATTRIBUTE attribute.
      * @param {string} toLang change to this language
      */
     changeLanguage: function (toLang) {
@@ -40,11 +40,11 @@ translations = {
 
     /**
      * Translate all elements in the interface that have the attribute
-     * TRANS_ATTRIBUTE.
+     * TRANS_TARGET_ATTRIBUTE.
      * @private
      */
     translateAll: function () {
-        $("[" + TRANS_ATTRIBUTE + "]")
+        $("[" + TRANS_TARGET_ATTRIBUTE + "]")
             .each(function () {
                 translations.translate($(this));
             });
@@ -52,13 +52,19 @@ translations = {
 
     /**
      * Translate the text inside the provided interface element using the
-     * TRANS_ATTRIBUTE attribute value as a key.
+     * TRANS_TARGET_ATTRIBUTE attribute value as a key.
      * @param {jQuery} elem
      */
     translate: function (elem) {
-        var translationKey = elem.attr(TRANS_ATTRIBUTE);
+        var translationKey = elem.attr(TRANS_TARGET_ATTRIBUTE);
         var newText = translations.getText(translationKey);
-        elem.text(newText);
+        if (elem.is("[target-i18n]")) { //elem.hasAttr("target-i18n")
+            var target = elem.attr("target-i18n");
+            elem.attr(target, newText);
+
+        } else {
+            elem.text(newText);
+        }
     },
 
     /**
@@ -94,6 +100,10 @@ translations = {
         cancel: {
             en: "Cancel",
             pl: "Anuluj"
+        },
+        searchPlaceholder: {
+            en: "Author/Paper/Dataset ...",
+            pl: "Autor/Praca/Dane ..."
         },
         searchTab: {
             en: "Search",
