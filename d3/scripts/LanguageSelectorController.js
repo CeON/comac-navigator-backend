@@ -13,6 +13,6 @@
 function LanguageSelectorController() {
     $("#languageSelector").click(function () {
         translations.toggleLanguage();
-    })
+    });
 }
 
