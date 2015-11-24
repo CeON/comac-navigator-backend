@@ -113,12 +113,18 @@ window.sidebar.appendSearchResultEntries = function (documents) {
         return "search-result " + d.type
     }).on('dragstart', window.sidebar.onDragDiv).attr("draggable", "true");
     diventer
+        .on("click", function (d) {
+            console.log("Clicked an entry to add: " + d.id);
+            window.sidebar.graphController.addFavouriteNodes([d.id]);
+        })
+    diventer
         .append("div")
         .text(function (d) {
             return d.name;
         }).classed("title", true).attr("draggable", "true")
         .append("span")
-        .classed("glyphicon glyphicon-arrow-right pull-right", true);
+        .classed("glyphicon glyphicon-arrow-right pull-right", true)
+
 
 }
 
