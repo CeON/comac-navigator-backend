@@ -192,6 +192,18 @@ g.journal.hover text {
     fill: #D62728;
 }
 
+g.blog circle {
+    fill: #671eba;
+}
+
+g.blog.hover circle {
+    stroke: #671eba;
+}
+
+g.blog.hover text {
+    fill: #671eba;
+}
+
 g.hover circle {
     fill: #fff;
     stroke-width: 1.5px;
@@ -305,23 +317,65 @@ g.hover circle {
     margin: 15px 10px;
 }
 
-#search-results .author {
-    background: #1F77B4;
+.search-result {
     color: white;
     cursor: pointer;
-    border-color: #1F77B4;
-    /*border-radius: 15px;*/
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
-#search-results .author:hover {
+.search-result.paper {
+    background: #292;
+    border-color: #292;
+}
+
+.search-result.paper:hover {
+    background: white;
+    color: #292;
+    border-color: #292;
+}
+
+.search-result.author {
+    background: #1F77B4;
+    border-color: #1F77B4;
+}
+
+.search-result.author:hover {
     background: white;
     color: #1F77B4;
     border-color: #1F77B4;
 }
 
-#search-results .paper {
-    background: #bdf25a
+.search-result.dataset {
+    background: #FF7F0E;
+    border-color: #FF7F0E;
+}
+
+.search-result.dataset:hover {
+    background: white;
+    color: #FF7F0E;
+    border-color: #FF7F0E;
+}
+
+.search-result.journal {
+    background: #D62728;
+    border-color: #D62728;
+}
+
+.search-result.journal:hover {
+    background: white;
+    color: #D62728;
+    border-color: #D62728;
+}
+
+.search-result.blog {
+    background: #671eba;
+    border-color: #671eba;
+}
+
+.search-result.blog:hover {
+    background: white;
+    color: #671eba;
+    border-color: #671eba;
 }
 
 div.tooltip {
@@ -366,3 +420,4 @@ div.tooltip {
 }
 
 /* END of Align modal to center vertically */
+
