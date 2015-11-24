@@ -5,6 +5,7 @@
 html {
     min-width: 1040px;
 }
+
 /*
 body {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
@@ -29,6 +30,7 @@ h2 {
 h1, h2 {
     text-rendering: optimizeLegibility;
 }
+
 /*
 h2 a {
   color: #ccc;
@@ -45,6 +47,7 @@ h2 a {
 footer {
     margin-top: 8em;
 }
+
 /*
 aside {
   font-size: small;
@@ -83,6 +86,7 @@ pre, code, textarea {
 textarea {
     font-size: 100%;
 }
+
 /*
 pre {
   border-left: solid 2px #ccc;
@@ -143,9 +147,11 @@ svg.graphView {
 g.paper circle {
     fill: #292;
 }
+
 g.paper.hover circle {
     stroke: #292;
 }
+
 g.paper.hover text {
     fill: #292;
 }
@@ -153,9 +159,11 @@ g.paper.hover text {
 g.author circle {
     fill: #1F77B4;
 }
+
 g.author.hover circle {
     stroke: #1F77B4;
 }
+
 g.author.hover text {
     fill: #1F77B4;
 }
@@ -163,9 +171,11 @@ g.author.hover text {
 g.dataset circle {
     fill: #FF7F0E;
 }
+
 g.dataset.hover circle {
     stroke: #FF7F0E;
 }
+
 g.dataset.hover text {
     fill: #FF7F0E;
 }
@@ -173,13 +183,14 @@ g.dataset.hover text {
 g.journal circle {
     fill: #D62728;
 }
+
 g.journal.hover circle {
     stroke: #D62728;
 }
+
 g.journal.hover text {
     fill: #D62728;
 }
-
 
 g.hover circle {
     fill: #fff;
@@ -195,36 +206,70 @@ g.hover circle {
     stroke: #888;
     stroke-width: 1.5px;
 }
+
 .link.hover {
     stroke: #444;
     stroke-width: 1.5px;
 }
 
 .similarity {
-    stroke-dasharray: 7,7;
+    stroke-dasharray: 7, 7;
 }
+
 .citation {
 }
+
 .isAuthor {
 }
 
 /* layout */
-.row, .col { position: absolute; }
-.row { left: 0; right: 0; }
-.col { top: 0; bottom: 0; }
-.scroll-x { overflow-x: auto; }
-.scroll-y { overflow-y: auto; }
+.row, .col {
+    position: absolute;
+}
 
+.row {
+    left: 0;
+    right: 0;
+}
 
-.left.col { overflow: scroll; width: 250px; left: 0}
-.right.col { left: 270px; right: 0; }
-.header.row { height: 120px; line-height: 120px; }
-.body.row { top: 120px; bottom: 20px; }
+.col {
+    top: 0;
+    bottom: 0;
+}
+
+.scroll-x {
+    overflow-x: auto;
+}
+
+.scroll-y {
+    overflow-y: auto;
+}
+
+.left.col {
+    overflow: scroll;
+    width: 250px;
+    left: 0
+}
+
+.right.col {
+    left: 270px;
+    right: 0;
+}
+
+.header.row {
+    height: 120px;
+    line-height: 120px;
+}
+
+.body.row {
+    top: 120px;
+    bottom: 20px;
+}
+
 .footer.row {
     bottom: 0;
     /*line-height: 250px;*/
 }
-
 
 #navigation {
     margin: 10px 0;
@@ -237,14 +282,11 @@ g.hover circle {
 }
 
 .search-result {
-    border-top:  darkgray solid 1px;
-    border-bottom: darkgray solid 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.search-result .title {
-    font-weight: bold;
+    /*border-top:  darkgray solid 1px;*/
+    /*border-bottom: darkgray solid 1px;*/
+    padding: 3px 12px 2px 12px;
+    margin: 1px 10px;
+    border: white solid 1px;
 }
 
 .search-result .authors {
@@ -254,16 +296,28 @@ g.hover circle {
 #navigation > li:first-child {
     margin-left: 10px;
 }
+
 #navigation > li:last-child {
-    margin-right: 10px;
+    margin-right: 6px;
 }
 
 #search-form {
-    margin: 10px;
+    margin: 15px 10px;
 }
 
 #search-results .author {
-    background: #80bcd3;
+    background: #1F77B4;
+    color: white;
+    cursor: pointer;
+    border-color: #1F77B4;
+    /*border-radius: 15px;*/
+    border-radius: 2px;
+}
+
+#search-results .author:hover {
+    background: white;
+    color: #1F77B4;
+    border-color: #1F77B4;
 }
 
 #search-results .paper {
@@ -271,16 +325,16 @@ g.hover circle {
 }
 
 div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 60px;
-  height: 28px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
 }
 
 .loading_message {

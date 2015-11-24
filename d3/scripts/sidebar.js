@@ -54,7 +54,7 @@ window.sidebar.doSearch = function () {
         "</div>");
     translations.translateAll();
     $("#search-follow").empty();
-    $("#search-help").empty();
+    //$("#search-help").empty();
 
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
@@ -72,7 +72,7 @@ window.sidebar.doSearch = function () {
 
 
 window.sidebar.newSearchResults = function (data, query) {
-    window.sidebar.addHelpMessage();
+    //window.sidebar.addHelpMessage();
 //    window.sidebar.updateLastSearch(query, data.nextCursorMark);
     d3.select("#search-results").selectAll("*").remove();
     //add the tocuments:
@@ -112,10 +112,13 @@ window.sidebar.appendSearchResultEntries = function (documents) {
     diventer.attr("class", function (d) {
         return "search-result " + d.type
     }).on('dragstart', window.sidebar.onDragDiv).attr("draggable", "true");
-    diventer.append("div")
+    diventer
+        .append("div")
         .text(function (d) {
             return d.name;
-        }).classed("title", true).attr("draggable", "true");
+        }).classed("title", true).attr("draggable", "true")
+        .append("span")
+        .classed("glyphicon glyphicon-arrow-right pull-right", true);
 
 }
 
