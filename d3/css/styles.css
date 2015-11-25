@@ -361,6 +361,16 @@ g.hover circle {
     border-color: #D62728;
 }
 
+.search-result[class*="journal"]:hover {
+    background: white;
+    color: #D62728;
+    border-color: #D62728;
+}
+.search-result[class*="journal"] {
+    background: #D62728;
+    border-color: #D62728;
+}
+
 .search-result.journal:hover {
     background: white;
     color: #D62728;
@@ -376,6 +386,11 @@ g.hover circle {
     background: white;
     color: #671eba;
     border-color: #671eba;
+}
+
+.search-result .title span {
+    margin-left: 3px;
+    margin-bottom: 3px;
 }
 
 div.tooltip {

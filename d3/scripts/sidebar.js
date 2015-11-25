@@ -119,12 +119,14 @@ window.sidebar.appendSearchResultEntries = function (documents) {
         })
     diventer
         .append("div")
-        .text(function (d) {
-            return d.name;
-        }).classed("title", true).attr("draggable", "true")
-        .append("span")
-        .classed("glyphicon glyphicon-arrow-right pull-right", true)
-
+        .attr("draggable", "true")
+        .html(function (d) {
+                return "<div class='title'>" +
+                    "<span class='glyphicon glyphicon-arrow-right pull-right'></span>" +
+                    d.name +
+                    "</div>";
+            }
+        );
 
 }
 
