@@ -21,6 +21,7 @@ require(
         "CopyToClipboardController",
         "LanguageSelectorController",
         "ClearGraphController",
+        "config",
         "lib/d3",
         "jquery",
         "jquery.bootstrap",
@@ -35,10 +36,11 @@ require(
     function (CopyToClipboardController) {
         translations.translateAll();
 
-        var URLBase = "http://localhost:8080/data/";
-        var dataProvider = new DataProvider(URLBase + "graph.json", URLBase + "search", URLBase + "graphById");
+        var dataProvider = new DataProvider(
+            config.URLBase + "graph.json",
+            config.URLBase + "search",
+            config.URLBase + "graphById");
         var graphController = new GraphController(dataProvider, ["comac:pbn_9999"]);
-        //  graphController.loadInitialGraph();
         var sidebarController = new SidebarController(dataProvider, graphController);
 
         new CopyToClipboardController();
