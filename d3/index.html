@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <body>
 
-<div id="search-sidebar" class="left col">
+<div id="search-sidebar" class="left layout-col">
     <!--<ul id="navigation" class="nav nav-pills">-->
     <ul id="navigation" class="nav nav-tabs">
 
@@ -16,6 +16,10 @@
         <li role="presentation"><a href="#">
             <!--<span class="glyphicon glyphicon-info-sign"></span>-->
             <span data-i18n="infoTab"></span>
+        </a></li>
+        <li role="presentation"><a href="#">
+            <!--<span class="glyphicon glyphicon-info-sign"></span>-->
+            <span data-i18n="helpTab"></span>
         </a></li>
         <li role="presentation" class="dropdown pull-right">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" href="#">
@@ -83,14 +87,12 @@
 
     </div>
 </div>
-<div class="right col">
-    <div class="header row">
+<div class="right layout-col">
+    <div class="header layout-row">
         <h1>COMAC Navigator</h1>
     </div>
-    <div class="body row">
-        <!--<div class="body row">-->
-
-        <svg id="mainGraph" class="workspace graphView"></svg>
+    <div class="body layout-row">
+        <svg id="mainGraph" class="graphView"></svg>
     </div>
 
 </div>
