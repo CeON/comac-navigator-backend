@@ -60,8 +60,9 @@ window.sidebar.doSearch = function () {
         if (error) {
             $("#search-results").empty();
             $("#search-follow").html(
-                "<div class='sidebar_error' data-i18n='searchError'></div>"
-            );
+                "<div class='alert alert-danger'>" +
+                "<span class='glyphicon glyphicon-remove'></span> &nbsp;" +
+                "<span data-i18n='searchError'></span></div>");
             translations.translateAll();
             console.log(error);
         } else {
@@ -84,11 +85,15 @@ window.sidebar.newSearchResults = function (data, query) {
 
 window.sidebar.setHasMoreLabel = function (hasMore) {
     if (hasMore) {
-        $("#search-follow")
-            .html("<span data-i18n='hasMoreResults'></span>");
+        $("#search-follow").html(
+            "<div class='alert alert-info'>" +
+            "<span class='glyphicon glyphicon-info-sign'></span> &nbsp;" +
+            "<span data-i18n='hasMoreResults'></span></div>");
     } else {
-        $("#search-follow")
-            .html("<span data-i18n='noMoreResults'></span>");
+        $("#search-follow").html(
+            "<div class='alert alert-success'>" +
+            "<span class='glyphicon glyphicon-ok'></span> &nbsp;" +
+            "<span data-i18n='noMoreResults'></span></div>");
     }
     translations.translateAll();
 }
