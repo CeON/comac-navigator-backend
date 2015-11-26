@@ -153,17 +153,24 @@ g.hover circle {
     margin: 10px 0;
 }
 
-#search-sidebar {
+#sidebar {
     border-right: #8c8c8c solid 1px;
     background: #ffffff;
     font-size: small;
 }
 
+.tab-content {
+    margin: 0 10px;
+}
+
+.tab-content > div > * {
+    margin: 15px 0px;
+}
 /* Search results */
 
 .search-result {
     padding: 3px 12px 2px 12px;
-    margin: 1px 10px;
+    margin: 1px 0;
     border: white solid 1px;
 }
 
@@ -177,10 +184,6 @@ g.hover circle {
 
 #navigation > li:last-child {
     margin-right: 6px;
-}
-
-#search-form {
-    margin: 15px 10px;
 }
 
 .search-result {

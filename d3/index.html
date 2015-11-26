@@ -5,24 +5,26 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <body>
 
-<div id="search-sidebar" class="left layout-col">
+<div id="sidebar" class="left layout-col">
+
+    <!-- Nav tabs -->
     <!--<ul id="navigation" class="nav nav-pills">-->
     <ul id="navigation" class="nav nav-tabs">
-
-        <li role="presentation" class="active"><a href="#">
+        <li class="active">
             <!--<span class="glyphicon glyphicon-search"></span>-->
-            <span data-i18n="searchTab"></span>
-        </a></li>
-        <li role="presentation"><a href="#">
+            <a href="#searchTab" role="tab" data-toggle="tab"
+               data-i18n="searchTab"></a></li>
+        <li>
             <!--<span class="glyphicon glyphicon-info-sign"></span>-->
-            <span data-i18n="infoTab"></span>
-        </a></li>
-        <li role="presentation"><a href="#">
+            <a href="#infoTab" role="tab" data-toggle="tab"
+               data-i18n="infoTab"></a></li>
+        <li>
             <!--<span class="glyphicon glyphicon-info-sign"></span>-->
-            <span data-i18n="helpTab"></span>
-        </a></li>
-        <li role="presentation" class="dropdown pull-right">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" href="#">
+            <a href="#helpTab" role="tab" data-toggle="tab"
+               data-i18n="helpTab"></a></li>
+        <li class="dropdown pull-right">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+               role="button" href="#">
                 <!--<span class="glyphicon glyphicon-question-sign"></span>-->
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
                 <!--<span class="glyphicon glyphicon-option-horizontal"></span>-->
@@ -53,38 +55,30 @@
             </ul>
         </li>
     </ul>
-    <div id="search-form" class="input-group">
-        <input id="search-input" type="text" name="term" class="form-control"
-               placeholder="..."
-               data-i18n="searchPlaceholder"
-               target-i18n="placeholder"
-               autofocus/>
-        <span class="input-group-btn">
-            <button name="search" value="Search" id="search-button"
-                    class="btn btn-default" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </span>
 
-    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="searchTab">
+            <div id="search-form" class="input-group">
+                <input id="search-input" type="text" name="term" class="form-control"
+                       placeholder="..."
+                       data-i18n="searchPlaceholder"
+                       target-i18n="placeholder"
+                       autofocus/>
+                <span class="input-group-btn">
+                    <button name="search" value="Search" id="search-button"
+                            class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
 
-    <!--
-    <div>
-        <input/>
-    </div>
-    -->
-    <!--
-                <input id="search-input" value="search" size="10">
-                <button id="search-button" type="button">Search</button>
-            </div>-->
-    <div id="search-help">
+            </div>
 
-    </div>
-    <div id="search-results">
-
-    </div>
-    <div id="search-follow">
-
+            <div id="search-results"></div>
+            <div id="search-follow"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="infoTab">info</div>
+        <div role="tabpanel" class="tab-pane" id="helpTab">help</div>
     </div>
 </div>
 <div class="right layout-col">
@@ -103,7 +97,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
                     <span class="glyphicon glyphicon-share-alt"></span>
                     <span data-i18n='shareGraph'></span>
@@ -153,7 +149,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
                     <span class="glyphicon glyphicon-info-sign"></span>
                     <span data-i18n='about'></span>
@@ -161,8 +159,10 @@
             </div>
             <div class="modal-body">
                 <p><a href="http://adalab.icm.edu.pl/">ADA Lab</a></p>
+
                 <p><a href="http://icm.edu.pl/">ICM</a></p>
                 <h4>Disclaimers</h4>
+
                 <p>…</p>
             </div>
         </div>
