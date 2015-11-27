@@ -1,27 +1,54 @@
 /**
- * Application's main
+ * @fileOverview Application's main function.
  *
- * @author Michał Oniszczuk michal.oniszczuk@gmail.com
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
+requirejs.config({
+    paths: {
+        "jquery": "lib/jquery",
+        "jquery.bootstrap": "lib/bootstrap.min"
+    },
+    shim: {
+        "jquery.bootstrap": {
+            deps: ["jquery"]
+        }
+    }
+});
+
 require(
-    [ "lib/d3"
-    , "lib/jquery"
-    , "DataProvider"
-    , "GraphController"
-    , "SidebarController"
-    , "sidebar"
-    ], function()
-{
+    [
+        "CopyToClipboardController",
+        "LanguageSelectorController",
+        "ClearGraphController",
+        "config",
+        "lib/d3",
+        "jquery",
+        "jquery.bootstrap",
+        "util",
+        "translations",
+        "DataProvider",
+        "GraphController",
+        "GraphModel",
+        "SidebarController",
+        "sidebar"
+    ],
+    function (CopyToClipboardController) {
+        translations.translateAll();
 
-  var URLBase = "http://localhost:8080/data/";
-  var dataProvider = new DataProvider(URLBase+"graph.json", URLBase+"search",URLBase+"graphById");
-  var graphController = new GraphController(dataProvider, ["comac:pbn_9999"]);
-//  graphController.loadInitialGraph();
-  var sidebarController = new SidebarController(dataProvider, graphController);
+        var dataProvider = new DataProvider(
+            config.URLBase + "graph.json",
+            config.URLBase + "search",
+            config.URLBase + "graphById");
+        var graphController = new GraphController(dataProvider, ["comac:pbn_9999"]);
+        var sidebarController = new SidebarController(dataProvider, graphController);
 
-  window.sidebar.dataProvider = dataProvider;  
-  window.sidebar.graphController = graphController;
-  window.sidebar.init();
-}); // require end
+        new CopyToClipboardController();
+        new LanguageSelectorController();
+        new ClearGraphController(graphController);
+
+        window.sidebar.dataProvider = dataProvider;
+        window.sidebar.graphController = graphController;
+        window.sidebar.init();
+    }); // require end
 

@@ -1,12 +1,11 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @fileOverview TODO merge this file with SidebarController class.
+ *
+ * @author Aleksander Nowiński <a.nowinski@icm.edu.pl>
+ * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
 
-
-window.sidebar = {
-};
+window.sidebar = {};
 
 window.sidebar.init = function () {
     console.log("Loading button...");
@@ -49,16 +48,22 @@ window.sidebar.doSearch = function () {
 
     d3.select("#search-results").selectAll("*").remove();
     //append searching text:
-    $("#search-results").html("<div class='loading_message'>"+
-            "<p>Searching...</p>"+
-            "<p><img src='images/preloader.gif'></img></p>"+
-            "</div>");
+    $("#search-results").html("<div class='loading_message'>" +
+        "<p data-i18n='searching'></p>" +
+        "<p><img src='images/preloader.gif'></img></p>" +
+        "</div>");
+    translations.translateAll();
     $("#search-follow").empty();
+    //$("#search-help").empty();
 
     window.sidebar.dataProvider.search(query, function (error, data) {
         if (error) {
-    $("#search-results").empty();
-    $("#search-follow").html("<div class='sidebar_error'>Unable to load data, server error.</div>");
+            $("#search-results").empty();
+            $("#search-follow").html(
+                "<div class='alert alert-danger'>" +
+                "<span class='glyphicon glyphicon-remove'></span> &nbsp;" +
+                "<span data-i18n='searchError'></span></div>");
+            translations.translateAll();
             console.log(error);
         } else {
             window.sidebar.newSearchResults(data, query);
@@ -78,36 +83,48 @@ window.sidebar.newSearchResults = function (data, query) {
     window.sidebar.setHasMoreLabel(data.response.hasMoreResults);
 }
 
-
 window.sidebar.setHasMoreLabel = function (hasMore) {
     if (hasMore) {
-        d3.select("#search-follow").selectAll("*").remove();
-        d3.select("#search-follow").
-                append("span").
-                text("There more results. Try to narrow query");
-
+        $("#search-follow").html(
+            "<div class='alert alert-info'>" +
+            "<span class='glyphicon glyphicon-info-sign'></span> &nbsp;" +
+            "<span data-i18n='hasMoreResults'></span></div>");
     } else {
-        d3.select("#search-follow").selectAll("*").remove();
-        d3.select("#search-follow").append("span").text("No more results.");
+        $("#search-follow").html(
+            "<div class='alert alert-success'>" +
+            "<span class='glyphicon glyphicon-ok'></span> &nbsp;" +
+            "<span data-i18n='noMoreResults'></span></div>");
     }
+    translations.translateAll();
 }
 
 
 window.sidebar.appendSearchResultEntries = function (documents) {
     var oldData = d3.select("#search-results").selectAll("div")
-            .data();
+        .data();
     var newData = oldData.concat(documents);
 //    console.log();
     var diventer = d3.select("#search-results").selectAll("div")
-            .data(newData)
-            .enter().append("div");
+        .data(newData)
+        .enter().append("div");
     diventer.attr("class", function (d) {
         return "search-result " + d.type
     }).on('dragstart', window.sidebar.onDragDiv).attr("draggable", "true");
-    diventer.append("div")
-            .text(function (d) {
-                return d.name;
-            }).classed("title", true).attr("draggable", "true");
+    diventer
+        .on("click", function (d) {
+            console.log("Clicked an entry to add: " + d.id);
+            window.sidebar.graphController.addFavouriteNodes([d.id]);
+        })
+    diventer
+        .append("div")
+        .attr("draggable", "true")
+        .html(function (d) {
+                return "<div class='title'>" +
+                    "<span class='glyphicon glyphicon-arrow-right pull-right'></span>" +
+                    d.name +
+                    "</div>";
+            }
+        );
 
 }
 
