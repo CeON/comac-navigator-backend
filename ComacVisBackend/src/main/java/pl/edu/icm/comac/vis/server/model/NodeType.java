@@ -17,6 +17,10 @@ public enum NodeType {
     PAPER(RDFConstants.CEON_PAPER_TYPE, "paper"),
     PERSON(RDFConstants.CEON_PERSON_TYPE, "author"),
     JOURNAL(RDFConstants.CEON_JOURNAL_TYPE, "journal"),
+    BLOG(RDFConstants.CEON_BLOG_TYPE, "blog"),
+    BLOG_ENTRY(RDFConstants.CEON_BLOG_ENTRY_TYPE, "blog_entry"),
+    DATASET(RDFConstants.CEON_DATASET_TYPE, "dataset"),
+    ORGANIZATION(RDFConstants.CEON_ORGANIZATION_TYPE, "organization"),
     TERM(null, "topic");
 
     NodeType(String url, String jsonType) {
