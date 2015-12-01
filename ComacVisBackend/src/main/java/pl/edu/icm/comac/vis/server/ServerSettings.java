@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("comac")
 public class ServerSettings {
+    
 
     /**
      * URL of a remote Sesame repository

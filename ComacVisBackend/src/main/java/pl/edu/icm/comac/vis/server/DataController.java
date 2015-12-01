@@ -15,7 +15,7 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-
+import pl.edu.icm.comac.vis.server.service.SearchResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,6 +51,7 @@ import pl.edu.icm.comac.vis.server.model.Link;
 import pl.edu.icm.comac.vis.server.service.GraphIdService;
 import pl.edu.icm.comac.vis.server.service.GraphService;
 import pl.edu.icm.comac.vis.server.service.NodeTypeService;
+import pl.edu.icm.comac.vis.server.service.SearchService;
 import pl.edu.icm.comac.vis.server.service.UnknownGraphException;
 
 /**
@@ -68,18 +69,19 @@ public class DataController {
 
     @Autowired
     GraphService graphService;
-    
+
     @Autowired
     Repository repo;
 
     @Autowired
     GraphIdService graphIdService;
 
-    
     @Autowired
     NodeTypeService nodeTypeService;
-    
-    
+
+    @Autowired
+    SearchService searchService;
+
     private static final int MAX_SEARCH_RESULTS = 500;
 
     @RequestMapping("/data/graph")
@@ -115,10 +117,6 @@ public class DataController {
         }
     }
 
-    
-    
-    
-    
     private static final String GRAPH_QUERY_INIT = "PREFIX x: <http://example.org/>"
             + " PREFIX foaf: <http://xmlns.com/foaf/0.1/>"
             + " PREFIX dc: <http://purl.org/dc/elements/1.1/>"
@@ -201,7 +199,6 @@ public class DataController {
         return result;
     }
 
-
     @RequestMapping("/data/sparql_construct")
     Map<String, Object> sparqlConstruct(@RequestParam("query") String query) {
         log.debug("Invoking construct query: {}", query);
@@ -258,7 +255,7 @@ public class DataController {
                 for (String[] ns : RDFConstants.PREDEFINED_NAMESPACES) {
                     b.append("PREFIX " + ns[0] + ": <" + ns[1] + "> ");
                 }
-                queryString = b.toString()+" "+query;
+                queryString = b.toString() + " " + query;
             }
             try {
                 TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
@@ -310,50 +307,19 @@ public class DataController {
         log.debug("Got a search query: {}", query);
         Map<String, Object> res = new HashMap<String, Object>();
         Map<String, Object> response = new HashMap<String, Object>();
-        String baseQuery = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
-                + "PREFIX dc: <http://purl.org/dc/elements/1.1/>  "
-                + "PREFIX bds: <http://www.bigdata.com/rdf/search#> "
-                + "select ?fav ?favname ?type "
-                + "where "
-                + "{ "
-                + "?favname bds:search ?query . ?favname bds:matchAllTerms \"true\" . "
-                + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } . "
-                + "?fav a ?type"
-                + "} "
-                //                + "order by ?favname "
-                + "LIMIT " + (MAX_SEARCH_RESULTS + 1);
 
         query = query.toLowerCase();
-        
+
         try {
-            RepositoryConnection con = repo.getConnection();
-            ValueFactory vf = con.getValueFactory();
-            List<SearchResult> searchResultList = new ArrayList<SearchResult>();
-            boolean hasMore = false;
-            try {
-                TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, baseQuery);
-                tupleQuery.setBinding("query", vf.createLiteral(query));
-                TupleQueryResult result = tupleQuery.evaluate();
-                while (result.hasNext()) {
-                    BindingSet set = result.next();
-                    String id = set.getValue("fav").stringValue();
-                    String type = set.getValue("type").stringValue();
-                    type = mapTypeValue(type);
-                    String name = set.getValue("favname").stringValue();
-                    if (searchResultList.size() < MAX_SEARCH_RESULTS) {
-                        searchResultList.add(new SearchResult(id, type, name));
-                    } else {
-                        hasMore = true;
-                    }
-                }
-                response.put("docs", searchResultList);
-                response.put("hasMoreResults", hasMore);
-                log.debug("search success, got {} results.", searchResultList.size());
-            } finally {
-                if (con != null) {
-                    con.close();
-                }
+
+            List<SearchResult> searchResultList = searchService.search(query, MAX_RESPONSE + 1);
+
+            boolean hasMore = searchResultList.size() > MAX_SEARCH_RESULTS;
+            if (hasMore) {
+                searchResultList = searchResultList.subList(0, MAX_SEARCH_RESULTS);
             }
+            response.put("docs", searchResultList);
+            response.put("hasMoreResults", hasMore);
             res.put("response", response);
         } catch (Exception e) {
             res.put("error", e.getMessage());
@@ -430,41 +396,4 @@ public class DataController {
         }
     }
 
-    private static class SearchResult {
-
-        String id;
-        String type;
-        String name;
-
-        public SearchResult(String id, String type, String name) {
-            this.id = id;
-            this.type = type;
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-    }
 }

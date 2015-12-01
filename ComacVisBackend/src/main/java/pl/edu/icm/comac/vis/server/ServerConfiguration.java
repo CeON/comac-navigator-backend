@@ -30,6 +30,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import pl.edu.icm.comac.vis.server.service.SearchService;
 
 /**
  * Creates the repository itself based on spring configuration.
@@ -45,6 +46,24 @@ public class ServerConfiguration {
     @Autowired
     private ServerSettings settings;
 
+    
+    @Bean
+    @Profile({"sparql", "remote"})
+    SearchService buildBlazegraphSearchService(Repository r) {
+        SearchService res = new SearchService();
+        res.setRepo(r);
+        res.setEnableBlazegraphSearch(true);
+        return res;
+    }
+    @Bean
+    @Profile("sesame")
+    SearchService buildSesameSearchService(Repository r) {
+        SearchService res = new SearchService();
+        res.setRepo(r);
+        res.setEnableBlazegraphSearch(false);
+        return res;
+    }
+    
     @Bean
     CacheManager buildCacheManager() {
         CacheManager cm = CacheManager.getInstance();
