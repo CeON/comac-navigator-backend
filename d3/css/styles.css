@@ -78,7 +78,7 @@ g.blog.hover text {
 }
 
 g.project circle {
-    fill: #671eba;
+    fill: #dbab00;
 }
 
 g.project.hover circle {
@@ -89,7 +89,7 @@ g.project.hover text {
     fill: #dbab00;
 }
 g.hover circle {
-    fill: #dbab00;
+    fill: white;
     stroke-width: 1px;
 }
 
