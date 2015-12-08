@@ -50,5 +50,7 @@ require(
         window.sidebar.dataProvider = dataProvider;
         window.sidebar.graphController = graphController;
         window.sidebar.init();
+
+        graphController.sidebarController = window.sidebar;
     }); // require end
 

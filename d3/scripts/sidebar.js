@@ -39,8 +39,16 @@ window.sidebar.init = function () {
         d3.event.preventDefault();
     });
 
-}
+};
 
+window.sidebar.showNodeInfo = function (node) {
+    console.log("Show node info for " + node.id);
+    $('#infoTab')
+        .empty()
+        .html('<h4>' + node.name + '</h4>');
+    $('a[href="#infoTab"]').tab('show');
+    //alert(nodeId);
+};
 
 window.sidebar.doSearch = function () {
     var query = d3.select("#search-input").property('value');
@@ -96,7 +104,7 @@ window.sidebar.setHasMoreLabel = function (hasMore) {
             "<span data-i18n='noMoreResults'></span></div>");
     }
     translations.translateAll();
-}
+};
 
 
 window.sidebar.appendSearchResultEntries = function (documents) {
@@ -126,13 +134,13 @@ window.sidebar.appendSearchResultEntries = function (documents) {
             }
         );
 
-}
+};
 
 
 window.sidebar.onDragDiv = function (d, i) {
     console.log("Dragging started.");
     d3.event.dataTransfer.setData("text", d.id);
-}
+};
 
 function allowDrop(ev) {
     ev.preventDefault();

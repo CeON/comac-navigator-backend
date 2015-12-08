@@ -11,17 +11,17 @@ h1 {
 
 /* Graph */
 
-.node circle {
+.node rect {
     stroke: #fff;
     stroke-width: 1px;
     cursor: pointer;
 }
 
-g.paper circle {
+g.paper rect {
     fill: #292;
 }
 
-g.paper.hover circle {
+g.paper.hover rect {
     stroke: #292;
 }
 
@@ -29,11 +29,11 @@ g.paper.hover text {
     fill: #292;
 }
 
-g.author circle {
+g.author rect {
     fill: #1F77B4;
 }
 
-g.author.hover circle {
+g.author.hover rect {
     stroke: #1F77B4;
 }
 
@@ -41,11 +41,11 @@ g.author.hover text {
     fill: #1F77B4;
 }
 
-g.dataset circle {
+g.dataset rect {
     fill: #FF7F0E;
 }
 
-g.dataset.hover circle {
+g.dataset.hover rect {
     stroke: #FF7F0E;
 }
 
@@ -53,11 +53,11 @@ g.dataset.hover text {
     fill: #FF7F0E;
 }
 
-g.journal circle {
+g.journal rect {
     fill: #D62728;
 }
 
-g.journal.hover circle {
+g.journal.hover rect {
     stroke: #D62728;
 }
 
@@ -65,11 +65,11 @@ g.journal.hover text {
     fill: #D62728;
 }
 
-g.blog circle {
+g.blog rect {
     fill: #671eba;
 }
 
-g.blog.hover circle {
+g.blog.hover rect {
     stroke: #671eba;
 }
 
@@ -77,18 +77,18 @@ g.blog.hover text {
     fill: #671eba;
 }
 
-g.project circle {
+g.project rect {
     fill: #dbab00;
 }
 
-g.project.hover circle {
+g.project.hover rect {
     stroke: #dbab00;
 }
 
 g.project.hover text {
     fill: #dbab00;
 }
-g.hover circle {
+g.hover rect {
     fill: white;
     stroke-width: 1px;
 }
@@ -178,11 +178,26 @@ g.hover circle {
     margin: 15px 0;
 }
 
+/* Search list */
+.tab-pane h5 {
+    margin-bottom: 10px;
+}
+
+.tab-pane p {
+    margin-top: 0px;
+}
+.tab-pane .node-list {
+    margin-top: 0px;
+}
+
 /* Search results */
 
 .search-result {
-    padding: 3px 12px 2px 12px;
+    padding: 2px 12px 3px 12px;
     margin: 1px 0;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
     border: white solid 1px;
 }
 
@@ -198,10 +213,8 @@ g.hover circle {
     margin-right: 6px;
 }
 
-.search-result {
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+.search-result .title span {
+    margin: 2px 0px 2px 2px;
 }
 
 .search-result.paper,
@@ -280,11 +293,6 @@ g.hover circle {
     background: white;
     color: #dbab00;
     border-color: #dbab00;
-}
-
-.search-result .title span {
-    margin-left: 3px;
-    margin-bottom: 3px;
 }
 
 div.tooltip {

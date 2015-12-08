@@ -147,6 +147,18 @@ translations = {
             pl: "Aby dodać żądany wynik do grafu, " +
             "przeciągnij go na obszar pracy po prawej."
         },
+        publishedIn: {
+            en: "Published in:",
+            pl: "Opublikowano w:"
+        },
+        abstract: {
+            en: "Abstract:",
+            pl: "Abstrakt:"
+        },
+        authors: {
+            en: "Authors:",
+            pl: "Autorzy:"
+        },
     },
 };
 

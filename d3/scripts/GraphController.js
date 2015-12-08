@@ -67,6 +67,7 @@ function GraphController(dataProvider, initialNodes) {
     var zoomListener = d3.behavior.zoom()
         .scaleExtent([0.05, 1.5])
         .on("zoom", zoomHandler);
+        //.on("dblclick.zoom", null);
 
     // function for handling zoom event
     function zoomHandler() {
@@ -178,8 +179,13 @@ GraphController.prototype = {
                 d.importance = 0.7 + 0.6 * Math.random();
             return "scale(" + d.importance + ")";
         })
-        inner.append("circle")
-            .attr("r", 30)
+        inner.append("rect")
+            .attr("width", 120)
+            .attr("x", -60)
+            .attr("height", 30)
+            .attr("y", -15)
+            .attr("rx", 10)
+            .attr("ry", 10)
             .on("mouseover", function () {
                 d3.select(this.parentNode.parentNode).classed("hover", true);
             })
@@ -201,13 +207,28 @@ GraphController.prototype = {
             });
 
         // update existing & new nodes
+        var clickedOnce = false;
+        var timer;
+
+        function dist(a, b) {
+            return Math.sqrt(Math.pow(a[0] - b[0], 2), Math.pow(a[1] - b[1], 2));
+        }
+
         this.graphView.circles
-            .on("dblclick", (function (d) {
+            .on("dblclick", (function () {
                 d3.event.stopPropagation();
-                if (d.favourite) {
-                    this.removeFavouriteNodes([d.id]);
+            }))
+            .on("click", (function (d) {
+                if (clickedOnce) {
+                    clickedOnce = false;
+                    clearTimeout(timer);
+                    this.onDoubleClick(d);
                 } else {
-                    this.addFavouriteNodes([d.id]);
+                    timer = setTimeout((function () {
+                        this.onSingleClick(d);
+                        clickedOnce = false;
+                    }).bind(this), 300);
+                    clickedOnce = true;
                 }
             }).bind(this))
             .style("opacity", function (d) {
@@ -218,7 +239,7 @@ GraphController.prototype = {
             });
         // remove old nodes
         this.graphView.circles.exit().remove();
-        this.showNodesFirefoxHack();
+        //this.showNodesFirefoxHack();
     },
 
     showNodesFirefoxHack: function () {
@@ -227,6 +248,18 @@ GraphController.prototype = {
         setTimeout(function () {
             n.classed("node", true)
         }, 0);
+    },
+
+    onSingleClick: function (d) {
+        this.sidebarController.showNodeInfo(d);
+    },
+
+    onDoubleClick: function (d) {
+        if (d.favourite) {
+            this.removeFavouriteNodes([d.id]);
+        } else {
+            this.addFavouriteNodes([d.id]);
+        }
     },
 
     addFavouriteNodes: function (newNodeIds) {
@@ -276,8 +309,8 @@ GraphController.prototype = {
 }
 
 GraphController.shortenString = function (str) {
-    if (str.length > 7) {
-        return str.slice(0, 4) + "..";
+    if (str.length > 17) {
+        return str.slice(0, 14) + "..";
     } else {
         return str;
     }
