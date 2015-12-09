@@ -29,28 +29,40 @@ g.paper.hover text {
     fill: #292;
 }
 
+g.institution rect {
+    fill: #0fa2aa;
+}
+
+g.institution.hover rect {
+    stroke: #0fa2aa;
+}
+
+g.institution.hover text {
+    fill: #0fa2aa;
+}
+
 g.author rect {
-    fill: #1F77B4;
+    fill: #1e4bb4;
 }
 
 g.author.hover rect {
-    stroke: #1F77B4;
+    stroke: #1e4bb4;
 }
 
 g.author.hover text {
-    fill: #1F77B4;
+    fill: #1e4bb4;
 }
 
 g.dataset rect {
-    fill: #FF7F0E;
+    fill: #e8730f;
 }
 
 g.dataset.hover rect {
-    stroke: #FF7F0E;
+    stroke: #e8730f;
 }
 
 g.dataset.hover text {
-    fill: #FF7F0E;
+    fill: #e8730f;
 }
 
 g.journal rect {
@@ -78,15 +90,15 @@ g.blog.hover text {
 }
 
 g.project rect {
-    fill: #dbab00;
+    fill: #e2ac05;
 }
 
 g.project.hover rect {
-    stroke: #dbab00;
+    stroke: #e2ac05;
 }
 
 g.project.hover text {
-    fill: #dbab00;
+    fill: #e2ac05;
 }
 g.hover rect {
     fill: white;
@@ -230,30 +242,43 @@ g.hover rect {
     border-color: #292;
 }
 
+.search-result.institution,
+.search-result[class*="institution"] {
+    background: #0fa2aa;
+    border-color: #0fa2aa;
+}
+
+.search-result.institution:hover,
+.search-result[class*="institution"]:hover {
+    background: white;
+    color: #0fa2aa;
+    border-color: #0fa2aa;
+}
+
 .search-result.author,
 .search-result[class*="author"] {
-    background: #1F77B4;
-    border-color: #1F77B4;
+    background: #1e4bb4;
+    border-color: #1e4bb4;
 }
 
 .search-result.author:hover,
 .search-result[class*="author"]:hover {
     background: white;
-    color: #1F77B4;
-    border-color: #1F77B4;
+    color: #1e4bb4;
+    border-color: #1e4bb4;
 }
 
 .search-result.dataset,
 .search-result[class*="dataset"] {
-    background: #FF7F0E;
-    border-color: #FF7F0E;
+    background: #e8730f;
+    border-color: #e8730f;
 }
 
 .search-result.dataset:hover,
 .search-result[class*="dataset"]:hover {
     background: white;
-    color: #FF7F0E;
-    border-color: #FF7F0E;
+    color: #e8730f;
+    border-color: #e8730f;
 }
 
 .search-result.journal,
@@ -284,15 +309,15 @@ g.hover rect {
 
 .search-result.project,
 .search-result[class*="project"] {
-    background: #dbab00;
-    border-color: #dbab00;
+    background: #e2ac05;
+    border-color: #e2ac05;
 }
 
 .search-result.project:hover,
 .search-result[class*="project"]:hover {
     background: white;
-    color: #dbab00;
-    border-color: #dbab00;
+    color: #e2ac05;
+    border-color: #e2ac05;
 }
 
 div.tooltip {
