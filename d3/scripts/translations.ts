@@ -3,78 +3,82 @@
  *
  * @author Michał Oniszczuk <m.oniszczuk@icm.edu.pl>
  */
+
 ///<reference path="lib/jquery.d.ts" />
-var LANG_PL = "pl";
-var LANG_EN = "en";
-var TRANS_TARGET_ATTRIBUTE = "data-i18n";
+
+const LANG_PL = "pl";
+const LANG_EN = "en";
+
+const TRANS_TARGET_ATTRIBUTE = "data-i18n";
+
 /**
  * Translations.
  *
  * @namespace
  */
-var translations;
-(function (translations) {
+namespace translations {
+
     var selectedLanguage = LANG_EN;
+
     /**
      * Toggles the currently selected language between LANG_PL and LANG_EN.
      */
-    function toggleLanguage() {
+    export function toggleLanguage() {
         if (selectedLanguage == LANG_PL) {
             changeLanguage(LANG_EN);
-        }
-        else {
+        } else {
             changeLanguage(LANG_PL);
         }
     }
-    translations.toggleLanguage = toggleLanguage;
+
     /**
      * Change the currently selected language and update all elements in the
      * interface that have the TRANS_TARGET_ATTRIBUTE attribute.
      * @param {string} toLang change to this language
      */
-    function changeLanguage(toLang) {
+    export function changeLanguage(toLang) {
         selectedLanguage = toLang;
         translateAll();
     }
-    translations.changeLanguage = changeLanguage;
+
     /**
      * Translate all elements in the interface that have the attribute
      * TRANS_TARGET_ATTRIBUTE.
      * @private
      */
-    function translateAll() {
+    export function translateAll() {
         $("[" + TRANS_TARGET_ATTRIBUTE + "]")
             .each(function () {
-            translations.translate($(this));
-        });
+                translations.translate($(this));
+            });
     }
-    translations.translateAll = translateAll;
+
     /**
      * Translate the text inside the provided interface element using the
      * TRANS_TARGET_ATTRIBUTE attribute value as a key.
      * @param {jQuery} elem
      */
-    function translate(elem) {
+    export function translate(elem) {
         var translationKey = elem.attr(TRANS_TARGET_ATTRIBUTE);
         var newText = translations.getText(translationKey);
-        if (elem.is("[target-i18n]")) {
+        if (elem.is("[target-i18n]")) { //elem.hasAttr("target-i18n")
             var target = elem.attr("target-i18n");
             elem.attr(target, newText);
-        }
-        else {
+
+        } else {
             elem.text(newText);
         }
     }
-    translations.translate = translate;
+
     /**
      * Get the translated string.
      * @param {string} key get string for this key
      * @returns {string} translated string
      */
-    function getText(key) {
+    export function getText(key) {
         return texts[key][selectedLanguage];
     }
-    translations.getText = getText;
+
     var texts = {
         languageSelector: {
             en: "Po polsku",
@@ -157,5 +161,6 @@ var translations;
             pl: "Autorzy:"
         }
     };
-})(translations || (translations = {}));
-//# sourceMappingURL=translations.js.map
+}
+
+
