@@ -1,4 +1,5 @@
-comac-ui-experiments
+COMAC Navigator Backend
 ====================
 
-Experiments with various technologies for the COMAC Navigator UI
+REST service for powering the COMAC Navigator.
+
