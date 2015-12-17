@@ -24,6 +24,10 @@ public class RDFConstants {
     public static final String TOPIC_TYPE="type::topic";
     public static final String TOPIC_ID_PREFIX = "term::";
     
+    public static final String TYPE_PROPERTY="http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+    
+//    public static final String RDF_TYPE_DATETIME="http://www.w3.org/2001/XMLSchema#dateTime";
+    
     
     public static final String[][] PREDEFINED_NAMESPACES= new String[][] {
         {"dc", "http://purl.org/dc/elements/1.1/"}, 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+    <head>
+        <title>Coansys - query</title>
+        <script type="text/javascript" th:inline="javascript">
+
+            // <![CDATA[
+            $(document).ready(function () {
+                console.log("loading button");
+                $('#QueryButton').on('click', function () {
+                    var req = {
+                        id: $('#QueryInput').val(),
+                    };
+                    console.log(req);
+                    var url = /*[[@{/data/details}]]*/ '.';
+                    $.getJSON(url, req,
+                            function (resp) {
+                                processAjaxResult(resp)
+                            });
+                });
+                console.log("Finished.");
+            });
+
+            function processAjaxResult(resp) {
+                console.log("Got an response from ajax");
+                $("#MessageArea").empty();
+                $("#ResultArea").empty();
+                if (resp.error) {
+                    var message = '<div class="alert alert-danger" role="alert"><b>Error:</b>' + resp.error + '</div>';
+                    $("#MessageArea").append(message);
+                } else {
+                    if (resp.warning) {
+                        message = '<div class="alert alert-warning" role="alert"><b>Error:</b>' + resp.warning + '</div>';
+                        $("#MessageArea").append(message);
+                    }
+                    
+                    $("#ResultArea").append(JSON.stringify(resp, null, 2));
+                }
+            }
+
+            // ]]>
+        </script>
+    </head>
+    <body>
+        <h1 layout:fragment="header">Details query</h1>
+        <div layout:fragment="content" class="container">
+            <div class="input-group">
+                <input id="QueryInput" type="text" class="form-control" placeholder="enter id"></input>
+                <span class="input-group-btn">
+                    <button id="QueryButton" class="btn btn-default" type="button">Details</button>
+                </span>
+            </div>
+            <p>
+                <div id="MessageArea">
+
+                </div>
+                <pre id="ResultArea">
+
+                </pre>
+            </p>
+    </div>
+
+</body>
+</html>

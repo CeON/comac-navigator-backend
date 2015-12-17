@@ -54,6 +54,11 @@ public class UserViewController {
     String search() {
         return "search";
     }
+    
+    @RequestMapping("/details")
+    String details() {
+        return "details";
+    }
 
     @RequestMapping("/read_data")
     String readData(ModelMap model) {

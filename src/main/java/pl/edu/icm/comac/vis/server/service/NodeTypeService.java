@@ -102,8 +102,20 @@ public class NodeTypeService {
         return res;
     }
 
+    
+    public static String termToTermId(String term) {
+        return RDFConstants.TOPIC_ID_PREFIX+term;
+    }
+    
+    public static String termIdToTerm(String id) {
+        if(isTermType(id)) {
+            return id.substring(RDFConstants.TOPIC_ID_PREFIX.length());
+        } else {
+            return id;
+        }
+    }
 
-    protected boolean isTermType(String identifier) {
+    protected static boolean isTermType(String identifier) {
         return identifier.startsWith(RDFConstants.TOPIC_ID_PREFIX);
     }
 

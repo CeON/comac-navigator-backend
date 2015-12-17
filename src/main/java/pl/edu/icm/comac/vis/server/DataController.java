@@ -48,11 +48,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.icm.comac.vis.server.model.Graph;
 import pl.edu.icm.comac.vis.server.model.Link;
+import pl.edu.icm.comac.vis.server.service.DetailsService;
 import pl.edu.icm.comac.vis.server.service.GraphIdService;
 import pl.edu.icm.comac.vis.server.service.GraphService;
 import pl.edu.icm.comac.vis.server.service.NodeTypeService;
 import pl.edu.icm.comac.vis.server.service.SearchService;
 import pl.edu.icm.comac.vis.server.service.UnknownGraphException;
+import pl.edu.icm.comac.vis.server.service.UnknownNodeException;
 
 /**
  *
@@ -81,6 +83,9 @@ public class DataController {
 
     @Autowired
     SearchService searchService;
+    
+    @Autowired
+    DetailsService detailsService;
 
     private static final int MAX_SEARCH_RESULTS = 500;
 
@@ -324,6 +329,19 @@ public class DataController {
         } catch (Exception e) {
             res.put("error", e.getMessage());
         }
+        return res;
+    }
+
+    /** Controller method to serve detailed info about the object with given id.
+     * 
+     * @param id identifier of the object to check info for.
+     * @return 
+     */
+    @RequestMapping("/data/details")
+    Map objectDetails(@RequestParam("id") String id) throws UnknownNodeException, OpenRDFException {
+        log.debug("Got id request for object {}", id);
+        
+        Map<String, Object> res = detailsService.getObjectInfo(id);
         return res;
     }
 
