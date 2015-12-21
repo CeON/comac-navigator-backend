@@ -338,7 +338,7 @@ public class DataController {
      * @return 
      */
     @RequestMapping("/data/details")
-    Map objectDetails(@RequestParam("id") String id) throws UnknownNodeException, OpenRDFException {
+    Map objectDetails(@RequestParam("query") String id) throws UnknownNodeException, OpenRDFException {
         log.debug("Got id request for object {}", id);
         
         Map<String, Object> res = detailsService.getObjectInfo(id);
