@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Pivotal Software, Inc..
+ * Copyright 2015 ICM Warsaw University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ public class DetailsService {
     static {
         translators = new HashMap<>();
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/date", "Date", true));
+        registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/date", "Date", true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/title", "Title", true));
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/issn", "ISSN", true));//FIXME: check if we have multiple issn in data
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/doi", "DOI", true));
@@ -61,7 +62,7 @@ public class DetailsService {
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/family_name", "FamilyName", false));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/name", "Name", true));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/mbox", "Email", false));
-//        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
+        registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/source", "Source", true, true));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
@@ -80,11 +81,23 @@ public class DetailsService {
         if (type == NodeType.TERM) {
             res = termProperties(id);
         } else {
-            res = basicObjectProperties(id, type);
+            res = basicObjectProperties(id, true);
         }
-        res.put(ComacPropertyConstants.IDENTIFIER, id);
-        res.put(ComacPropertyConstants.TYPE, type);
+        appendCoreProperties(res, id);
         return res;
+    }
+
+    protected void appendCoreProperties(Map<String, Object> pmap, String id) throws OpenRDFException {
+        pmap.put(ComacPropertyConstants.IDENTIFIER, id);
+        try {
+            NodeType type = nodeTypeService.identifyType(id);
+            pmap.put(ComacPropertyConstants.TYPE, type);
+
+        } catch (UnknownNodeException une) {
+            log.info("Could not identify type of node {}", id);
+            log.info("Exception while identifying.", une);
+        }
+
     }
 
     private Map<String, Object> termProperties(String id) {
@@ -94,16 +107,17 @@ public class DetailsService {
         return res;
     }
 
-    private Map<String, Object> basicObjectProperties(String id, NodeType type) throws OpenRDFException {
+    private Map<String, Object> basicObjectProperties(String id, boolean expandProperties) throws OpenRDFException {
+
         Map<String, Object> res = new HashMap<String, Object>();
         String sparqlQuery = "select ?property ?value ?value_class where { ?id ?property ?value .  OPTIONAL { ?value a ?value_class }  }";
-
+        log.debug("Preparing query for details...");
         RepositoryConnection conn = repo.getConnection();
-
         TupleQuery query = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery);
         ValueFactory valueFactory = conn.getValueFactory();
         query.setBinding("id", valueFactory.createURI(id));
         TupleQueryResult qres = query.evaluate();
+        log.debug("Evaluated sparql query...");
         while (qres.hasNext()) {
             BindingSet bs = qres.next();
             String prop = bs.getValue("property").stringValue();
@@ -112,21 +126,32 @@ public class DetailsService {
                 continue;
             }
             String val = bs.getValue("value").stringValue();
-            if (bs.hasBinding("value_class")) {
-                //do sth with item..
-            } else if (hasTranslator(prop)) {
+            if (hasTranslator(prop)) {
                 final PropertyTranslator translator = getTranslator(prop);
+                Object propertyValue = val;
+                if (bs.hasBinding("value_class")) { //object value
+                    if (expandProperties) {
+                        if (!translator.isObjectValue()) {
+                            log.warn("Unexpected property with obj value for non-object translator, skipping.");
+                            continue;
+                        }
+                        Map<String, Object> opmap = basicObjectProperties(val, false);
+                        appendCoreProperties(opmap, val);
+                        propertyValue = opmap;
+                    }
+                }
                 prop = translator.getJSONPropertyName();
                 if (translator.isSingular()) {
-                    res.put(prop, val);
+                    res.put(prop, propertyValue);
                 } else {
-                    ((List)res.computeIfAbsent(prop, k -> new ArrayList())).add(val);
+                    ((List) res.computeIfAbsent(prop, k -> new ArrayList())).add(val);
                 }
-
-            } else {
+            } else if (!bs.hasBinding("value_class")) {
                 res.put(prop, val);
-
+            } else {
+                log.debug("skipping prop: {} val: {}", prop, val);
             }
+
         }
         return res;
     }

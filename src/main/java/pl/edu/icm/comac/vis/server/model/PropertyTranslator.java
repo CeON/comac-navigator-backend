@@ -23,13 +23,13 @@ public class PropertyTranslator {
     String URL;
     String JSONPropertyName;
     boolean singular;
-    NodeType decodeAsType;
+    boolean objectValue = false;
 
-    public PropertyTranslator(String URL, String JSONPropertyName, boolean singular, NodeType decodeAsType) {
+    public PropertyTranslator(String URL, String JSONPropertyName, boolean singular, boolean objectValue) {
         this.URL = URL;
         this.JSONPropertyName = JSONPropertyName;
         this.singular = singular;
-        this.decodeAsType = decodeAsType;
+        this.objectValue = objectValue;
     }
 
     
@@ -64,13 +64,15 @@ public class PropertyTranslator {
         this.singular = singular;
     }
 
-    public NodeType getDecodeAsType() {
-        return decodeAsType;
+    public boolean isObjectValue() {
+        return objectValue;
     }
 
-    public void setDecodeAsType(NodeType decodeAsType) {
-        this.decodeAsType = decodeAsType;
+    public void setObjectValue(boolean objectValue) {
+        this.objectValue = objectValue;
     }
+
+    
     
     
     
