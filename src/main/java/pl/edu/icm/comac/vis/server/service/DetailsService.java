@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.util.TextUtils;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
@@ -55,6 +58,7 @@ public class DetailsService {
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/date", "Date", true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/date", "Date", true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/title", "Title", true));
+        registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/subject", "Subject", false));
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/issn", "ISSN", true));//FIXME: check if we have multiple issn in data
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/doi", "DOI", true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/abstract", "Abstract", true));
@@ -63,6 +67,7 @@ public class DetailsService {
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/name", "Name", true));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/mbox", "Email", false));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/source", "Source", true, true));
+        registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/references", "References", false, true));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
 //        registerTranslator(new PropertyTranslator("", "", true, NodeType.));
@@ -108,7 +113,6 @@ public class DetailsService {
     }
 
     private Map<String, Object> basicObjectProperties(String id, boolean expandProperties) throws OpenRDFException {
-
         Map<String, Object> res = new HashMap<String, Object>();
         String sparqlQuery = "select ?property ?value ?value_class where { ?id ?property ?value .  OPTIONAL { ?value a ?value_class }  }";
         log.debug("Preparing query for details...");
@@ -144,14 +148,48 @@ public class DetailsService {
                 if (translator.isSingular()) {
                     res.put(prop, propertyValue);
                 } else {
-                    ((List) res.computeIfAbsent(prop, k -> new ArrayList())).add(val);
+                    ((List) res.computeIfAbsent(prop, k -> new ArrayList())).add(propertyValue);
                 }
+            } else if("http://purl.org/ontology/bibo/authorList".equals(prop)) {
+                res.put("Authors", authorList(id));
             } else if (!bs.hasBinding("value_class")) {
                 res.put(prop, val);
             } else {
                 log.debug("skipping prop: {} val: {}", prop, val);
             }
 
+        }
+        return res;
+    }
+
+    private List<Object> authorList(String id) throws OpenRDFException {
+        log.debug("Preparing author list for {}", id);
+        String sparqlQuery = "select ?property ?value WHERE "
+                + "{ ?id <http://purl.org/ontology/bibo/authorList> ?l ."
+                + " ?l ?property ?value }";
+        RepositoryConnection conn = repo.getConnection();
+        TupleQuery query = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery);
+        ValueFactory valueFactory = conn.getValueFactory();
+        query.setBinding("id", valueFactory.createURI(id));
+        TupleQueryResult qres = query.evaluate();
+        Map<String, String> orderMap = new HashMap<>();
+        while (qres.hasNext()) {
+            BindingSet bs = qres.next();
+            String prop = bs.getValue("property").stringValue();
+            if (!prop.matches("http://www.w3.org/1999/02/22-rdf-syntax-ns#_\\d+")) {
+                continue;
+            }
+            String val = bs.getValue("value").stringValue();
+            String p = prop.substring("http://www.w3.org/1999/02/22-rdf-syntax-ns#_".length());
+            p = StringUtils.leftPad(p, 5, '0');
+            orderMap.put(p, val);
+        }
+        log.debug("Got {} authors", orderMap.size());
+        List<Object> res = new ArrayList<>();
+        for(String key: orderMap.keySet().stream().sorted().collect(Collectors.toList())) {
+            final Map<String, Object> aprops = basicObjectProperties(orderMap.get(key), false);
+            appendCoreProperties(aprops, orderMap.get(key));
+            res.add(aprops);
         }
         return res;
     }
