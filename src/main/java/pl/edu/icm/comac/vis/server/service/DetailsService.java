@@ -64,7 +64,7 @@ public class DetailsService {
         registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/abstract", "Abstract", true));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/givenname", "GivenName", false));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/family_name", "FamilyName", false));
-        registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/name", "Name", true));
+        registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/name", "name", true));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/mbox", "Email", false));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/source", "Source", true, true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/references", "References", false, true));
