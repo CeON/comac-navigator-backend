@@ -105,7 +105,13 @@ public class TestConfig {
     }
     
     @Bean
-    GraphService buildGraphService() {
-        return new GraphService();
+    AtomicGraphServiceImpl buildGraphService() {
+        return new AtomicGraphServiceImpl();
+    }
+    
+    @Bean
+    GraphToolkit buildGraphToolkit() {
+        return new GraphToolkit()
+                ;
     }
 }

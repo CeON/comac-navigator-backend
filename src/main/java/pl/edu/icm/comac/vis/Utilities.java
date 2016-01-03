@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pl.edu.icm.comac.vis.server.service;
-
-import org.openrdf.OpenRDFException;
-import pl.edu.icm.comac.vis.server.model.Graph;
+package pl.edu.icm.comac.vis;
 
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-public interface GraphService {
-
-    Graph constructGraphs(String[] ids) throws OpenRDFException;
+public class Utilities {
     
 }

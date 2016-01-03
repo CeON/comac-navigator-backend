@@ -97,10 +97,6 @@ public class DataController {
             Graph res = graphService.constructGraphs(idArray);
             res.setGraphId(graphId);
             return res;
-//            Map<String, Object> res = personPublicationGraph(idArray);
-//            res.put("graphId", graphId);
-//            
-//            return res;
         } catch (OpenRDFException e) {
             log.error("query failed", e);
             return new Graph();
@@ -122,87 +118,6 @@ public class DataController {
         }
     }
 
-    private static final String GRAPH_QUERY_INIT = "PREFIX x: <http://example.org/>"
-            + " PREFIX foaf: <http://xmlns.com/foaf/0.1/>"
-            + " PREFIX dc: <http://purl.org/dc/elements/1.1/>"
-            + " CONSTRUCT { ?fav a ?favtype . ?fav x:name ?favname . ?fav x:fav true ."
-            + " ?in ?inrel ?fav . ?in a ?intype . ?in x:name ?inname ."
-            + " ?fav ?outrel ?out . ?out a ?outtype . ?out x:name ?outname . }"
-            + " WHERE { ?fav a ?favtype . { ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname }"
-            + " OPTIONAL { ?in ?inrel ?fav . ?in a ?intype . { ?in foaf:name ?inname } UNION { ?in dc:title ?inname } }"
-            + " OPTIONAL { ?fav ?outrel ?out . ?out a ?outtype . { ?out foaf:name ?outname } UNION { ?out dc:title ?outname } }"
-            + " VALUES ?fav {";
-
-    private Map<String, Object> personPublicationGraph(String... uris) throws OpenRDFException {
-        RepositoryConnection conn = repo.getConnection();
-        ValueFactory vf = conn.getValueFactory();
-        URI type = vf.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        URI name = vf.createURI("http://example.org/name");
-        URI fav = vf.createURI("http://example.org/fav");
-
-        Map<String, Object> result = new HashMap<>();
-        //special case - empty graph:
-
-        if (uris.length == 1 && uris[0].isEmpty()) {
-            result.put("links", Collections.EMPTY_SET);
-            result.put("nodes", Collections.EMPTY_SET);
-        } else {
-            try {
-                String sparql = GRAPH_QUERY_INIT;
-                for (int n = 0; n < uris.length; n++) {
-                    sparql += " ?fav" + n;
-                }
-                sparql += " }}";
-                log.debug("Graph query: {}", sparql);
-
-                GraphQuery query = conn.prepareGraphQuery(QueryLanguage.SPARQL, sparql);
-                for (int n = 0; n < uris.length; n++) {
-                    query.setBinding("fav" + n, vf.createURI(uris[n]));
-                }
-                GraphQueryResult graph = query.evaluate();
-                try {
-                    //List<Map<String, Object>> links = new ArrayList<>();
-                    Set<Link> links = new HashSet<>();
-                    Map<URI, Map<String, Object>> nodes = new HashMap<>();
-
-                    while (graph.hasNext()) {
-                        Statement spo = graph.next();
-                        log.debug("Result triple: {}", spo);
-                        Resource s = spo.getSubject();
-                        URI p = spo.getPredicate();
-                        Value o = spo.getObject();
-
-                        if (p.equals(type)) {
-                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("type", mapTypeValue(o.stringValue()));
-                        } else if (p.equals(name)) {
-                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put("name", o.stringValue());
-                        } else if (p.equals(fav)) {
-                            nodes.computeIfAbsent((URI) s, k -> new HashMap<>()).put(JSON_FAVOURITE, true);
-                        } else {
-                            links.add(new Link(p.stringValue(), s.stringValue(), o.stringValue()));
-                        }
-                    }
-                    result.put("links", links);
-
-                    Map<String, Double> importance = calculateImportance(nodes, links);
-                    applyImportance(nodes, importance);
-
-                    result.put("nodes",
-                            nodes.entrySet().stream().map(
-                                    e -> {
-                                        Map<String, Object> node = e.getValue();
-                                        node.put("id", e.getKey().stringValue());
-                                        return node;
-                                    }).toArray());
-                } finally {
-                    graph.close();
-                }
-            } finally {
-                conn.close();
-            }
-        }
-        return result;
-    }
 
     @RequestMapping("/data/sparql_construct")
     Map<String, Object> sparqlConstruct(@RequestParam("query") String query) {
@@ -342,26 +257,6 @@ public class DataController {
         log.debug("Got id request for object {}", id);
         
         Map<String, Object> res = detailsService.getObjectInfo(id);
-        return res;
-    }
-
-    /**
-     * Method which converts fully qualified type value from RDF into proper
-     * types expected by the graph.
-     *
-     * @param fullType
-     * @return
-     */
-    protected String mapTypeValue(String fullType) {
-        String res = fullType;
-        switch (fullType) {
-            case "http://data.ceon.pl/ontology/1.0/text":
-                res = "paper";
-                break;
-            case "http://data.ceon.pl/ontology/1.0/person":
-                res = "author";
-                break;
-        }
         return res;
     }
 
