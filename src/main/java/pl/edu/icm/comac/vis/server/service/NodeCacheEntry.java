@@ -15,6 +15,7 @@
  */
 package pl.edu.icm.comac.vis.server.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import pl.edu.icm.comac.vis.server.model.NodeType;
@@ -23,7 +24,7 @@ import pl.edu.icm.comac.vis.server.model.NodeType;
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-public class NodeCacheEntry {
+public class NodeCacheEntry implements Serializable {
     String name;
     String id;
     NodeType type;

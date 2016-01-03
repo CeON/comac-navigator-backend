@@ -41,12 +41,15 @@ import pl.edu.icm.comac.vis.server.service.SearchService;
 @EnableConfigurationProperties(ServerSettings.class)
 public class ServerConfiguration {
 
+    public static final String ID_CACHE_NAME = "idCache";
+    public static final String NODE_CACHE_NAME = "nodeCache";
+    public static final String DETAILS_CACHE_NAME = "detailsCache";
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ServerConfiguration.class.getName());
 
     @Autowired
     private ServerSettings settings;
 
-    
     @Bean
     @Profile({"sparql", "remote"})
     SearchService buildBlazegraphSearchService(Repository r) {
@@ -55,6 +58,7 @@ public class ServerConfiguration {
         res.setEnableBlazegraphSearch(true);
         return res;
     }
+
     @Bean
     @Profile("sesame")
     SearchService buildSesameSearchService(Repository r) {
@@ -63,7 +67,7 @@ public class ServerConfiguration {
         res.setEnableBlazegraphSearch(false);
         return res;
     }
-    
+
     @Bean
     CacheManager buildCacheManager() {
         CacheManager cm = CacheManager.getInstance();
@@ -75,7 +79,12 @@ public class ServerConfiguration {
         cm.addCache(ID_CACHE_NAME);
         return cm.getCache(ID_CACHE_NAME);
     }
-    private static final String ID_CACHE_NAME = "idCache";
+
+    @Bean(name = "nodeCache")
+    Cache buildNodeCache(CacheManager cm) {
+        cm.addCache(NODE_CACHE_NAME);
+        return cm.getCache(NODE_CACHE_NAME);
+    }
 
     @Bean
     @Profile("sesame")

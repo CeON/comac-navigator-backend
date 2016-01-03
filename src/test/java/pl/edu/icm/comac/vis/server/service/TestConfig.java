@@ -33,6 +33,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import static pl.edu.icm.comac.vis.server.ServerConfiguration.ID_CACHE_NAME;
+import static pl.edu.icm.comac.vis.server.ServerConfiguration.NODE_CACHE_NAME;
 
 /**
  *
@@ -91,13 +93,21 @@ public class TestConfig {
         return cm;
     }
 
+    
+    
     @Bean(name = "idCache")
     Cache buildIdCache(CacheManager cm) {
         cm.addCache(ID_CACHE_NAME);
         return cm.getCache(ID_CACHE_NAME);
     }
-    private static final String ID_CACHE_NAME = "idCache";
 
+    
+    @Bean(name = "nodeCache")
+    Cache buildNodeCache(CacheManager cm) {
+        cm.addCache(NODE_CACHE_NAME);
+        return cm.getCache(NODE_CACHE_NAME);
+    }
+    
     @Bean
     NodeTypeService buildNodeTypeService() {
         NodeTypeService ns = new NodeTypeService();

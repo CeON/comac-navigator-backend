@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.management.relation.Relation;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -56,6 +58,8 @@ public class AtomicGraphServiceImpl implements GraphService {
     Repository repository;
     @Autowired
     GraphToolkit graphToolkit;
+    @Autowired
+    Cache nodeCache;
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(AtomicGraphServiceImpl.class.getName());
 
@@ -63,9 +67,10 @@ public class AtomicGraphServiceImpl implements GraphService {
     public Graph constructGraphs(String[] ids) throws OpenRDFException {
         List<NodeCacheEntry> favCacheNodes = fetchNodes(ids);
         //build link map
-        Map<String, Set<String>> links = favCacheNodes.stream().
+        Map<String, Set<String>> links = favCacheNodes.parallelStream().
+                filter(x->!x.isOverflow()).
                 map(x -> x.getRelations()).
-                flatMap(x -> x.parallelStream()).
+                flatMap(x -> x.stream()).
                 flatMap(x -> Arrays.stream(new String[][]{
             {x.getSubject(), x.getObject()}, {x.getObject(), x.getSubject()}
         })).
@@ -101,7 +106,7 @@ public class AtomicGraphServiceImpl implements GraphService {
         //
         Set<String> nodeIdSet = nodes.stream().map(x -> x.getId()).collect(Collectors.toSet());
 
-        Set<Link> graphRelations = allNodes.parallelStream().
+        Set<Link> graphRelations = allNodes.parallelStream().filter(x->!x.isOverflow()).
                 flatMap(x -> x.getRelations().stream()).
                 filter(x -> nodeIdSet.contains(x.subject) && nodeIdSet.contains(x.object)).
                 map(x -> new Link(x.getPredicate(), x.getSubject(), x.getObject())).collect(Collectors.toSet());
@@ -114,11 +119,17 @@ public class AtomicGraphServiceImpl implements GraphService {
 
     private List<NodeCacheEntry> fetchNodes(String[] ids) throws OpenRDFException {
         List<NodeCacheEntry> res = new ArrayList<>();
+List<String> missedIds = new ArrayList();
+        for (String id : ids) {
 
-        //no cache yet, so do it one by one:
-        //FIXME: cache reading here please...
-        List<String> missedIds = new ArrayList();
-        missedIds.addAll(Arrays.asList(ids));
+            Element el = nodeCache.get(id);
+            if (el != null) {
+                NodeCacheEntry t = (NodeCacheEntry) el.getObjectValue();
+                res.add(t);
+            } else {
+                missedIds.add(id);
+            }
+        }
         for (String missedId : missedIds) {
             //FIXME: separate handling for terms
             if (NodeTypeService.isTermType(missedId)) {
@@ -227,6 +238,8 @@ public class AtomicGraphServiceImpl implements GraphService {
         } else {
             res = new NodeCacheEntry(name, missedId, type, relations);
         }
+        //log into cache:
+        nodeCache.put(new Element(missedId, res));
         return res;
     }
 

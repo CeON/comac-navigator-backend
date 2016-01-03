@@ -15,13 +15,14 @@
  */
 package pl.edu.icm.comac.vis.server.service;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-public class RelationCacheEntry {
+public class RelationCacheEntry implements Serializable{
     String subject;
     String predicate;
     String object;
