@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.management.relation.Relation;
-import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.URI;
@@ -36,6 +33,7 @@ import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import pl.edu.icm.comac.vis.server.model.Graph;
 import pl.edu.icm.comac.vis.server.model.Link;
@@ -51,15 +49,18 @@ import pl.edu.icm.comac.vis.server.model.NodeType;
 @Service
 public class AtomicGraphServiceImpl implements GraphService {
 
-    private static final int MAX_CACHED_RELATIONS = 250;
+    public static final int MAX_CACHED_RELATIONS = 250;
     private static final int MAX_RETURNED_RELATIONS = 20;
 
     @Autowired
     Repository repository;
     @Autowired
     GraphToolkit graphToolkit;
+    
     @Autowired
-    Cache nodeCache;
+    AtomicNodeProvider nodeProvider; //necessary to fix problems with caching annotations.
+//    @Autowired
+//    Cache nodeCache;
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(AtomicGraphServiceImpl.class.getName());
 
@@ -122,126 +123,26 @@ public class AtomicGraphServiceImpl implements GraphService {
 List<String> missedIds = new ArrayList();
         for (String id : ids) {
 
-            Element el = nodeCache.get(id);
-            if (el != null) {
-                NodeCacheEntry t = (NodeCacheEntry) el.getObjectValue();
-                res.add(t);
-            } else {
+//            Element el = nodeCache.get(id);
+//            if (el != null) {
+//                NodeCacheEntry t = (NodeCacheEntry) el.getObjectValue();
+//                res.add(t);
+//            } else {
                 missedIds.add(id);
-            }
+//            }
         }
         for (String missedId : missedIds) {
             //FIXME: separate handling for terms
             if (NodeTypeService.isTermType(missedId)) {
                 continue;
             }
-            NodeCacheEntry e = fetchNodeCacheEntry(missedId);
+            NodeCacheEntry e = nodeProvider.fetchNodeCacheEntry(missedId);
             res.add(e);
         }
         return res;
     }
 
-    private NodeCacheEntry fetchNodeCacheEntry(String missedId) throws OpenRDFException {
-        String detailsSparqlQuery = "PREFIX  dc:<http://purl.org/dc/elements/1.1/> "
-                + "PREFIX  foaf:<http://xmlns.com/foaf/0.1/> "
-                + "select  ?type ?title ?name ?family_name ?givenname \n"
-                + "WHERE { \n"
-                + "?id a ?type . \n"
-                + "optional  { ?id dc:title ?title } \n"
-                + "optional { ?id foaf:name ?name  }  \n"
-                + "optional { ?id foaf:family_name ?family_name  } \n"
-                + "optional { ?id foaf:givenname ?givenname }\n"
-                + "}  limit 500";
-        //first node type and details:
-        RepositoryConnection conn = repository.getConnection();
-
-        ValueFactory vf = conn.getValueFactory();
-        TupleQuery query = conn.prepareTupleQuery(QueryLanguage.SPARQL, detailsSparqlQuery);
-        query.setBinding("id", vf.createURI(missedId));
-        TupleQueryResult result = query.evaluate();
-        //now get type and name:
-        if (!result.hasNext()) {
-            log.warn("No information found for Id={}", missedId);
-            return null;
-        }
-        BindingSet bset = result.next();
-        String t = bset.getValue("type").stringValue();
-        NodeType type = NodeType.byUrl(t);
-        String name = null;
-        if (bset.hasBinding("title")) {
-            name = bset.getValue("title").stringValue();
-        } else if (bset.hasBinding("name")) {
-            name = bset.getValue("name").stringValue();
-        } else if (bset.hasBinding("family_name") && bset.hasBinding("givenname")) {
-            name = bset.getValue("givenname").stringValue() + " " + bset.getValue("family_name").stringValue();
-        } else if (bset.hasBinding("family_name")) {
-            name = bset.getValue("family_name").stringValue();
-        } else {
-            name = "???";
-        }
-        result.close();
-
-        String inRelsQuery = "select ?src_id ?type ?relation "
-                + "where { ?src_id ?relation ?id . ?src_id a ?type } "
-                + "LIMIT " + (MAX_CACHED_RELATIONS + 1);
-        List<RelationCacheEntry> relations = new ArrayList<RelationCacheEntry>();
-        boolean hugeRelations = false;
-        query = conn.prepareTupleQuery(QueryLanguage.SPARQL, inRelsQuery);
-        query.setBinding("id", vf.createURI(missedId));
-        result = query.evaluate();
-
-        int cin = 0;
-        while (result.hasNext()) {
-            BindingSet next = result.next();
-            cin++;
-            final Value value = next.getValue("src_id");
-            if (!(value instanceof URI)) {
-                log.debug("Not an URI value, skipping.");
-                continue;
-            }
-            relations.add(new RelationCacheEntry(value.stringValue(),
-                    next.getValue("relation").stringValue(),
-                    missedId));
-        }
-        result.close();
-        if (cin > MAX_CACHED_RELATIONS) {
-            hugeRelations = true;
-        } else {
-            String outRelsQuery = "select ?dst_id ?type ?relation "
-                    + "where { ?id ?relation ?dst_id . ?dst_id a ?type } "
-                    + "LIMIT " + (MAX_CACHED_RELATIONS + 1);
-            query = conn.prepareTupleQuery(QueryLanguage.SPARQL, outRelsQuery);
-            query.setBinding("id", vf.createURI(missedId));
-            result = query.evaluate();
-            int cout = 0;
-            while (result.hasNext()) {
-                BindingSet next = result.next();
-                cout++;
-                final Value value = next.getValue("dst_id");
-                if (!(value instanceof URI)) {
-                    log.debug("Not an URI value, skipping.");
-                    continue;
-                }
-                relations.add(new RelationCacheEntry(missedId,
-                        next.getValue("relation").stringValue(),
-                        value.stringValue()));
-            }
-            result.close();
-            if (cout > MAX_CACHED_RELATIONS) {
-                hugeRelations = true;
-            }
-        }
-        conn.close();
-        NodeCacheEntry res = null;
-        if (hugeRelations) {
-            res = new NodeCacheEntry(name, missedId, type, true);
-        } else {
-            res = new NodeCacheEntry(name, missedId, type, relations);
-        }
-        //log into cache:
-        nodeCache.put(new Element(missedId, res));
-        return res;
-    }
+    
 
     private List<RelationCacheEntry> calculateRelations(List<NodeCacheEntry> overflown) {
         ///FIXME: really calculate relations

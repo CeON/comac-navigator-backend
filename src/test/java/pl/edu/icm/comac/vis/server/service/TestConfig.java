@@ -17,8 +17,6 @@ package pl.edu.icm.comac.vis.server.service;
 
 import java.io.IOException;
 import javax.sql.DataSource;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 import org.openrdf.OpenRDFException;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
@@ -27,20 +25,24 @@ import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import static pl.edu.icm.comac.vis.server.ServerConfiguration.ID_CACHE_NAME;
-import static pl.edu.icm.comac.vis.server.ServerConfiguration.NODE_CACHE_NAME;
 
 /**
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
+@EnableCaching
 //@ComponentScan("pl.edu.icm.comac.vis.service")
 public class TestConfig {
 
@@ -85,43 +87,76 @@ public class TestConfig {
         log.info("Successfully loaded.");
         return repo;
     }
-
     
+    
+
+//    
+//     @Bean
+//     public CacheManager cacheManager() {
+//         // configure and return an implementation of Spring's CacheManager SPI
+//         SimpleCacheManager cacheManager = new SimpleCacheManager();
+//         cacheManager.addCaches(Arrays.asList(new ConcurrentMapCache("default")));
+//         return cacheManager;
+//     }
+//    @Bean
+//    public CacheManager cacheManager() throws IOException {
+//        CacheManager cacheManager = new CacheManager(new ClassPathResource("ehcache.xml").getInputStream());
+//        return cacheManager;
+//    }
+
+//    
+//    @Bean
+//    CacheManager buildCacheManager() {
+//        CacheManager cm = CacheManager.getInstance();
+//        return cm;
+//    }
+
+//    
+//    @Bean(name = "idCache")
+//    Cache buildIdCache(CacheManager cm) {
+//        cm.addCache(ID_CACHE_NAME);
+//        return cm.getCache(ID_CACHE_NAME);
+//    }
+//
+//    
+//    @Bean(name = "nodeCache")
+//    Cache buildNodeCache(CacheManager cm) {
+//        cm.addCache(NODE_CACHE_NAME);
+//        return cm.getCache(NODE_CACHE_NAME);
+//    }
+//    
+//    
     @Bean
-    CacheManager buildCacheManager() {
-        CacheManager cm = CacheManager.getInstance();
-        return cm;
-    }
+	public CacheManager cacheManager() {
+		return new EhCacheCacheManager(ehCacheCacheManager().getObject());
+	}
 
-    
-    
-    @Bean(name = "idCache")
-    Cache buildIdCache(CacheManager cm) {
-        cm.addCache(ID_CACHE_NAME);
-        return cm.getCache(ID_CACHE_NAME);
-    }
-
-    
-    @Bean(name = "nodeCache")
-    Cache buildNodeCache(CacheManager cm) {
-        cm.addCache(NODE_CACHE_NAME);
-        return cm.getCache(NODE_CACHE_NAME);
-    }
+	@Bean
+	public EhCacheManagerFactoryBean ehCacheCacheManager() {
+		EhCacheManagerFactoryBean cmfb = new EhCacheManagerFactoryBean();
+		cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
+		cmfb.setShared(true);
+		return cmfb;
+	}
     
     @Bean
     NodeTypeService buildNodeTypeService() {
         NodeTypeService ns = new NodeTypeService();
         return ns;
     }
-    
+
     @Bean
     AtomicGraphServiceImpl buildGraphService() {
         return new AtomicGraphServiceImpl();
     }
     
     @Bean
+    AtomicNodeProvider nodeProvider() {
+        return new AtomicNodeProvider();
+    }
+
+    @Bean
     GraphToolkit buildGraphToolkit() {
-        return new GraphToolkit()
-                ;
+        return new GraphToolkit();
     }
 }

@@ -39,8 +39,8 @@ public class NodeTypeService {
     @Autowired
     Repository repo;
 
-    @Autowired
-    Cache idCache;
+//    @Autowired
+//    Cache idCache;
 
     /** Identify types of the nodes for given identifiers.
      * 
@@ -81,13 +81,13 @@ public class NodeTypeService {
             if (isTermType(identifier)) {
                 res.put(identifier, NodeType.TERM);
             } else {
-                Element el = idCache.get(identifier);
-                if (el != null) {
-                    NodeType t = (NodeType) el.getObjectValue();
-                    res.put(identifier, t);
-                } else {
+//                Element el = idCache.get(identifier);
+//                if (el != null) {
+//                    NodeType t = (NodeType) el.getObjectValue();
+//                    res.put(identifier, t);
+//                } else {
                     missing.add(identifier);
-                }
+//                }
             }
         }
         if (!missing.isEmpty()) {
@@ -95,7 +95,7 @@ public class NodeTypeService {
             
             for (Map.Entry<String, NodeType> e : types.entrySet()) {
                 Element el = new Element(e.getKey(), e.getValue());
-                idCache.put(el);
+//                idCache.put(el);
                 res.put(e.getKey(), e.getValue());
             }
         }

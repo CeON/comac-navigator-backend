@@ -27,8 +27,11 @@ import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.context.annotation.Profile;
 import pl.edu.icm.comac.vis.server.service.SearchService;
 
@@ -38,7 +41,10 @@ import pl.edu.icm.comac.vis.server.service.SearchService;
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 @Configuration
+@EnableCaching
 @EnableConfigurationProperties(ServerSettings.class)
+//@EnableAspectJAutoProxy
+
 public class ServerConfiguration {
 
     public static final String ID_CACHE_NAME = "idCache";
@@ -68,23 +74,21 @@ public class ServerConfiguration {
         return res;
     }
 
-    @Bean
-    CacheManager buildCacheManager() {
-        CacheManager cm = CacheManager.getInstance();
-        return cm;
-    }
-
-    @Bean(name = "idCache")
-    Cache buildIdCache(CacheManager cm) {
-        cm.addCache(ID_CACHE_NAME);
-        return cm.getCache(ID_CACHE_NAME);
-    }
-
-    @Bean(name = "nodeCache")
-    Cache buildNodeCache(CacheManager cm) {
-        cm.addCache(NODE_CACHE_NAME);
-        return cm.getCache(NODE_CACHE_NAME);
-    }
+    
+    
+	
+//
+//    @Bean(name = "idCache")
+//    Cache buildIdCache(CacheManager cm) {
+//        cm.addCache(ID_CACHE_NAME);
+//        return cm.getCache(ID_CACHE_NAME);
+//    }
+//
+//    @Bean(name = "nodeCache")
+//    Cache buildNodeCache(CacheManager cm) {
+//        cm.addCache(NODE_CACHE_NAME);
+//        return cm.getCache(NODE_CACHE_NAME);
+//    }
 
     @Bean
     @Profile("sesame")
