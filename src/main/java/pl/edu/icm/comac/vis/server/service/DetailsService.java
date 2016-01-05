@@ -33,6 +33,7 @@ import org.openrdf.repository.RepositoryConnection;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.icm.comac.vis.Utilities;
 import pl.edu.icm.comac.vis.server.RDFConstants;
 import pl.edu.icm.comac.vis.server.model.ComacPropertyConstants;
 import pl.edu.icm.comac.vis.server.model.NodeType;
@@ -52,6 +53,9 @@ public class DetailsService {
     NodeTypeService nodeTypeService;
 
     static Map<String, PropertyTranslator> translators;
+    protected static final String FOAF_NAME_URI = "http://xmlns.com/foaf/0.1/name";
+    protected static final String FOAF_GIVENNAME_URI = "http://xmlns.com/foaf/0.1/givenname";
+    protected static final String FOAF_FAMILYNAME_URI = "http://xmlns.com/foaf/0.1/family_name";
 
     static {
         translators = new HashMap<>();
@@ -62,9 +66,9 @@ public class DetailsService {
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/issn", "ISSN", true));//FIXME: check if we have multiple issn in data
         registerTranslator(new PropertyTranslator("http://purl.org/ontology/bibo/doi", "DOI", true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/abstract", "Abstract", true));
-        registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/givenname", "GivenName", false));
-        registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/family_name", "FamilyName", false));
-        registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/name", "name", true));
+        registerTranslator(new PropertyTranslator(FOAF_GIVENNAME_URI, "GivenName", false));
+        registerTranslator(new PropertyTranslator(FOAF_FAMILYNAME_URI, "FamilyName", false));
+        registerTranslator(new PropertyTranslator(FOAF_NAME_URI, "name", true));
         registerTranslator(new PropertyTranslator("http://xmlns.com/foaf/0.1/mbox", "Email", false));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/elements/1.1/source", "Source", true, true));
         registerTranslator(new PropertyTranslator("http://purl.org/dc/terms/references", "References", false, true));
@@ -112,7 +116,7 @@ public class DetailsService {
         return res;
     }
 
-    private Map<String, Object> basicObjectProperties(String id, boolean expandProperties) throws OpenRDFException {
+    protected Map<String, Object> basicObjectProperties(String id, boolean expandProperties) throws OpenRDFException {
         Map<String, Object> res = new HashMap<String, Object>();
         String sparqlQuery = "select ?property ?value ?value_class where { ?id ?property ?value .  OPTIONAL { ?value a ?value_class }  }";
         log.debug("Preparing query for details...");
@@ -150,7 +154,7 @@ public class DetailsService {
                 } else {
                     ((List) res.computeIfAbsent(prop, k -> new ArrayList())).add(propertyValue);
                 }
-            } else if("http://purl.org/ontology/bibo/authorList".equals(prop)) {
+            } else if ("http://purl.org/ontology/bibo/authorList".equals(prop)) {
                 res.put("Authors", authorList(id));
             } else if (!bs.hasBinding("value_class")) {
                 res.put(prop, val);
@@ -186,9 +190,10 @@ public class DetailsService {
         }
         log.debug("Got {} authors", orderMap.size());
         List<Object> res = new ArrayList<>();
-        for(String key: orderMap.keySet().stream().sorted().collect(Collectors.toList())) {
+        for (String key : orderMap.keySet().stream().sorted().collect(Collectors.toList())) {
             final Map<String, Object> aprops = basicObjectProperties(orderMap.get(key), false);
             appendCoreProperties(aprops, orderMap.get(key));
+            updateNameProperty(aprops);
             res.add(aprops);
         }
         return res;
@@ -200,5 +205,28 @@ public class DetailsService {
 
     public static PropertyTranslator getTranslator(String url) {
         return translators.get(url);
+    }
+
+    /**
+     * A hook to prepare name of the person if there is no name defined in RDF.
+     *
+     * @param properties already prepared for the item
+     */
+    private void updateNameProperty(Map<String, Object> aprops) {
+        PropertyTranslator nt = getTranslator(FOAF_NAME_URI);
+        if (!aprops.containsKey(nt.getJSONPropertyName())) {
+            List<String> gnval = (List) aprops.get(getTranslator(FOAF_GIVENNAME_URI).getJSONPropertyName());
+            String gn = null;
+            if (gnval != null && !gnval.isEmpty()) {
+                gn = gnval.get(0);
+            }
+            List<String> fnval = (List) aprops.get(getTranslator(FOAF_FAMILYNAME_URI).getJSONPropertyName());
+
+            String fn = null;
+            if (fnval != null && !fnval.isEmpty()) {
+                fn = fnval.get(0);
+            }
+            aprops.put(nt.getJSONPropertyName(), Utilities.buildNameString(gn, fn));
+        }
     }
 }

@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import pl.edu.icm.comac.vis.Utilities;
 import pl.edu.icm.comac.vis.server.model.NodeType;
 import static pl.edu.icm.comac.vis.server.service.AtomicGraphServiceImpl.MAX_CACHED_RELATIONS;
 
@@ -40,10 +41,11 @@ import static pl.edu.icm.comac.vis.server.service.AtomicGraphServiceImpl.MAX_CAC
  */
 @Service
 public class AtomicNodeProvider {
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(AtomicNodeProvider.class.getName());
     @Autowired
     Repository repository;
-    
+
     @Cacheable("nodeCache")
     public NodeCacheEntry fetchNodeCacheEntry(String nodeId) throws OpenRDFException {
         String detailsSparqlQuery = "PREFIX  dc:<http://purl.org/dc/elements/1.1/> "
@@ -78,7 +80,8 @@ public class AtomicNodeProvider {
         } else if (bset.hasBinding("name")) {
             name = bset.getValue("name").stringValue();
         } else if (bset.hasBinding("family_name") && bset.hasBinding("givenname")) {
-            name = bset.getValue("givenname").stringValue() + " " + bset.getValue("family_name").stringValue();
+            name = Utilities.buildNameString(bset.getValue("givenname").stringValue(),
+                    bset.getValue("family_name").stringValue());
         } else if (bset.hasBinding("family_name")) {
             name = bset.getValue("family_name").stringValue();
         } else {

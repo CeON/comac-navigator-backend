@@ -20,5 +20,16 @@ package pl.edu.icm.comac.vis;
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 public class Utilities {
-    
+
+    public static String buildNameString(String givenName, String familyName) {
+        String res = "???";
+        if (givenName != null && familyName != null) {
+            res = givenName + " " + familyName;
+        } else if (familyName != null) {
+            res = familyName;
+        } else if (givenName != null) {
+            res = givenName;
+        }
+        return res;
+    }
 }
