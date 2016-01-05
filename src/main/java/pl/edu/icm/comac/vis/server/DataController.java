@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.openrdf.OpenRDFException;
@@ -92,7 +93,9 @@ public class DataController {
     @RequestMapping("/data/graph")
     Graph graph(@RequestParam String query) {
         try {
-            final String[] idArray = query.split("\\|");
+            String[] idArray = query.split("\\|");
+            //need cleanup:
+            idArray = (String[]) new TreeSet(Arrays.asList(idArray)).toArray(new String[0]);
             String graphId = graphIdService.getGraphId(Arrays.asList(idArray));
             Graph res = graphService.constructGraphs(idArray);
             res.setGraphId(graphId);

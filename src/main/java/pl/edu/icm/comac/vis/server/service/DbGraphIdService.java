@@ -18,6 +18,7 @@ package pl.edu.icm.comac.vis.server.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class DbGraphIdService implements GraphIdService {
      */
     protected String[] findId(List<String> nodes) {
         String[] res = new String[2];
-        List<String> arrayList = new ArrayList<String>(nodes);
+        List<String> arrayList = new ArrayList<>(new HashSet(nodes));
         Collections.sort(arrayList);
         int hash = arrayList.hashCode();
         boolean ok = false;
@@ -81,7 +82,7 @@ public class DbGraphIdService implements GraphIdService {
             res[0] = id;
             try {
                 List<String> existing = getNodes(id);
-                List<String> exS = new ArrayList<String>(existing);
+                List<String> exS = new ArrayList<>(existing);
                 Collections.sort(exS);
                 if (exS.equals(arrayList)) {
                     ok = true;

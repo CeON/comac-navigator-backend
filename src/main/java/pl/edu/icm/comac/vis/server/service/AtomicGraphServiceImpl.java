@@ -104,7 +104,6 @@ public class AtomicGraphServiceImpl implements GraphService {
             return res;
         }).collect(Collectors.toList());
         nodes.addAll(ufnodes);
-        //
         Set<String> nodeIdSet = nodes.stream().map(x -> x.getId()).collect(Collectors.toSet());
 
         Set<Link> graphRelations = allNodes.parallelStream().filter(x->!x.isOverflow()).
