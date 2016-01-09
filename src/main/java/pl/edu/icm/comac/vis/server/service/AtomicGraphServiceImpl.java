@@ -56,7 +56,7 @@ public class AtomicGraphServiceImpl implements GraphService {
     Repository repository;
     @Autowired
     GraphToolkit graphToolkit;
-    
+
     @Autowired
     AtomicNodeProvider nodeProvider; //necessary to fix problems with caching annotations.
 //    @Autowired
@@ -69,7 +69,7 @@ public class AtomicGraphServiceImpl implements GraphService {
         List<NodeCacheEntry> favCacheNodes = fetchNodes(ids);
         //build link map
         Map<String, Set<String>> links = favCacheNodes.parallelStream().
-                filter(x->!x.isOverflow()).
+                filter(x -> !x.isOverflow()).
                 map(x -> x.getRelations()).
                 flatMap(x -> x.stream()).
                 flatMap(x -> Arrays.stream(new String[][]{
@@ -106,7 +106,7 @@ public class AtomicGraphServiceImpl implements GraphService {
         nodes.addAll(ufnodes);
         Set<String> nodeIdSet = nodes.stream().map(x -> x.getId()).collect(Collectors.toSet());
 
-        Set<Link> graphRelations = allNodes.parallelStream().filter(x->!x.isOverflow()).
+        Set<Link> graphRelations = allNodes.parallelStream().filter(x -> !x.isOverflow()).
                 flatMap(x -> x.getRelations().stream()).
                 filter(x -> nodeIdSet.contains(x.subject) && nodeIdSet.contains(x.object)).
                 map(x -> new Link(x.getPredicate(), x.getSubject(), x.getObject())).collect(Collectors.toSet());
@@ -117,20 +117,11 @@ public class AtomicGraphServiceImpl implements GraphService {
         return res;
     }
 
-    private List<NodeCacheEntry> fetchNodes(String[] ids) throws OpenRDFException {
+    
+    
+    protected List<NodeCacheEntry> fetchNodes(String[] ids) throws OpenRDFException {
         List<NodeCacheEntry> res = new ArrayList<>();
-List<String> missedIds = new ArrayList();
-        for (String id : ids) {
-
-//            Element el = nodeCache.get(id);
-//            if (el != null) {
-//                NodeCacheEntry t = (NodeCacheEntry) el.getObjectValue();
-//                res.add(t);
-//            } else {
-                missedIds.add(id);
-//            }
-        }
-        for (String missedId : missedIds) {
+        for (String missedId : ids) {
             //FIXME: separate handling for terms
             if (NodeTypeService.isTermType(missedId)) {
                 continue;
@@ -141,9 +132,7 @@ List<String> missedIds = new ArrayList();
         return res;
     }
 
-    
-
-    private List<RelationCacheEntry> calculateRelations(List<NodeCacheEntry> overflown) {
+    protected List<RelationCacheEntry> calculateRelations(List<NodeCacheEntry> overflown) {
         ///FIXME: really calculate relations
         return Collections.emptyList();
     }

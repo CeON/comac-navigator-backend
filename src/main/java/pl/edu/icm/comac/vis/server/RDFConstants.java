@@ -10,7 +10,7 @@ package pl.edu.icm.comac.vis.server;
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
 public class RDFConstants {
-    private static final String CEON_ONTOLOGY = "http://data.ceon.pl/ontology/1.0/";
+    private static final String CEON_ONTOLOGY = "http://data.ceon.pl/ontology/";
     public static final String CEON_PAPER_TYPE=CEON_ONTOLOGY+"text";
     public static final String CEON_PERSON_TYPE=CEON_ONTOLOGY+"person";
     public static final String CEON_JOURNAL_TYPE=CEON_ONTOLOGY+"journal";
@@ -19,7 +19,18 @@ public class RDFConstants {
     public static final String CEON_BLOG_ENTRY_TYPE=CEON_ONTOLOGY+"blog_entry";
     public static final String CEON_DATASET_TYPE=CEON_ONTOLOGY+"dataset";
     public static final String CEON_ORGANIZATION_TYPE=CEON_ONTOLOGY+"organization";
+    public static final String CEON_PROJECT_TYPE=CEON_ONTOLOGY+"project";
     
+    private static final String CEON_ONTOLOGY_OLD = "http://data.ceon.pl/ontology/1.0/";
+    public static final String CEON_PAPER_TYPE_OLD=CEON_ONTOLOGY_OLD+"text";
+    public static final String CEON_PERSON_TYPE_OLD=CEON_ONTOLOGY_OLD+"person";
+    public static final String CEON_JOURNAL_TYPE_OLD=CEON_ONTOLOGY_OLD+"journal";
+    public static final String CEON_BLOG_TYPE_OLD=CEON_ONTOLOGY_OLD+"blog";
+    
+    public static final String CEON_BLOG_ENTRY_TYPE_OLD=CEON_ONTOLOGY_OLD+"blog_entry";
+    public static final String CEON_DATASET_TYPE_OLD=CEON_ONTOLOGY_OLD+"dataset";
+    public static final String CEON_ORGANIZATION_TYPE_OLD=CEON_ONTOLOGY_OLD+"organization";
+    public static final String CEON_PROJECT_TYPE_OLD=CEON_ONTOLOGY_OLD+"project";
     
     public static final String TOPIC_TYPE="type::topic";
     public static final String TOPIC_ID_PREFIX = "term::";

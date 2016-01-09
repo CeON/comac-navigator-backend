@@ -17,5 +17,16 @@
 		<persistence strategy="localTempSwap" />
 	</cache>
 
+
+	<cache name="idCache" 
+		maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="10000" 
+		eternal="false" 
+		diskSpoolBufferSizeMB="10"
+		timeToIdleSeconds="300" timeToLiveSeconds="36000"
+		memoryStoreEvictionPolicy="LFU" 
+		transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
 </ehcache>
 

@@ -1,6 +1,4 @@
 /*
- * Copyright 2016 Pivotal Software, Inc..
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,6 +34,9 @@ import pl.edu.icm.comac.vis.server.model.NodeType;
 import static pl.edu.icm.comac.vis.server.service.AtomicGraphServiceImpl.MAX_CACHED_RELATIONS;
 
 /**
+ * Simple class to provide cache node entries for AtomicGraphServiceImpl. It
+ * does internal caching, using spring cache infrastructure. It is responsible
+ * solely for extracting the data from sparql endpoint
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
@@ -43,6 +44,7 @@ import static pl.edu.icm.comac.vis.server.service.AtomicGraphServiceImpl.MAX_CAC
 public class AtomicNodeProvider {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(AtomicNodeProvider.class.getName());
+
     @Autowired
     Repository repository;
 
@@ -58,10 +60,9 @@ public class AtomicNodeProvider {
                 + "optional { ?id foaf:family_name ?family_name  } \n"
                 + "optional { ?id foaf:givenname ?givenname }\n"
                 + "}  limit 500";
-        //first node type and details:
+
         log.debug("Fetching node {} with SPARQL", nodeId);
         RepositoryConnection conn = repository.getConnection();
-
         ValueFactory vf = conn.getValueFactory();
         TupleQuery query = conn.prepareTupleQuery(QueryLanguage.SPARQL, detailsSparqlQuery);
         query.setBinding("id", vf.createURI(nodeId));
@@ -103,8 +104,7 @@ public class AtomicNodeProvider {
             BindingSet next = result.next();
             cin++;
             final Value value = next.getValue("src_id");
-            if (!(value instanceof URI)) {
-//                log.debug("Not an URI value, skipping.");
+            if (!(value instanceof URI)) { //to skip possibly anonymous nodes.
                 continue;
             }
             relations.add(new RelationCacheEntry(value.stringValue(),
@@ -146,8 +146,6 @@ public class AtomicNodeProvider {
         } else {
             res = new NodeCacheEntry(name, nodeId, type, relations);
         }
-        //log into cache:
-//        nodeCache.put(new Element(missedId, res));
         return res;
     }
 }
