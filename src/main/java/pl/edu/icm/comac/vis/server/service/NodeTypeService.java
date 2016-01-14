@@ -5,13 +5,9 @@
  */
 package pl.edu.icm.comac.vis.server.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.sf.ehcache.Element;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
@@ -38,18 +34,24 @@ public class NodeTypeService {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(NodeTypeService.class.getName());
     @Autowired
     Repository repo;
-    
-    /** An easy identification of the shingle node type.
-     * 
+//
+//    @Autowired
+//    Cache typeCache;
+
+    private static final String SINGLE_TYPE_QUERY = "SELECT ?type WHERE { ?id a ?type }";
+
+    /**
+     * An easy identification of the shingle node type.
+     *
      * @param id
      * @return
      * @throws UnknownNodeException
-     * @throws OpenRDFException 
+     * @throws OpenRDFException
      */
-    @Cacheable("idCache")
+    @Cacheable("typeCache")
     public NodeType identifyType(String id) throws UnknownNodeException, OpenRDFException {
         log.debug("Looking for types for {}.", id);
-        
+
         RepositoryConnection conn = repo.getConnection();
         ValueFactory vf = conn.getValueFactory();
 
@@ -57,11 +59,11 @@ public class NodeTypeService {
         query.setBinding("id", vf.createURI(id));
         TupleQueryResult result = query.evaluate();
         NodeType res = null;
-        while(result.hasNext()) {
+        while (result.hasNext()) {
             BindingSet s = result.next();
             final String typeString = s.getValue("type").stringValue();
             res = NodeType.byUrl(typeString);
-            if(res!=null) {
+            if (res != null) {
                 break;
             }
         }
@@ -70,14 +72,12 @@ public class NodeTypeService {
         return res;
     }
 
-    
-    
     public static String termToTermId(String term) {
-        return RDFConstants.TOPIC_ID_PREFIX+term;
+        return RDFConstants.TOPIC_ID_PREFIX + term;
     }
-    
+
     public static String termIdToTerm(String id) {
-        if(isTermType(id)) {
+        if (isTermType(id)) {
             return id.substring(RDFConstants.TOPIC_ID_PREFIX.length());
         } else {
             return id;
@@ -88,7 +88,77 @@ public class NodeTypeService {
         return identifier.startsWith(RDFConstants.TOPIC_ID_PREFIX);
     }
 
-    
-    private static final String SINGLE_TYPE_QUERY = "SELECT ?type WHERE { ?id a ?type }";
+    private static final String TYPE_QUERY = "select ?fav ?type "
+            + "WHERE { ?fav a ?type .  } "
+            + "values ?fav {%s}";
+
+    /**
+     * Method which locatest types for the ids within the repository using RDF
+     * queries. It is used if caching fails.
+     *
+     * @param ids identifiers to check types.
+     * @return map containing type for each identifier.
+     * @throws OpenRDFException
+     * @throws UnknownNodeException if at least one identifier has not been
+     * identified.
+     */
+    public Map<String, NodeType> identifyTypes(Set<String> ids) throws OpenRDFException, UnknownNodeException {
+        Map<String, NodeType> res = new HashMap<>();
+//        Set<String> missing = new HashSet<>();
+//        for (String id : ids) {
+//            Cache.ValueWrapper vw = typeCache.get(id);
+//            if (vw == null) {
+//                missing.add(id);
+//            } else {
+//                res.put(id, (NodeType) vw.get());
+//            }
+//        }
+
+        log.debug("Looking for types for {} identifiers.", ids.size());
+        StringBuilder b = new StringBuilder();
+//        int i=0;
+        for(String id: ids) {
+            //fixme: looks that SESAME has some problem with bindings in values section, dirty hack for now...
+            //b.append("?fav").append("" + i).append(" ");
+            b.append("<").append(id).append("> ");
+//            i++;
+        }
+        String sparql = String.format(TYPE_QUERY, b.toString());
+        log.debug("Query is: {}", sparql);
+
+        RepositoryConnection conn = repo.getConnection();
+        ValueFactory vf = conn.getValueFactory();
+
+        TupleQuery query = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparql);
+        //proper version which uses values
+//        for (int n = 0; n < ids.size(); n++) {
+//            query.setBinding("fav" + n, vf.createURI(ids.get(n)));
+//        }
+        TupleQueryResult result = query.evaluate();
+        while (result.hasNext()) {
+            BindingSet s = result.next();
+            final String favId = s.getValue("fav").stringValue();
+            final String typeId = s.getValue("type").stringValue();
+            final NodeType type = NodeType.byUrl(typeId);
+            if (type != null) {
+                res.put(favId, type);
+//                typeCache.put(favId, type);
+            } else {
+                log.warn("Unknown object type: "+typeId);
+            }
+        }
+        result.close();
+        conn.close();
+        if (ids.size() != res.size()) {
+            log.warn("Unexpected inconsistency, requested types for {} ids, but got only {} ids");
+            for (String id : ids) {
+                if (!res.containsKey(id)) {
+                    log.debug("Could not find type for id {}", id);
+                    throw new UnknownNodeException("Could not identify node " + id);
+                }
+            }
+        }
+        return res;
+    }
 
 }

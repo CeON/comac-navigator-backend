@@ -15,8 +15,6 @@
  */
 package pl.edu.icm.comac.vis.server;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
@@ -27,11 +25,10 @@ import org.openrdf.sail.nativerdf.NativeStore;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.context.annotation.Profile;
 import pl.edu.icm.comac.vis.server.service.SearchService;
 
@@ -47,7 +44,7 @@ import pl.edu.icm.comac.vis.server.service.SearchService;
 
 public class ServerConfiguration {
 
-    public static final String ID_CACHE_NAME = "idCache";
+    public static final String ID_CACHE_NAME = "typeCache";
     public static final String NODE_CACHE_NAME = "nodeCache";
     public static final String DETAILS_CACHE_NAME = "detailsCache";
 
@@ -123,4 +120,10 @@ public class ServerConfiguration {
         repo.initialize();
         return repo;
     }
+//    
+//    
+//    @Bean(name = "typeCache")
+//    public org.springframework.cache.Cache buildTypeCache(CacheManager manager) {
+//        return manager.getCache("typeCache");
+//    }
 }

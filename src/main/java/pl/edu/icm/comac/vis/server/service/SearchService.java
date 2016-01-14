@@ -7,6 +7,10 @@ package pl.edu.icm.comac.vis.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.query.BindingSet;
@@ -25,37 +29,39 @@ import pl.edu.icm.comac.vis.server.model.NodeType;
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-//@Service
+@Service
 public class SearchService {
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SearchService.class.getName());
     @Autowired
     Repository repo;
 
+    @Autowired
+    NodeTypeService typeService;
+
     boolean enableBlazegraphSearch = false;
 
-    private static final String BLAZEGRAPH_SEARCH_QUERY = 
-            "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
+    private static final String BLAZEGRAPH_SEARCH_QUERY
+            = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
             + "PREFIX dc: <http://purl.org/dc/elements/1.1/>  "
             + "PREFIX bds: <http://www.bigdata.com/rdf/search#> "
             + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-            + "select ?fav ?favname ?type "
+            + "select ?fav ?favname "
             + "where "
             + "{ "
             + "?favname bds:search ?query . ?favname bds:matchAllTerms \"true\" . "
             + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } UNION { ?fav rdfs:label ?favname } . "
-            + "?fav a ?type"
             + "}  order by ?favname ";
 
-    private static final String GENERIC_RDF_QUERY = 
-            "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
+    private static final String GENERIC_RDF_QUERY
+            = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
             + "PREFIX dc: <http://purl.org/dc/elements/1.1/>  "
             + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-            + "select ?fav ?favname ?type "
+            + "select ?fav ?favname "
             + "where "
             + "{ "
             + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } UNION { ?fav rdfs:label ?favname }  . "
             + " filter(CONTAINS(lcase(?favname),?query)). "
-            + "?fav a ?type"
             + "}  order by ?favname ";
 
     //                + "order by ?favname "
@@ -84,11 +90,14 @@ public class SearchService {
             while (result.hasNext()) {
                 BindingSet set = result.next();
                 String id = set.getValue("fav").stringValue();
-                NodeType type = NodeType.byUrl(set.getValue("type").stringValue());
+//                NodeType type = NodeType.byUrl(set.getValue("type").stringValue());
                 String name = set.getValue("favname").stringValue();
-                res.add(new SearchResult(id, type, name));
+                res.add(new SearchResult(id, name));
             }
-            log.debug("search success, got {} results.", res.size());
+            result.close();
+            log.debug("search success, got {} results. Going to update them with types", res.size());
+            updateResultsWithTypes(res);
+            log.debug("Types updated successfully");
         } finally {
             if (con != null) {
                 con.close();
@@ -111,6 +120,18 @@ public class SearchService {
 
     public void setEnableBlazegraphSearch(boolean enableBlazegraphSearch) {
         this.enableBlazegraphSearch = enableBlazegraphSearch;
+    }
+
+    protected  void updateResultsWithTypes(List<SearchResult> searchResults) throws OpenRDFException {
+        Set<String> ids = searchResults.stream().map(x -> x.getId()).collect(Collectors.toSet());
+        try {
+            Map<String, NodeType> types = typeService.identifyTypes(ids);
+            searchResults.parallelStream().forEachOrdered(x->x.setType(types.get(x.getId())));
+        } catch (UnknownNodeException ex) {
+            log.error("Unexpected inconsistency in data, no type defined for node",ex);
+        }
+        return;
+
     }
 
 }

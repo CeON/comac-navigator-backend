@@ -18,7 +18,7 @@
 	</cache>
 
 
-	<cache name="idCache" 
+	<cache name="typeCache" 
 		maxEntriesLocalHeap="10000"
 		maxEntriesLocalDisk="10000" 
 		eternal="false" 
