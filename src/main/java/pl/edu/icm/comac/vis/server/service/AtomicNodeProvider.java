@@ -52,11 +52,13 @@ public class AtomicNodeProvider {
     public NodeCacheEntry fetchNodeCacheEntry(String nodeId) throws OpenRDFException {
         String detailsSparqlQuery = "PREFIX  dc:<http://purl.org/dc/elements/1.1/> "
                 + "PREFIX  foaf:<http://xmlns.com/foaf/0.1/> "
-                + "select  ?type ?title ?name ?family_name ?givenname \n"
+                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+                + "select  ?type ?title ?label ?name ?family_name ?givenname \n"
                 + "WHERE { \n"
                 + "?id a ?type . \n"
                 + "optional  { ?id dc:title ?title } \n"
                 + "optional { ?id foaf:name ?name  }  \n"
+                + "optional { ?id rdfs:label ?label }   \n"
                 + "optional { ?id foaf:family_name ?family_name  } \n"
                 + "optional { ?id foaf:givenname ?givenname }\n"
                 + "}  limit 500";
@@ -78,6 +80,8 @@ public class AtomicNodeProvider {
         String name = null;
         if (bset.hasBinding("title")) {
             name = bset.getValue("title").stringValue();
+        } else if (bset.hasBinding("label")) {
+            name = bset.getValue("label").stringValue();
         } else if (bset.hasBinding("name")) {
             name = bset.getValue("name").stringValue();
         } else if (bset.hasBinding("family_name") && bset.hasBinding("givenname")) {
