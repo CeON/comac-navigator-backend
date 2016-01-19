@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.ValueFactory;
@@ -21,7 +20,6 @@ import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import pl.edu.icm.comac.vis.server.model.NodeType;
 
 /**
@@ -29,7 +27,7 @@ import pl.edu.icm.comac.vis.server.model.NodeType;
  *
  * @author Aleksander Nowinski <a.nowinski@icm.edu.pl>
  */
-@Service
+//@Service
 public class SearchService {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(SearchService.class.getName());
