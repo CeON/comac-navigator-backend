@@ -49,7 +49,7 @@ public class SearchService {
             + "{ "
             + "?favname bds:search ?query . ?favname bds:matchAllTerms \"true\" . "
             + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } UNION { ?fav rdfs:label ?favname } . "
-            + "}  order by ?favname ";
+            + "}  order by ?fav ?favname ";
 
     private static final String GENERIC_RDF_QUERY
             = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
@@ -60,7 +60,7 @@ public class SearchService {
             + "{ "
             + "{ ?fav foaf:name ?favname } UNION { ?fav dc:title ?favname } UNION { ?fav rdfs:label ?favname }  . "
             + " filter(CONTAINS(lcase(?favname),?query)). "
-            + "}  order by ?favname ";
+            + "}  order by ?fav ?favname ";
 
     //                + "order by ?favname "
 //                + "LIMIT " + (MAX_SEARCH_RESULTS + 1);
@@ -85,12 +85,26 @@ public class SearchService {
             TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery);
             tupleQuery.setBinding("query", vf.createLiteral(searchQuery));
             TupleQueryResult result = tupleQuery.evaluate();
+            String prevId=null;
+            String prevName=null;
+            SearchResult prev=null;
             while (result.hasNext()) {
                 BindingSet set = result.next();
                 String id = set.getValue("fav").stringValue();
 //                NodeType type = NodeType.byUrl(set.getValue("type").stringValue());
                 String name = set.getValue("favname").stringValue();
-                res.add(new SearchResult(id, name));
+                if (prevId!=null && prevId.equals(id)) {
+                    if (prevName==null||!prevName.equalsIgnoreCase(name) ) {
+                        if (prev != null) {
+                            prev.setName(prev.getName() + "<br/>" + name);
+                            prevName = name;
+                        }
+                    }
+                } else { 
+                   prevId=id;
+                   prevName=name;
+                    res.add(prev=new SearchResult(id, name));
+                }
             }
             result.close();
             log.debug("search success, got {} results. Going to update them with types", res.size());
