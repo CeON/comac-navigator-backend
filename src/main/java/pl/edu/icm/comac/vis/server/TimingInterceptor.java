@@ -41,8 +41,13 @@ public class TimingInterceptor implements HandlerInterceptor {
         Long start = (Long) request.getAttribute(HANDLING_START_ATT);
         Long end = (Long) request.getAttribute(HANDLING_END_ATTR);
         long t = System.currentTimeMillis();
+        if (start!=null && end!=null && request!=null) {
         log.debug("Request: {} handling: {}ms full processing: {}ms; url: {} query: {}", request.getContextPath(),
                 end - start, t - start, request.getRequestURL(), request.getQueryString());
+        
+        } else {
+            log.debug("One of timer elements is null");
+        }
     }
 
 }
